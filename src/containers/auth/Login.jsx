@@ -47,7 +47,7 @@ const Login = () => {
               id="username"
               type="text"
               register={register("email")}
-              value="johana@prueba.com"
+              value="peef@prueba.com"
             />
             <Label htmlFor="username">Usuario</Label>
             <UserLogo />
