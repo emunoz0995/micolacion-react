@@ -28,7 +28,7 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         }`}
     >
       <div className="flex items-center justify-center m-auto gap-2 h-16 w-[90%]">
-        <img className="object-contain h-[80px] mt-8 mb-5" src={school?.name == "Liceo Campoverde" ? "" : cervantes} alt="logo_school" />
+        <img className="object-contain h-[80px] mt-8 mb-5" src={school?.name == "Liceo Campoverde" ? lcv : cervantes} alt="logo_school" />
       </div>
       <ul className=" flex flex-col h-full items-start justify-start w-[98%] mt-5 gap-3">
         <li
