@@ -1,7 +1,7 @@
 
 import ChooseSchool from "./containers/registros/ChooseSchool";
 //Services
-import ServiceForm from "./containers/catalogo/Service/ServiceForm";
+import ServiceForm from "./containers/catalogo/service/ServiceForm";
 import ServiceList from "./containers/catalogo/service/ServiceList";
 //School
 import SchoolForm from "./containers/catalogo/school/SchoolForm";
