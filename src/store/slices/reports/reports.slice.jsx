@@ -48,7 +48,7 @@ export const ReportsSlice = createSlice({
 
 export const getGeneralReportThunk = (school_id) => dispatch => {
     dispatch(requestFetchReports())
-    axios.get(`http://localhost:4000/reports/generalReport/${school_id}`)
+    axios.get(`http://44.197.107.144:4000/reports/generalReport/${school_id}`)
         .then(res => {dispatch(fetchReportsSuccess(res.data))
         })
         .catch(error => {

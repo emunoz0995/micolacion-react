@@ -210,7 +210,7 @@ export const servicesSlice = createSlice({
 
 export const getYardsThunk = () => dispatch => {
     dispatch(requestFetchYards())
-    axios.get(`http://localhost:4000/yards`)
+    axios.get(`http://44.197.107.144:4000/yards`)
         .then(res => {dispatch(fetchYardsSuccess(res.data))
         })
         .catch(error => {
@@ -223,7 +223,7 @@ export const getYardsThunk = () => dispatch => {
 
 export const getYardThunk = (yards_id) => dispatch => {
     dispatch(requestFetchYard());
-    axios.get(`http://localhost:4000/yards/${yards_id}`)
+    axios.get(`http://44.197.107.144:4000/yards/${yards_id}`)
     .then(res => {dispatch(fetchYardSuccess(res.data))
     })
     .catch(error => {
@@ -235,7 +235,7 @@ export const getYardThunk = (yards_id) => dispatch => {
 
 export const createYardThunk = (data) => dispatch => {
     dispatch(requestCreateYard())
-    axios.post(`http://localhost:4000/yards/yard`, data)
+    axios.post(`http://44.197.107.144:4000/yards/yard`, data)
     .then(res => {dispatch(createYardSuccess(res.data))
     })
     .catch(error => {
@@ -248,7 +248,7 @@ export const createYardThunk = (data) => dispatch => {
 
 export const updateYardThunk = (yard_id, data) => dispatch => {
     dispatch(requestUpdateYard())
-    axios.put(`http://localhost:4000/yards/yard/${yard_id}`, data)
+    axios.put(`http://44.197.107.144:4000/yards/yard/${yard_id}`, data)
     .then(res => {dispatch(updateYardSuccess(res.data))
     })
     .catch(error => {
@@ -261,7 +261,7 @@ export const updateYardThunk = (yard_id, data) => dispatch => {
 
 export const deleteYardThunk = (yard_id) => dispatch => {
     dispatch(requestDeleteYard())
-    axios.delete(`http://localhost:4000/Yards/Yard/${yard_id}`)
+    axios.delete(`http://44.197.107.144:4000/Yards/Yard/${yard_id}`)
     .then(res => {dispatch(deleteYardSuccess(res.data))
     })
     .catch(error => {

@@ -210,7 +210,7 @@ export const clientsSlice = createSlice({
 
 export const getClientsThunk = (school_id) => dispatch => {
     dispatch(requestFetchClients())
-    axios.get(`http://localhost:4000/clients/${school_id}`)
+    axios.get(`http://44.197.107.144:4000/clients/${school_id}`)
         .then(res => {dispatch(fetchClientsSuccess(res.data))
         })
         .catch(error => {
@@ -223,7 +223,7 @@ export const getClientsThunk = (school_id) => dispatch => {
 
 export const getClientThunk = (client_id) => dispatch => {
     dispatch(requestFetchClient());
-    axios.get(`http://localhost:4000/clients/client/${client_id}`)
+    axios.get(`http://44.197.107.144:4000/clients/client/${client_id}`)
     .then(res => {dispatch(fetchClientSuccess(res.data))
     })
     .catch(error => {
@@ -235,7 +235,7 @@ export const getClientThunk = (client_id) => dispatch => {
 
 export const createClientThunk = (data) => dispatch => {
     dispatch(requestCreateClient())
-    axios.post(`http://localhost:4000/clients/client`, data)
+    axios.post(`http://44.197.107.144:4000/clients/client`, data)
     .then(res => {dispatch(createClientSuccess(res.data))
     })
     .catch(error => {
@@ -248,7 +248,7 @@ export const createClientThunk = (data) => dispatch => {
 
 export const updateClientThunk = (client_id, data) => dispatch => {
     dispatch(requestUpdateClient())
-    axios.put(`http://localhost:4000/clients/client/${client_id}`, data)
+    axios.put(`http://44.197.107.144:4000/clients/client/${client_id}`, data)
     .then(res => {dispatch(updateClientSuccess(res.data))
     })
     .catch(error => {
@@ -261,7 +261,7 @@ export const updateClientThunk = (client_id, data) => dispatch => {
 
 export const deleteClientThunk = (client_id) => dispatch => {
     dispatch(requestDeleteClient())
-    axios.delete(`http://localhost:4000/clients/client/${client_id}`)
+    axios.delete(`http://44.197.107.144:4000/clients/client/${client_id}`)
     .then(res => {dispatch(deleteClientSuccess(res.data))
     })
     .catch(error => {

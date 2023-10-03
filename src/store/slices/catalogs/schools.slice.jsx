@@ -210,7 +210,7 @@ export const schoolsSlice = createSlice({
 
 export const getSchoolsThunk = () => dispatch => {
     dispatch(requestFetchSchools())
-    axios.get(`http://localhost:4000/Schools`)
+    axios.get(`http://44.197.107.144:4000/Schools`)
         .then(res => {dispatch(fetchSchoolsSuccess(res.data))
         })
         .catch(error => {
@@ -223,7 +223,7 @@ export const getSchoolsThunk = () => dispatch => {
 
 export const getSchoolThunk = (schools_id) => dispatch => {
     dispatch(requestFetchSchool());
-    axios.get(`http://localhost:4000/Schools/${schools_id}`)
+    axios.get(`http://44.197.107.144:4000/Schools/${schools_id}`)
     .then(res => {dispatch(fetchSchoolSuccess(res.data))
     })
     .catch(error => {
@@ -236,7 +236,7 @@ export const getSchoolThunk = (schools_id) => dispatch => {
 export const createSchoolThunk = (data) => dispatch => {
     console.log(data)
     dispatch(requestCreateSchool())
-    axios.post(`http://localhost:4000/Schools/School`, data)
+    axios.post(`http://44.197.107.144:4000/Schools/School`, data)
     .then(res => {dispatch(createSchoolSuccess(res.data))
     })
     .catch(error => {
@@ -249,7 +249,7 @@ export const createSchoolThunk = (data) => dispatch => {
 
 export const updateSchoolThunk = (school_id, data) => dispatch => {
     dispatch(requestUpdateSchool())
-    axios.put(`http://localhost:4000/Schools/School/${school_id}`, data)
+    axios.put(`http://44.197.107.144:4000/Schools/School/${school_id}`, data)
     .then(res => {dispatch(updateSchoolSuccess(res.data))
     })
     .catch(error => {
@@ -262,7 +262,7 @@ export const updateSchoolThunk = (school_id, data) => dispatch => {
 
 export const deleteSchoolThunk = (school_id) => dispatch => {
     dispatch(requestDeleteSchool())
-    axios.delete(`http://localhost:4000/Schools/School/${school_id}`)
+    axios.delete(`http://44.197.107.144:4000/Schools/School/${school_id}`)
     .then(res => {dispatch(deleteSchoolSuccess(res.data))
     })
     .catch(error => {
