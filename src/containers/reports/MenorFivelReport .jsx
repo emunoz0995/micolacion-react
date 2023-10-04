@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from "react-i18next";
 import { useParams } from 'react-router-dom';
 //UI
 import SchoolLayout from '../../layouts/SchoolsLayout';
@@ -8,68 +7,70 @@ import BtnTable from '../../components/buttons/BtnTable';
 import Header from '../../components/headers/catalogs/Header';
 import MainLoader from '../../components/Loaders/MainLoader';
 //SLICE
-import { getGeneralReportThunk} from '../../store/slices/reports/reports.slice';
-import GeneralReportPDF from './GeneralReportPDF';
+import { geMenor5ReportThunk } from '../../store/slices/reports/reports.slice';
 
 
 
-const GeneralReportList = () => {
+const MenorFiveReport = () => {
 
-    const { t } = useTranslation();
-    const {school_id} = useParams();
+    const { school_id } = useParams();
     const reportsState = useSelector(state => state.reports);
     const dispatch = useDispatch();
+    const [totalBreakFast, setTotalBreakFast] = useState('');
+    const [totalLunch, setTotalLunch] = useState('');
 
     useEffect(() => {
-        dispatch(getGeneralReportThunk(school_id));
+        dispatch(geMenor5ReportThunk(school_id));
     }, []);
 
     const handleGeneratePDF = (client_id) => {
-        GeneralReportPDF(client_id)
+       const data ={
+        totalBreakfast: totalBreakFast,
+        totalLunch: totalLunch
+       }
+
+       console.log(data)
     };
 
 
+console.log(reportsState)
     return (
         <SchoolLayout>
-             {reportsState.fetching || reportsState.processing ? (
+            {reportsState.fetching || reportsState.processing ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-[97%]">
-                <Header title="Reporte general" />
+                    <Header title="Servicios por renovar" />
                     <div className="overflow-y-scroll h-[87%] contenedor">
-                        <table className="text-[13px] table table-zebra w-full">
+                        <table className="text-[13px] table-sm table-zebra w-full">
                             <thead className='border-t-2 border-t-sky-500' >
-                                <tr >
-                                    <th></th>
-                                    <th>Nombres</th>
-                                    <th>Seccion</th>
+                                <tr className='text-left h-[60px] bg-[#f2f7ff]'>
+                                    <th className='p-3'>Representante</th>
+                                    <th className='w-150px'>Nombres</th>
                                     <th>Servicio</th>
-                                    <th>Representante</th>
                                     <th>Email</th>
-                                    <th>Telefono</th>    
+                                    <th>Telefono</th>
                                     <th>Refrigerios a favor</th>
-                                    <th>Almuerzos a favor</th>   
-                                    <th>Refrigerios consumidos</th>
-                                    <th>Almuerzos consumidos</th>    
+                                    <th>Almuerzos a favor</th>
                                     <th className='sticky right-0'></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {reportsState.reports.map(report => (
                                     <tr className='h-[60px]' key={report.id}>
-                                        <td></td>
+                                        <td className='p-3'>{report.cliente_representante?.names} </td>
                                         <td>{report.firstName} {report.lastName}</td>
-                                        <td>{report.cliente_seccion?.name}</td>
                                         <td>{report.cliente_servicio?.name}</td>
-                                        <td>{report.cliente_representante?.names} </td>
-                                        <td>{report.cliente_representante?.email} </td>
+                                        <td className='w-[150px]'>{report.cliente_representante?.email} </td>
                                         <td>{report.cliente_representante?.telefon} </td>
-                                        <td>{report.totalBreakfast} </td>
-                                        <td>{report.totalLunch} </td>
-                                        <td>{report.breakfastConsumed} </td>
-                                        <td>{report.lunchesConsumed} </td>
+                                        <td >
+                                            <input type="text" className='border' defaultValue={report.totalBreakfast} onChange={(e)=>setTotalBreakFast(e.target.value)} />
+                                        </td>
+                                        <td>
+                                            <input type="text" className='border' defaultValue={report.totalLunch} onChange={(e)=>setTotalLunch(e.target.value)}/>
+                                        </td>
                                         <td className='gap-1 justify-end p-1 sticky right-0'>
-                                            <BtnTable action="pdf" funtion={() => handleGeneratePDF(report.id)} />
+                                            <BtnTable action="process" funtion={() => handleGeneratePDF(report.id)} />
                                         </td>
                                     </tr>
                                 ))}
@@ -82,4 +83,4 @@ const GeneralReportList = () => {
     );
 };
 
-export default GeneralReportList;
+export default MenorFiveReport;

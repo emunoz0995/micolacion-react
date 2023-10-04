@@ -21,10 +21,10 @@ const ReportsAccordion = ({school}) => {
       </li>
       <li
         className={`w-full ${
-          location.pathname === '/report_menor_cinco' ? 'active' : ''
+          location.pathname === `/schools/${school}/menor5_report` ? 'active' : ''
         }`}
         onClick={() => {
-          navigate('/report_menor_cinco');
+          navigate(`/schools/${school}/menor5_report`);
         }}
       >
         <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />Menor a 5</BtnDashboard>
