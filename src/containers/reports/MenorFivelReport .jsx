@@ -7,7 +7,9 @@ import BtnTable from '../../components/buttons/BtnTable';
 import Header from '../../components/headers/catalogs/Header';
 import MainLoader from '../../components/Loaders/MainLoader';
 //SLICE
-import { geMenor5ReportThunk } from '../../store/slices/reports/reports.slice';
+import { getMenor5ReportThunk } from '../../store/slices/reports/reports.slice';
+import { renewServiceThunk } from '../../store/slices/procedures/funtions.slice';
+import Swal from 'sweetalert2';
 
 
 
@@ -15,25 +17,37 @@ const MenorFiveReport = () => {
 
     const { school_id } = useParams();
     const reportsState = useSelector(state => state.reports);
+    const renewServiceState = useSelector(state => state.funtions);
     const dispatch = useDispatch();
     const [totalBreakFast, setTotalBreakFast] = useState('');
     const [totalLunch, setTotalLunch] = useState('');
+    const [hiddenRows, setHiddenRows] = useState([]);
 
     useEffect(() => {
-        dispatch(geMenor5ReportThunk(school_id));
+        dispatch(getMenor5ReportThunk(school_id));
     }, []);
 
-    const handleGeneratePDF = (client_id) => {
-       const data ={
-        totalBreakfast: totalBreakFast,
-        totalLunch: totalLunch
-       }
+    const hideRow = (id) => {
+        setHiddenRows([...hiddenRows, id]);
+    };
 
-       console.log(data)
+    const handleRenewService = (clientId, cedulaCliente) => {
+        const data = {
+            totalBreakfast: totalBreakFast,
+            totalLunch: totalLunch
+        }
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'El servicio actualizado',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        dispatch(renewServiceThunk(cedulaCliente, data));
+        hideRow(clientId);
     };
 
 
-console.log(reportsState)
     return (
         <SchoolLayout>
             {reportsState.fetching || reportsState.processing ? (
@@ -44,36 +58,45 @@ console.log(reportsState)
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table-sm table-zebra w-full">
                             <thead className='border-t-2 border-t-sky-500' >
-                                <tr className='text-left h-[60px] bg-[#f2f7ff]'>
-                                    <th className='p-3'>Representante</th>
-                                    <th className='w-150px'>Nombres</th>
+                                <tr className='text-left h-[60px] bg-[#f2f7ff] sticky top-0'>
+                                    <th className='p-3 w-[200px]'>Representante</th>
+                                    <th className='w-[200px]'>Nombres</th>
                                     <th>Servicio</th>
                                     <th>Email</th>
                                     <th>Telefono</th>
                                     <th>Refrigerios a favor</th>
                                     <th>Almuerzos a favor</th>
-                                    <th className='sticky right-0'></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {reportsState.reports.map(report => (
-                                    <tr className='h-[60px]' key={report.id}>
-                                        <td className='p-3'>{report.cliente_representante?.names} </td>
-                                        <td>{report.firstName} {report.lastName}</td>
-                                        <td>{report.cliente_servicio?.name}</td>
-                                        <td className='w-[150px]'>{report.cliente_representante?.email} </td>
-                                        <td>{report.cliente_representante?.telefon} </td>
-                                        <td >
-                                            <input type="text" className='border' defaultValue={report.totalBreakfast} onChange={(e)=>setTotalBreakFast(e.target.value)} />
-                                        </td>
-                                        <td>
-                                            <input type="text" className='border' defaultValue={report.totalLunch} onChange={(e)=>setTotalLunch(e.target.value)}/>
-                                        </td>
-                                        <td className='gap-1 justify-end p-1 sticky right-0'>
-                                            <BtnTable action="process" funtion={() => handleGeneratePDF(report.id)} />
-                                        </td>
-                                    </tr>
-                                ))}
+                                {reportsState.reports.map(report => {
+                                    if (hiddenRows.includes(report.id)) {
+                                        return null;
+                                    }
+                                    return (
+                                        <tr className='h-[60px]' key={report.id}>
+                                            <td className='p-3'>{report.cliente_representante?.names} </td>
+                                            <td>{report.firstName} {report.lastName}</td>
+                                            <td>{report.cliente_servicio?.name}</td>
+                                            <td className='w-[150px]'>{report.cliente_representante?.email} </td>
+                                            <td>{report.cliente_representante?.telefon} </td>
+                                            <td >
+                                                <input type="text" className='outline-none border w-[50px] input-bordered focus:outline-none focus:ring-1 uppercase rounded-md shadow-base-300 shadow-lg'
+                                                    defaultValue={report.totalBreakfast}
+                                                    onChange={(e) => setTotalBreakFast(e.target.value)} />
+                                            </td>
+                                            <td>
+                                                <input type="text" className='outline-none border w-[50px] input-bordered focus:outline-none focus:ring-1 uppercase rounded-md shadow-base-300 shadow-lg'
+                                                    defaultValue={report.totalLunch}
+                                                    onChange={(e) => setTotalLunch(e.target.value)} />
+                                            </td>
+                                            <td className='gap-1 justify-end p-1'>
+                                                <BtnTable action="process" funtion={() => handleRenewService(report.id, report.cedulaCliente)} />
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>

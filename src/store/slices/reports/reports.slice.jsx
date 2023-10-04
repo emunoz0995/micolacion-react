@@ -58,7 +58,7 @@ export const getGeneralReportThunk = (school_id) => dispatch => {
         })
 };
 
-export const geMenor5ReportThunk = (school_id) => dispatch => {
+export const getMenor5ReportThunk = (school_id) => dispatch => {
     dispatch(requestFetchReports())
     axios.get(`http://44.197.107.144:4000/reports/menorFiveReport/${school_id}`)
         .then(res => {dispatch(fetchReportsSuccess(res.data))
