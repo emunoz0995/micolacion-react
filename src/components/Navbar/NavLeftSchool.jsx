@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import lcv from '../../assets/Logo.png';
 import cervantes from '../../assets/cervantes.png'
 import BtnDashboard from '../buttons/BtnDashboard';
-import { FaBook, FaDollarSign, FaMoon, FaReadme, FaServicestack, FaSun, FaTree, FaUsers } from 'react-icons/fa';
+import { FaBook, FaDollarSign, FaFileExcel, FaReadme, FaSun, FaTree, FaUsers } from 'react-icons/fa';
 import ReportsAccordion from '../accordions/ReportsAccordion';
 import BtnContent from '../buttons/BtnContent';
 
@@ -24,10 +24,10 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
 
   return (
     <div
-      className={`text-white shadow-lg fixed top-0 bottom-0 shadow-black/30 md:translate-x-0 transition-all  w-60 bg-gradient-to-t from-[#051937] via-[#004d7a] to-[#008793] z-20 ${isToolbarOpen ? 'translate-x-0' : '-translate-x-full'
+      className={`text-white overflow-y-scroll contenedor shadow-lg fixed top-0 bottom-0 shadow-black/30 md:translate-x-0 transition-all  w-60 bg-gradient-to-t from-[#051937] via-[#004d7a] to-[#008793] z-20 ${isToolbarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
     >
-      <div className="flex items-center justify-center m-auto gap-2 h-16 w-[90%]">
+      <div className="flex items-center justify-center m-auto gap-2 h-16 w-[90%] ">
         <img className="object-contain h-[80px] mt-8 mb-5" src={school?.name == "Liceo Campoverde" ? lcv : cervantes} alt="logo_school" />
       </div>
       <ul className=" flex flex-col h-full items-start justify-start w-[98%] mt-5 gap-3">
@@ -113,6 +113,26 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
           <Collapse isOpened={isCollapsedRate}>
             <ReportsAccordion  school={school?.id} />
           </Collapse>
+        </li>
+        <li
+          onClick={(e) => { navigate(`/schools/${school?.id}/servicesForCharge`); closeToolbar(); }}
+          className={`w-full ${
+            location.pathname === `/schools/${school?.id}/servicesForCharge`
+            ? 'active' : ''}`}>
+          <BtnDashboard>
+            <FaDollarSign />
+            <p>Servicios por cobrar</p>
+          </BtnDashboard>
+        </li>
+        <li
+          onClick={(e) => { navigate(`/schools/${school?.id}/generateXML`); closeToolbar(); }}
+          className={`w-full ${
+            location.pathname === `/schools/${school?.id}/generateXML`
+            ? 'active' : ''}`}>
+          <BtnDashboard>
+            <FaFileExcel />
+            <p>Generar XML</p>
+          </BtnDashboard>
         </li>
       </ul>
     </div>

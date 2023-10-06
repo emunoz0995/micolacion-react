@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import Swal from 'sweetalert2';
-import { FaCheckDouble, FaFilePdf, FaPlus, FaReply } from 'react-icons/fa';
+import { FaCheckDouble, FaFilePdf,  FaMoneyBill, FaPlus, FaReply } from 'react-icons/fa';
 
 export default function BtnActions({ action, to, onclick, title, funtion }) {
 
@@ -53,6 +53,15 @@ export default function BtnActions({ action, to, onclick, title, funtion }) {
         className="bg-green-200  hover:bg-green-400 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
       >
         <FaPlus/>
+      </button>
+    );
+  } else if (action === 'pay') {
+    return (
+      <button
+        onClick={() => handleFuntion()}
+        className="bg-green-200  hover:bg-green-400 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
+      >
+        <FaMoneyBill/>
       </button>
     );
   } else if (action === 'revert') {

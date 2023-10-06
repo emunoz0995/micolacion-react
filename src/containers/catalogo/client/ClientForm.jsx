@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
 
 //UI
 import MainLoader from '../../../components/Loaders/MainLoader';
@@ -20,6 +21,7 @@ import DropdownForm from '../../../components/Inputs/formInput/DropdonwForm';
 
 const ClientForm = () => {
 
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { client_id, school_id } = useParams();
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
@@ -50,7 +52,7 @@ const ClientForm = () => {
         navigate(`/schools/${school_id}/clients`);
     }
 
-    if (Object.keys(clientState.client).length !== 0) {
+    if (Object.keys(clientState.client).length > 0) {
         setValue('cedulaCliente', clientState.client.cedulaCliente)
         setValue('firstName', clientState.client.firstName)
         setValue('lastName', clientState.client.lastName)
@@ -67,6 +69,7 @@ const ClientForm = () => {
         setValue('adress', clientState.client.cliente_representante.adress)
     }
 
+    console.log(clientState.client)
     return (
         <SchoolLayout>
             {clientState.fetching || clientState.processing ? (

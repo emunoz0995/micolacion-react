@@ -25,12 +25,16 @@ const RefrigerioProcesados = () => {
         dispatch(getRefrigeriosProcesadosThunk(school_id));
     }, []);
 
-
     const hideRow = (id) => {
         setHiddenRows([...hiddenRows, id]);
     };
 
-    const handlePlusBreak = (cedula, id) => {
+    const handleRevertBreak = (cedula, id) => {
+        dispatch(revertBreakFastThunk(cedula));
+        hideRow(id);
+    }
+
+    const handlePayBreak = (cedula, id) => {
         dispatch(revertBreakFastThunk(cedula));
         hideRow(id);
     }
@@ -54,13 +58,12 @@ const RefrigerioProcesados = () => {
                             <thead className='sticky top-0 border-t-2 border-t-sky-500' >
                                 <tr className='text-left h-[60px] bg-[#f2f7ff]'>
                                     <th className='p-2'>Nombre</th>
-                                    <th>Revertir</th>
-                                    <th>Total</th>
-                                    <th>Canselado</th>
-                                    <th>Extras</th>
-                                    <th>Total</th>
                                     <th>Servicio</th>
                                     <th>Nivel</th>
+                                    <th>Revertir</th>
+                                    <th>Total</th>
+                                    <th>Extras</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,25 +74,25 @@ const RefrigerioProcesados = () => {
                                     return (
                                         <tr className='h-[60px]' key={refrigerio.id}>
                                             <td className='p-2'>{refrigerio.firstName} {refrigerio.lastName}</td>
-                                            <td className='flex gap-1 justify-center items-center h-[60px] p-1'>
-                                                <BtnTable action="revert" funtion={() => handlePlusBreak(refrigerio.cedulaCliente, refrigerio.id)} />
+                                            <td>{refrigerio.cliente_servicio?.name}</td>
+                                            <td>{refrigerio.cliente_seccion?.name}</td>
+                                            <td className='flex gap-1 items-center h-[60px] p-1'>
+                                                <BtnTable action="revert" funtion={() => handleRevertBreak(refrigerio.cedulaCliente, refrigerio.id)} />
                                             </td>
                                             {refrigerio.cliente_servicio?.name === "SIN SERVICIO" ?
                                                 <td>{refrigerio.breakfastConsumed}</td> :
                                                 <td>{refrigerio.totalBreakfast}</td>
                                             }
-                                            <td>{refrigerio.cliente_servicio?.name}</td>
                                             <td>
                                                 <select className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg" name="" id="" {...register("serviceId")}>
-                                                    <option value="">Selecione</option>
+                                                    <option value="">Seleccione</option>
                                                     {servicesState.services.map((service) => (
                                                         <option key={service.id} value={service.id}>{service.name}</option>
                                                     ))}
                                                 </select>
                                             </td>
                                             <td>{refrigerio.totalExtras}</td>
-                                            <td>{refrigerio.cliente_servicio?.name}</td>
-                                            <td>{refrigerio.cliente_seccion?.name}</td>
+
                                         </tr>
                                     );
                                 })}

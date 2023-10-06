@@ -31,33 +31,23 @@ const ReportsAccordion = ({school}) => {
       </li>
       <li
         onClick={() => {
-          navigate('/report_refrigerios_diarios');
+          navigate(`/schools/${school}/breakFast_report`);
         }}
         className={`w-full ${
-          location.pathname === '/report_refrigerios_diarios' ? 'active' : ''
+          location.pathname === `/schools/${school}/breakFast_report` ? 'active' : ''
         }`}
       >
         <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />Refrigerios Diarios</BtnDashboard>
       </li>
       <li
         onClick={() => {
-          navigate('/report_almuerzos_diarios');
+          navigate(`/schools/${school}/lunch_report`);
         }}
         className={`w-full ${
-          location.pathname === '/report_almuerzos_diarios' ? 'active' : ''
+          location.pathname === `/schools/${school}/lunch_report` ? 'active' : ''
         }`}
       >
         <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />Almuerzos Diarios</BtnDashboard>
-      </li>
-      <li
-        onClick={() => {
-          navigate('/report_historico');
-        }}
-        className={`w-full ${
-          location.pathname === '/report_historico' ? 'active' : ''
-        }`}
-      >
-        <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />Historico</BtnDashboard>
       </li>
     </ul>
   );

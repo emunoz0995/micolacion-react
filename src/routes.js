@@ -18,6 +18,8 @@ import UserForm from "./containers/catalogo/user/UserForm";
 //Reports
 import GeneralReportList from "./containers/reports/GeneralReport";
 import MenorFiveReport from "./containers/reports/MenorFivelReport ";
+import BreakFastReport from "./containers/reports/BreakFastReport ";
+import LunchReport from "./containers/reports/LunchReport ";
 //Refrigerios BM
 import RefrigerioBM from "./containers/lcv/refrigerios/RefrigerioBM";
 import RefrigerioBE from "./containers/lcv/refrigerios/RefrigerioBE";
@@ -166,6 +168,14 @@ const routes = [
   {
     path: "/schools/:school_id/menor5_report",
     component: MenorFiveReport,
+  },
+  {
+    path: "/schools/:school_id/breakFast_report",
+    component: BreakFastReport,
+  },
+  {
+    path: "/schools/:school_id/lunch_report",
+    component: LunchReport,
   },
  
 ];

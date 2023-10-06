@@ -41,6 +41,7 @@ const RefrigerioBM = () => {
         hideRow(id);
     }
     
+    console.log(refrigeriosState)
     return (
         <SchoolLayout>
              {refrigeriosState.fetching || refrigeriosState.processing ? (
