@@ -17,7 +17,6 @@ const MenorFiveReport = () => {
 
     const { school_id } = useParams();
     const reportsState = useSelector(state => state.reports);
-    const renewServiceState = useSelector(state => state.funtions);
     const dispatch = useDispatch();
     const [totalBreakFast, setTotalBreakFast] = useState('');
     const [totalLunch, setTotalLunch] = useState('');

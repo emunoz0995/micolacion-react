@@ -51,6 +51,30 @@ export const renewServiceThunk = (client_ci, data) => dispatch => {
     })
 };
 
+export const paidServiceThunk = (client_id) => dispatch => {
+    dispatch(requestUpdateService())
+    axios.put(`http://44.197.107.144:4000/procedures/paid_service/${client_id}`)
+    .then(res => {dispatch(updateServiceSuccess(res.data))
+    })
+    .catch(error => {
+        if (error.response?.status === 400) {
+            dispatch(updateServiceError(error.response?.data))
+        }
+    })
+};
+
+export const registerExtrasThunk = (data) => dispatch => {
+    dispatch(requestUpdateService())
+    axios.post(`http://localhost:4000/procedures/register_serviceExtra`, data)
+    .then(res => {dispatch(updateServiceSuccess(res.data))
+    })
+    .catch(error => {
+        if (error.response?.status === 400) {
+            dispatch(updateServiceError(error.response?.data))
+        }
+    })
+};
+
 
 
 export const { 

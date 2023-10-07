@@ -115,9 +115,9 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
           </Collapse>
         </li>
         <li
-          onClick={(e) => { navigate(`/schools/${school?.id}/servicesForCharge`); closeToolbar(); }}
+          onClick={(e) => { navigate(`/schools/${school?.id}/services_receivable`); closeToolbar(); }}
           className={`w-full ${
-            location.pathname === `/schools/${school?.id}/servicesForCharge`
+            location.pathname === `/schools/${school?.id}/services_receivable`
             ? 'active' : ''}`}>
           <BtnDashboard>
             <FaDollarSign />

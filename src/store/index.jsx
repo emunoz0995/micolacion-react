@@ -10,6 +10,7 @@ import reports from './slices/reports/reports.slice';
 import almuerzosLcv from './slices/registers/almuerzosLcv.slice';
 import refrigeriosProcedure from './slices/procedures/refrigerios.slice';
 import funtions from './slices/procedures/funtions.slice';
+import facturations from "./slices/facturation/facturation.slice";
 
 
 
@@ -24,6 +25,7 @@ export default configureStore({
     reports,
     refrigeriosProcedure,
     almuerzosLcv,
-    funtions
+    funtions,
+    facturations
 	}
 })

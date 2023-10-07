@@ -6,19 +6,33 @@ import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
+import Swal from 'sweetalert2';
 //SLICES
 import { getRefrigeriosProcesadosThunk } from '../../../store/slices/registers/refrigeriosLcv.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { revertBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
-import { useForm } from 'react-hook-form';
+import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
+
 
 const RefrigerioProcesados = () => {
     const { school_id } = useParams();
     const refrigeriosState = useSelector(state => state.refrigeriosLcv);
     const servicesState = useSelector(state => state.services)
     const dispatch = useDispatch();
-    const { register, handleSubmit, formState: { errors } } = useForm();
     const [hiddenRows, setHiddenRows] = useState([]);
+    const [selected, setSelected] = useState("");
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
 
     useEffect(() => {
         dispatch(getServicesExtrasThunk());
@@ -34,10 +48,22 @@ const RefrigerioProcesados = () => {
         hideRow(id);
     }
 
-    const handlePayBreak = (cedula, id) => {
-        dispatch(revertBreakFastThunk(cedula));
-        hideRow(id);
-    }
+    const handleChange = (serviceId, cedulaCliente) => {
+        const data = {
+            serviceId,
+            cedulaCliente,
+        }
+
+        dispatch(registerExtrasThunk(data));
+
+        Toast.fire({
+            icon: 'success',
+            title: '¡Servicio extra registrado!'
+          }).then(function(result){
+            dispatch(getRefrigeriosProcesadosThunk(school_id));
+		})
+       
+    };
 
     return (
         <SchoolLayout>
@@ -63,7 +89,6 @@ const RefrigerioProcesados = () => {
                                     <th>Revertir</th>
                                     <th>Total</th>
                                     <th>Extras</th>
-                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,15 +109,13 @@ const RefrigerioProcesados = () => {
                                                 <td>{refrigerio.totalBreakfast}</td>
                                             }
                                             <td>
-                                                <select className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg" name="" id="" {...register("serviceId")}>
-                                                    <option value="">Seleccione</option>
+                                                <select onChange={(e)=>handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
+                                                    <option value={selected}>Seleccione</option>
                                                     {servicesState.services.map((service) => (
                                                         <option key={service.id} value={service.id}>{service.name}</option>
                                                     ))}
                                                 </select>
                                             </td>
-                                            <td>{refrigerio.totalExtras}</td>
-
                                         </tr>
                                     );
                                 })}
