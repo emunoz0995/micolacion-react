@@ -48,7 +48,6 @@ const SchoolForm = () => {
          setValue('active', schoolState.school.active)
      }
 
-     console.log(schoolState)
 
      return (
         <HomeLayout>

@@ -47,7 +47,6 @@ const ServicesReceivable = () => {
         dispatch(paidServiceThunk(clientId));
         hideRow(clientId);
     };
-console.log(receivableServiceState)
 
     return (
         <SchoolLayout>

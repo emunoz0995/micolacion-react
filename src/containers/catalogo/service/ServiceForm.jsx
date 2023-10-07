@@ -49,7 +49,6 @@ const ServiceForm = () => {
         setValue('active', serviceState.service.active)
     }
 
-    console.log(serviceState)
 
     return (
         <HomeLayout>

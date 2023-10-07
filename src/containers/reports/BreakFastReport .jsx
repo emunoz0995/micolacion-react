@@ -19,8 +19,6 @@ const BreakFastReport = () => {
         dispatch(getBreakFastReportThunk(school_id));
     }, []);
 
-    console.log(reportsState.reports[0]?.paidService)
-
     return (
         <SchoolLayout>
             {reportsState.fetching || reportsState.processing ? (

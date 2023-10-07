@@ -52,7 +52,6 @@ const UserForm = () => {
          setValue('active', userState.user.active)
      }
 
-console.log(userState.fetching);
 
     return (
         <HomeLayout>

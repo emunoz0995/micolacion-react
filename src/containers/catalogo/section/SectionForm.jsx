@@ -50,7 +50,6 @@ const SectionForm = () => {
         setValue('isCervantes', sectionState.section.isCervantes)
     }
 
-    console.log(sections_id)
 
     return (
         <HomeLayout>

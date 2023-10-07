@@ -25,9 +25,6 @@ const ChooseSchool = () => {
     if (schoolState.message.message === "resource deleted successfully") {
         dispatch(getRegistersThunk());
     }
-
-    console.log(schoolState)
-
     return (
         <HomeLayout>
             {schoolState.fetching || schoolState.processing ? (

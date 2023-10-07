@@ -69,7 +69,6 @@ const ClientForm = () => {
         setValue('adress', clientState.client.cliente_representante.adress)
     }
 
-    console.log(clientState.client)
     return (
         <SchoolLayout>
             {clientState.fetching || clientState.processing ? (
