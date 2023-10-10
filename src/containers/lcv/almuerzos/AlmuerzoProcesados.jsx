@@ -109,7 +109,7 @@ const AlmuerzoProcesados = () => {
                                             }
                                             <td>
                                                 <select onChange={(e) => handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
-                                                    <option value={selected}>Seleccione</option>
+                                                    <option value="">Seleccione</option>
                                                     {servicesState.services.map((service) => (
                                                         <option key={service.id} value={service.id}>{service.name}</option>
                                                     ))}
