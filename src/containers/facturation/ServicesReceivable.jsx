@@ -51,12 +51,6 @@ const ServicesReceivable = () => {
         hideRow(clientId);
     };
 
-    const handleGenerateXML = () => {
-        const url = "http://44.197.107.144/:4000/facturations/generateXML";
-        window.open(url, "_self");
-        
-    };
-
     return (
         <SchoolLayout>
             {receivableServiceState.fetching || receivableServiceState.processing ? (
@@ -98,7 +92,7 @@ const ServicesReceivable = () => {
                                                 }                                         
                                             </td>
                                             <td className='gap-1 justify-end p-1'>
-                                                <BtnTable action="process" funtion={() => handleGenerateXML()} />
+                                                <BtnTable action="process" funtion={() => handlePaidService(item.id, item.cedulaCliente)} />
                                             </td>
                                         </tr>
                                     );
