@@ -98,7 +98,7 @@ const ServicesReceivable = () => {
                                                 }                                         
                                             </td>
                                             <td className='gap-1 justify-end p-1'>
-                                                <BtnTable action="process" funtion={() => handlePaidService(item.id, item.cedulaCliente)} />
+                                                <BtnTable action="process" funtion={() => handleGenerateXML()} />
                                             </td>
                                         </tr>
                                     );

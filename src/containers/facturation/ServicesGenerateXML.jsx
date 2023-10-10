@@ -45,8 +45,6 @@ const ServicesGenerateXML = () => {
         
     };
 
-    console.log(generateXMLState)
-
     return (
         <SchoolLayout>
             {generateXMLState.fetching || generateXMLState.processing ? (
