@@ -55,9 +55,9 @@ export const getServicesReceivableThunk = (school_id) => dispatch => {
         })
 };
 
-export const getMenor5FacturationThunk = (school_id) => dispatch => {
+export const getServiceGenereteXMLThunk = (school_id) => dispatch => {
     dispatch(requestFetchFacturations())
-    axios.get(`http://44.197.107.144:4000/facturations/menorFiveFacturation/${school_id}`)
+    axios.get(`http://44.197.107.144:4000/facturations/services_generateXML/${school_id}`)
         .then(res => {dispatch(fetchFacturationsSuccess(res.data))
         })
         .catch(error => {

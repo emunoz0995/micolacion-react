@@ -22,6 +22,18 @@ const MenorFiveReport = () => {
     const [totalLunch, setTotalLunch] = useState('');
     const [hiddenRows, setHiddenRows] = useState([]);
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
     useEffect(() => {
         dispatch(getMenor5ReportThunk(school_id));
     }, []);
@@ -35,13 +47,10 @@ const MenorFiveReport = () => {
             totalBreakfast: totalBreakFast,
             totalLunch: totalLunch
         }
-        Swal.fire({
-            position: 'center',
+        Toast.fire({
             icon: 'success',
-            title: 'El servicio actualizado',
-            showConfirmButton: false,
-            timer: 1500
-        })
+            title: 'Servicio renovado, ¡ya puede general XML!'
+          })
         dispatch(renewServiceThunk(cedulaCliente, data));
         hideRow(clientId);
     };
@@ -59,10 +68,10 @@ const MenorFiveReport = () => {
                             <thead className='border-t-2 border-t-sky-500' >
                                 <tr className='text-left h-[60px] bg-[#f2f7ff] sticky top-0'>
                                     <th className='p-3 w-[200px]'>Representante</th>
-                                    <th className='w-[200px]'>Nombres</th>
-                                    <th>Servicio</th>
                                     <th>Email</th>
                                     <th>Telefono</th>
+                                    <th className='w-[200px]'>Nombres</th>
+                                    <th>Servicio</th>
                                     <th>Refrigerios a favor</th>
                                     <th>Almuerzos a favor</th>
                                     <th></th>
@@ -76,16 +85,16 @@ const MenorFiveReport = () => {
                                     return (
                                         <tr className='h-[60px]' key={report.id}>
                                             <td className='p-3'>{report.cliente_representante?.names} </td>
+                                            <td className='w-[100px]'>{report.cliente_representante?.email} </td>
+                                            <td>{report.cliente_representante?.telefon} </td>
                                             <td>{report.firstName} {report.lastName}</td>
                                             <td>{report.cliente_servicio?.name}</td>
-                                            <td className='w-[150px]'>{report.cliente_representante?.email} </td>
-                                            <td>{report.cliente_representante?.telefon} </td>
-                                            <td >
+                                            <td className='pl-10' >
                                                 <input type="text" className='outline-none border w-[50px] input-bordered focus:outline-none focus:ring-1 uppercase rounded-md shadow-base-300 shadow-lg'
                                                     defaultValue={report.totalBreakfast}
                                                     onChange={(e) => setTotalBreakFast(e.target.value)} />
                                             </td>
-                                            <td>
+                                            <td className='pl-10'>
                                                 <input type="text" className='outline-none border w-[50px] input-bordered focus:outline-none focus:ring-1 uppercase rounded-md shadow-base-300 shadow-lg'
                                                     defaultValue={report.totalLunch}
                                                     onChange={(e) => setTotalLunch(e.target.value)} />

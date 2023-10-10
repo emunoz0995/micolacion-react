@@ -125,9 +125,9 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
           </BtnDashboard>
         </li>
         <li
-          onClick={(e) => { navigate(`/schools/${school?.id}/generateXML`); closeToolbar(); }}
+          onClick={(e) => { navigate(`/schools/${school?.id}/services_generateXML`); closeToolbar(); }}
           className={`w-full ${
-            location.pathname === `/schools/${school?.id}/generateXML`
+            location.pathname === `/schools/${school?.id}/services_generateXML`
             ? 'active' : ''}`}>
           <BtnDashboard>
             <FaFileExcel />

@@ -22,6 +22,7 @@ import BreakFastReport from "./containers/reports/BreakFastReport ";
 import LunchReport from "./containers/reports/LunchReport ";
 //facturation
 import ServicesReceivable from "./containers/facturation/ServicesReceivable";
+import ServicesGenerateXML from "./containers/facturation/ServicesGenerateXML";
 //Refrigerios BM
 import RefrigerioBM from "./containers/lcv/refrigerios/RefrigerioBM";
 import RefrigerioBE from "./containers/lcv/refrigerios/RefrigerioBE";
@@ -183,6 +184,10 @@ const routes = [
   {
     path: "/schools/:school_id/services_receivable",
     component: ServicesReceivable,
+  },
+  {
+    path: "/schools/:school_id/services_generateXML",
+    component: ServicesGenerateXML,
   },
  
 ];

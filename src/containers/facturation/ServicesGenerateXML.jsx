@@ -8,14 +8,13 @@ import Header from '../../components/headers/catalogs/Header';
 import MainLoader from '../../components/Loaders/MainLoader';
 import Swal from 'sweetalert2';
 //SLICE
-import { getServicesReceivableThunk } from '../../store/slices/facturation/facturation.slice';
-import { paidServiceThunk } from '../../store/slices/procedures/funtions.slice';
+import { getServiceGenereteXMLThunk } from '../../store/slices/facturation/facturation.slice';
 
 
-const ServicesReceivable = () => {
+const ServicesGenerateXML = () => {
 
     const { school_id } = useParams();
-    const receivableServiceState = useSelector(state => state.facturations);
+    const generateXMLState = useSelector(state => state.facturations);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
 
@@ -32,24 +31,13 @@ const ServicesReceivable = () => {
       })
 
     useEffect(() => {
-        dispatch(getServicesReceivableThunk(school_id));
+        dispatch(getServiceGenereteXMLThunk(school_id));
     }, []);
 
     const hideRow = (id) => {
         setHiddenRows([...hiddenRows, id]);
     };
 
-    const handlePaidService = (clientId,cedulaCliente) => {
-        Toast.fire({
-            icon: 'success',
-            title: 'Pago registrado, ¡ya puede general XML!'
-          })
-          const data = {
-            cedulaCliente
-          }
-        dispatch(paidServiceThunk(clientId,data));
-        hideRow(clientId);
-    };
 
     const handleGenerateXML = () => {
         const url = "http://localhost:4000/facturations/services_generateXML";
@@ -57,13 +45,15 @@ const ServicesReceivable = () => {
         
     };
 
+    console.log(generateXMLState)
+
     return (
         <SchoolLayout>
-            {receivableServiceState.fetching || receivableServiceState.processing ? (
+            {generateXMLState.fetching || generateXMLState.processing ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-[97%]">
-                    <Header title="Servicios por cobrar" />
+                    <Header title="Generar XML" />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table-sm table-zebra w-full">
                             <thead className='border-t-2 border-t-sky-500' >
@@ -74,31 +64,24 @@ const ServicesReceivable = () => {
                                     <th className='w-[200px]'>Estudiante</th>
                                     <th>Servicio</th>   
                                     <th>Valor</th>                
-                                    <th>Consumidos</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {receivableServiceState.facturations.map(item => {
+                                {generateXMLState.facturations.map(item => {
                                     if (hiddenRows.includes(item.id)) {
                                         return null;
                                     }
                                     return (
                                         <tr className='h-[60px]' key={item.id}>
-                                            <td className='p-3'>{item.history_representante?.names} </td>
-                                            <td className='w-[150px]'>{item.history_representante?.email} </td>
-                                            <td>{item.history_representante?.telefon} </td>
+                                            <td className='p-3'>{item.XML_representante?.names} </td>
+                                            <td className='w-[150px]'>{item.XML_representante?.email} </td>
+                                            <td>{item.XML_representante?.telefon} </td>
                                             <td>{item.firstName} {item.lastName}</td>
-                                            <td>{item.history_servicio?.name}</td>
-                                            <td>$ {item.history_servicio?.price}</td>
-                                            <td className='pl-8' >
-                                                { item.history_servicio?.name === "REFRIGERIO DIARIO" ? item.breakfastConsumed : 
-                                                  item.history_servicio?.name === "ALMUERZO DIARIO" ? item.lunchesConsumed :
-                                                  item.history_servicio?.isExtra ? item.extrasConsumed : ""
-                                                }                                         
-                                            </td>
+                                            <td>{item.XML_servicio?.name}</td>
+                                            <td>$ {item.XML_servicio?.price}</td>
                                             <td className='gap-1 justify-end p-1'>
-                                                <BtnTable action="process" funtion={() => handlePaidService(item.id, item.cedulaCliente)} />
+                                                <BtnTable action="process" funtion={() => handleGenerateXML()} />
                                             </td>
                                         </tr>
                                     );
@@ -112,4 +95,4 @@ const ServicesReceivable = () => {
     );
 };
 
-export default ServicesReceivable;
+export default ServicesGenerateXML;
