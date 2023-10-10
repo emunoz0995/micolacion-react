@@ -85,7 +85,7 @@ const ClientCervantesForm = () => {
             <div className="w-full mt-2 transition-all sm:w-2/3 md:w-[70%] h-full bg-[#EAFDFA]/20 sm:bg-[#EAFDFA]/50 backdrop-blur-lg shadow-lg shadow-gray-700 flex justify-center">
                 <div className="w-full px-5 pt-[3px]">
                     <HeaderForm title="Clientes" />
-                    <div className='h-[90%] overflow-y-scroll contenedor'>
+                    <div className='h-[90%] sm:overflow-y-scroll contenedor'>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <HeaderSection title="Datos estudiante" />
                             <div className='flex flex-col sm:flex-row gap-2 p-2'>
