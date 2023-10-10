@@ -83,12 +83,12 @@ const ClientCervantesForm = () => {
         >
             <div className="absolute top-0 left-0 w-full h-full bg-gray-900/60 backdrop-blur-sm"></div>
             <div className="w-full mt-2 transition-all sm:w-2/3 md:w-[70%] h-full bg-[#EAFDFA]/20 sm:bg-[#EAFDFA]/50 backdrop-blur-lg shadow-lg shadow-gray-700 flex justify-center">
-                <div className="w-full px-5 pt-2">
+                <div className="w-full px-5 pt-[3px]">
                     <HeaderForm title="Clientes" />
                     <div className='h-[90%] overflow-y-scroll contenedor'>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <HeaderSection title="Datos estudiante" />
-                            <div className='flex gap-2 p-2'>
+                            <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <InputForm
                                     type="text"
                                     label="Cedula"
@@ -120,7 +120,7 @@ const ClientCervantesForm = () => {
                                     errors={errors.lastName && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                             </div>
-                            <div className='flex gap-2 p-2'>
+                            <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <DropdownForm
                                     label="Seccion"
                                     input="input"
@@ -132,7 +132,7 @@ const ClientCervantesForm = () => {
                                 />
                             </div>
                             <HeaderSection title="Datos representante" />
-                            <div className='flex gap-2 p-2'>
+                            <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <InputForm
                                     type="text"
                                     label="Cedula"
@@ -155,7 +155,7 @@ const ClientCervantesForm = () => {
                                 />
 
                             </div>
-                            <div className='flex gap-2 p-2'>
+                            <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <InputForm
                                     type="text"
                                     label="Email"
@@ -177,7 +177,7 @@ const ClientCervantesForm = () => {
                                     placeholder="Telefono"
                                 />
                             </div>
-                            <div className='flex gap-2 p-2'>
+                            <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <InputForm
                                     type="text"
                                     label="Dirección"
@@ -188,7 +188,7 @@ const ClientCervantesForm = () => {
                                     placeholder="Dirección"
                                 />
                             </div>
-                            <div className='flex gap-2 p-2'>
+                            <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <InputForm
                                     type="checkbox"
                                     label="He leído y acepto la "
@@ -197,19 +197,17 @@ const ClientCervantesForm = () => {
                                     spam={false}
                                     cols={1}
                                     register={register("readPolitics", { required: true })}
-                                    errors={errors.readPolitics && (<span className="text-red-500 text-xs">Debe aceptar la politiva de privacidad para continuar</span>)}
+                                    errors={errors.readPolitics && (<span className="text-red-500 text-xs">Debe aceptar la politica de privacidad para continuar</span>)}
                                 />
                             </div>
-                            <div className="flex items-center justify-start py-5 gap-2 border-t-2 border-orange-500 mt-8">
+                            <div className="flex flex-col sm:flex-row items-center justify-start py-5 gap-2 border-t-2 border-orange-500 mt-8">
                                 <BtnContent type="submit">Guardar</BtnContent>
                             </div>
                         </form>
                     </div>
                 </div>
-
-
             </div>
-            <div className="absolute w-[180px] h-[20px] z-10 -translate-x-1/2 top-5 left-1/2  sm:translate-x-0  sm:top-[85%] sm:left-5 rotate-[0.5deg] ">
+            <div className="hidden sm:inline sm:absolute sm:w-[180px] sm:h-[20px] sm:z-10 sm:translate-x-0  sm:top-[85%] sm:left-5 sm:rotate-[0.5deg] ">
                 <img src={logo} alt="logo" />
             </div>
         </div>
