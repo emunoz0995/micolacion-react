@@ -6,17 +6,34 @@ import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
+import Swal from 'sweetalert2';
 //SLICES
 import { getAlmuerzosProcesadosThunk } from '../../../store/slices/registers/almuerzosLcv.slice';
+import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { revertLunchThunk } from '../../../store/slices/procedures/almuerzos.slice';
+import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
 
 const AlmuerzoProcesados = () => {
     const { school_id } = useParams();
     const almuerzosState = useSelector(state => state.almuerzosLcv);
+    const servicesState = useSelector(state => state.services)
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
+
     useEffect(() => {
+        dispatch(getServicesExtrasThunk());
         dispatch(getAlmuerzosProcesadosThunk(school_id));
     }, []);
 
@@ -25,10 +42,27 @@ const AlmuerzoProcesados = () => {
         setHiddenRows([...hiddenRows, id]);
     };
 
-    const handlePlusBreak = (cedula, id) => {
+    const handleRevertLunch = (cedula, id) => {
         dispatch(revertLunchThunk(cedula));
         hideRow(id);
     }
+
+    const handleChange = (serviceId, cedulaCliente) => {
+        const data = {
+            serviceId,
+            cedulaCliente,
+        }
+
+        dispatch(registerExtrasThunk(data));
+
+        Toast.fire({
+            icon: 'success',
+            title: '¡Servicio extra registrado!'
+          }).then(function(result){
+            dispatch(getAlmuerzosProcesadosThunk(school_id));
+		})
+       
+    };
 
     return (
         <SchoolLayout>
@@ -48,39 +82,41 @@ const AlmuerzoProcesados = () => {
                         <table className="text-[13px] table table-zebra w-full">
                             <thead className='sticky top-0 border-t-2 border-t-sky-500' >
                                 <tr>
-                                    <th className='w-[300px]'>Nombre</th>
-                                    <th className='flex justify-center'>Revertir</th>
-                                    <th>Total</th>
-                                    <th>Canselado</th>
-                                    <th>Extras</th>
-                                    <th>Total</th>
+                                    <th className='p-2'>Nombre</th>
                                     <th>Servicio</th>
                                     <th>Nivel</th>
+                                    <th>Revertir</th>
+                                    <th>Total</th>
+                                    <th>Extras</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {almuerzosState.almuerzos.map(almuerzo => {
                                     if (hiddenRows.includes(almuerzo.id)) {
-                                        return null; 
+                                        return null;
                                     }
                                     return (
                                         <tr key={almuerzo.id}>
                                             <td>{almuerzo.firstName} {almuerzo.lastName}</td>
-                                            <td className='flex justify-center'> <BtnTable action="revert" funtion={() => handlePlusBreak(almuerzo.cedulaCliente,almuerzo.id)} /></td>
-                                           { almuerzo.cliente_servicio?.name === "SIN SERVICIO" ?
-                                           <td>{almuerzo.lunchesConsumed}</td> :
-                                           <td>{almuerzo.totalLunch}</td>
-                                           }
                                             <td>{almuerzo.cliente_servicio?.name}</td>
+                                            <td>{almuerzo.cliente_seccion?.name}</td>
+                                            <td className='flex justify-center'>
+                                                <BtnTable action="revert" funtion={() => handleRevertLunch(almuerzo.cedulaCliente, almuerzo.id)} />
+                                            </td>
+                                            {almuerzo.cliente_servicio?.name === "SIN SERVICIO" ?
+                                                <td>{almuerzo.lunchesConsumed}</td> :
+                                                <td>{almuerzo.totalLunch}</td>
+                                            }
                                             <td>
-                                                <select name="" id="">
-                                                    <option value="">Seleccione</option>
-                                                    <option value="">extra 1</option>
+                                                <select onChange={(e) => handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
+                                                    <option value={selected}>Seleccione</option>
+                                                    {servicesState.services.map((service) => (
+                                                        <option key={service.id} value={service.id}>{service.name}</option>
+                                                    ))}
                                                 </select>
                                             </td>
                                             <td>{almuerzo.totalExtras}</td>
-                                            <td>{almuerzo.cliente_servicio?.name}</td>
-                                            <td>{almuerzo.cliente_seccion?.name}</td>
+
                                         </tr>
                                     );
                                 })}
