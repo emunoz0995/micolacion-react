@@ -14,7 +14,8 @@ export default function InputForm({
   defaultValue,
   onChange,
   disable,
-  value
+  value,
+  link
 }) {
 
   return (
@@ -23,7 +24,7 @@ export default function InputForm({
         }`}
     >
       <label className="text-sm flex items-center m-1">
-        <p>{label}</p>
+        <p>{label}</p> <a className="text-sky-500" href="https://drive.google.com/file/d/1E_XeEvXUKvCNGforCZdmo7htKsV-tS8K/view?usp=sharing" target="_blank">{link}</a>
         {spam === true && <span className="text-red-500">*</span>}
       </label>
       {disable ?

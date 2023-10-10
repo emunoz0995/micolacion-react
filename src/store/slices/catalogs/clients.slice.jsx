@@ -245,6 +245,18 @@ export const createClientThunk = (data) => dispatch => {
     })
 };
 
+export const createClientForUserThunk = (data) => dispatch => {
+    dispatch(requestCreateClient())
+    axios.post(`http://44.197.107.144:4000/clients/clientForUser`, data)
+    .then(res => {dispatch(createClientSuccess(res.data))
+    })
+    .catch(error => {
+        if (error.response?.status === 400) {
+            dispatch(createClientError(error.response?.data))
+        }
+    })
+};
+
 
 export const updateClientThunk = (client_id, data) => dispatch => {
     dispatch(requestUpdateClient())

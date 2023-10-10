@@ -2,10 +2,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import ProtectedRoutes from './components/protectedRoutes/ProtectedRoutes';
 import Login from './containers/auth/Login';
+import ClientCervantesForm from './containers/catalogo/client/ClientCervantesForm';
 import routes from './routes';
 import { Provider } from 'react-redux';
 import store from './store';
-import MainLoader from './components/Loaders/MainLoader';
 
 function App() {
 
@@ -23,6 +23,7 @@ function App() {
               }
             </Route>
             <Route path="/login" element={<Login />} />
+            <Route path="/schools/:school_id/register_clients" element={<ClientCervantesForm />} />
           </Routes>
         </div>
       </BrowserRouter>

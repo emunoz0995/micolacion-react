@@ -5,76 +5,85 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 
 //UI
-import MainLoader from '../../../components/Loaders/MainLoader';
+import logo from '../../../assets/colacion.png'
 import InputForm from '../../../components/Inputs/formInput/InputForm';
-import SchoolLayout from '../../../layouts/SchoolsLayout';
 import HeaderForm from '../../../components/headers/catalogs/HeaderForm';
 import HeaderSection from '../../../components/headers/catalogs/HeaderSection';
 import BtnContent from '../../../components/buttons/BtnContent';
-import '../../../App.css';
-// SLICES 
-import { getClientThunk, createClientThunk, updateClientThunk } from '../../../store/slices/catalogs/clients.slice';
-import { getServicesBySchoolThunk } from '../../../store/slices/catalogs/services.slice';
-import { getSectionsBySchoolThunk } from '../../../store/slices/catalogs/sections.slice';
 import DropdownForm from '../../../components/Inputs/formInput/DropdonwForm';
 
+import '../../../App.css';
+// SLICES 
+import { createClientForUserThunk } from '../../../store/slices/catalogs/clients.slice';
+import { getSectionsBySchoolThunk } from '../../../store/slices/catalogs/sections.slice';
+import Swal from 'sweetalert2';
 
-const ClientForm = () => {
+
+const ClientCervantesForm = () => {
 
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { client_id, school_id } = useParams();
+    const { school_id } = useParams();
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
     const clientState = useSelector(state => state.clients);
-    const serviceState = useSelector(state => state.services);
     const sectionsState = useSelector(state => state.sections)
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getServicesBySchoolThunk(school_id))
-        dispatch(getSectionsBySchoolThunk(school_id))
-        if (client_id) {
-            dispatch(getClientThunk(client_id));
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
+    })
+
+    useEffect(() => {
+        dispatch(getSectionsBySchoolThunk(school_id))
     }, []);
 
 
     const onSubmit = (data) => {
-        if (client_id) {
-            dispatch(updateClientThunk(client_id, data));
-        } else {
-            console.log(data)
-            dispatch(createClientThunk(data));
-        }
+        dispatch(createClientForUserThunk(data));
     };
 
-    if (clientState.message.message === "resource created successfully" || clientState.message.message === "resource updated successfully") {
-        navigate(`/schools/${school_id}/clients`);
+    if (clientState.message.message === "resource created successfully") {
+        Toast.fire({
+            icon: 'success',
+            title: 'El estudiante ha sido registrado correctamente!'
+        }).then(function (result) {
+            setValue('cedulaCliente', "")
+            setValue('firstName', "")
+            setValue('lastName', "")
+            setValue('sectionId', "")
+            setValue('cedulaRepresentante', "")
+            setValue('names', "")
+            setValue('email', "")
+            setValue('telefon', "")
+            setValue('adress', "")
+            setValue('readPolitics', "")
+        })
     }
 
-    if (Object.keys(clientState.client).length > 0) {
-        setValue('cedulaCliente', clientState.client.cedulaCliente)
-        setValue('firstName', clientState.client.firstName)
-        setValue('lastName', clientState.client.lastName)
-        setValue('sectionId', clientState.client.sectionId)
-        setValue('schoolId', clientState.client.schoolId)
-        setValue('serviceId', clientState.client.serviceId)
-        setValue('totalBreakfast', clientState.client.totalBreakfast)
-        setValue('totalLunch', clientState.client.totalLunch)
-        setValue('active', clientState.client.active)
-        setValue('cedulaRepresentante', clientState.client.cliente_representante.cedulaRepresentante)
-        setValue('names', clientState.client.cliente_representante.names)
-        setValue('email', clientState.client.cliente_representante.email)
-        setValue('telefon', clientState.client.cliente_representante.telefon)
-        setValue('adress', clientState.client.cliente_representante.adress)
+    if (clientState.error) {
+        Toast.fire({
+            icon: 'error',
+            title: 'El estudiante ya se encuentra registrado!'
+        })
     }
+
+    console.log(clientState)
 
     return (
-        <SchoolLayout>
-            {clientState.fetching || clientState.processing ? (
-                <MainLoader />
-            ) : (
-                <div className="w-[96%] mt-5 ml-5 ">
+        <div
+            className={`text-[#004841 ] relative transition-all h-full w-full min-h-screen bg-cover bg-center bg-[url('../src/assets/logo6.jpg')] flex justify-center `}
+        >
+            <div className="absolute top-0 left-0 w-full h-full bg-gray-900/60 backdrop-blur-sm"></div>
+            <div className="w-full mt-2 transition-all sm:w-2/3 md:w-[70%] h-full bg-[#EAFDFA]/20 sm:bg-[#EAFDFA]/50 backdrop-blur-lg shadow-lg shadow-gray-700 flex justify-center">
+                <div className="w-full px-5 pt-2">
                     <HeaderForm title="Clientes" />
                     <div className='h-[90%] overflow-y-scroll contenedor'>
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -108,7 +117,7 @@ const ClientForm = () => {
                                     cols={1}
                                     register={register("lastName", { required: true })}
                                     placeholder="lastName"
-                                    errors={errors.name && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
+                                    errors={errors.lastName && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                             </div>
                             <div className='flex gap-2 p-2'>
@@ -120,45 +129,6 @@ const ClientForm = () => {
                                     register={register("sectionId", { required: true })}
                                     options={sectionsState.sections}
                                     errors={errors.sectionId && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
-                                />
-                                <DropdownForm
-                                    label="Servicio"
-                                    input="input"
-                                    spam={true}
-                                    cols={1}
-                                    register={register("serviceId", { required: true })}
-                                    options={serviceState.services}
-                                    errors={errors.serviceId && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
-                                />
-                                <input type="hidden" value={school_id} {...register('schoolId')} />
-
-                                <InputForm
-                                    type="text"
-                                    label="Refrigerios a favor"
-                                    input="input"
-                                    spam={false}
-                                    cols={1}
-                                    register={register("totalBreakfast", { required: true })}
-                                    placeholder="0"
-                                />
-                                <InputForm
-                                    type="text"
-                                    label="Almuerzos a favor"
-                                    input="input"
-                                    spam={false}
-                                    cols={1}
-                                    register={register("totalLunch", { required: true })}
-                                    placeholder="0"
-                                />
-                            </div>
-                            <div className='flex gap-2 p-2'>
-                                <InputForm
-                                    type="checkbox"
-                                    label="Activo"
-                                    input="checkbox"
-                                    spam={false}
-                                    cols={1}
-                                    register={register("active")}
                                 />
                             </div>
                             <HeaderSection title="Datos representante" />
@@ -196,13 +166,14 @@ const ClientForm = () => {
                                     placeholder="Email"
                                     errors={errors.email && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
+                                <input type="hidden" value={school_id} {...register('schoolId')} />
                                 <InputForm
                                     type="text"
                                     label="Telefono"
                                     input="input"
                                     spam={false}
                                     cols={1}
-                                    register={register("telefon", { required: true })}
+                                    register={register("telefon")}
                                     placeholder="Telefono"
                                 />
                             </div>
@@ -213,20 +184,36 @@ const ClientForm = () => {
                                     input="input"
                                     spam={false}
                                     cols={1}
-                                    register={register("adress", { required: true })}
+                                    register={register("adress")}
                                     placeholder="Dirección"
+                                />
+                            </div>
+                            <div className='flex gap-2 p-2'>
+                                <InputForm
+                                    type="checkbox"
+                                    label="He leído y acepto la "
+                                    link="Politica de privacidad"
+                                    input="checkbox"
+                                    spam={false}
+                                    cols={1}
+                                    register={register("readPolitics", { required: true })}
+                                    errors={errors.readPolitics && (<span className="text-red-500 text-xs">Debe aceptar la politiva de privacidad para continuar</span>)}
                                 />
                             </div>
                             <div className="flex items-center justify-start py-5 gap-2 border-t-2 border-orange-500 mt-8">
                                 <BtnContent type="submit">Guardar</BtnContent>
-                                <BtnContent cancel={true} to={`/schools/${school_id}/clients`}>Cancelar</BtnContent>
                             </div>
                         </form>
                     </div>
                 </div>
-            )}
-        </SchoolLayout>
+
+
+            </div>
+            <div className="absolute w-[180px] h-[20px] z-10 -translate-x-1/2 top-5 left-1/2  sm:translate-x-0  sm:top-[85%] sm:left-5 rotate-[0.5deg] ">
+                <img src={logo} alt="logo" />
+            </div>
+        </div>
     );
 };
 
-export default ClientForm;
+export default ClientCervantesForm;
