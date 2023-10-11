@@ -82,7 +82,7 @@ const ClientCervantesForm = () => {
             className={`text-[#004841 ] relative transition-all h-full w-full min-h-screen bg-cover bg-center bg-[url('../src/assets/logo6.jpg')] flex justify-center `}
         >
             <div className="absolute top-0 left-0 w-full h-full bg-gray-900/60 backdrop-blur-sm"></div>
-            <div className="w-full mt-2 transition-all sm:w-2/3 md:w-[70%] h-full bg-[#EAFDFA]/20 sm:bg-[#EAFDFA]/50 backdrop-blur-lg shadow-lg shadow-gray-700 flex justify-center">
+            <div className="w-full mt-2 transition-all sm:w-2/3 md:w-[70%] h-full bg-[#EAFDFA]/60 sm:bg-[#EAFDFA]/50 backdrop-blur-lg shadow-lg shadow-gray-700 flex justify-center">
                 <div className="w-full px-5 pt-[3px]">
                     <HeaderForm title="FORMULARIO DE REGISTRO ESTUDIANTES Y REPRESENTANTE ECONOMICO" />
                     <div className='h-[90%] sm:overflow-y-scroll contenedor'>
