@@ -84,7 +84,7 @@ const ClientCervantesForm = () => {
             <div className="absolute top-0 left-0 w-full h-full bg-gray-900/60 backdrop-blur-sm"></div>
             <div className="w-full mt-2 transition-all sm:w-2/3 md:w-[70%] h-full bg-[#EAFDFA]/20 sm:bg-[#EAFDFA]/50 backdrop-blur-lg shadow-lg shadow-gray-700 flex justify-center">
                 <div className="w-full px-5 pt-[3px]">
-                    <HeaderForm title="Clientes" />
+                    <HeaderForm title="FORMULARIO DE REGISTRO ESTUDIANTES Y REPRESENTANTE ECONOMICO" />
                     <div className='h-[90%] sm:overflow-y-scroll contenedor'>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <HeaderSection title="Datos estudiante" />
@@ -120,7 +120,7 @@ const ClientCervantesForm = () => {
                                     errors={errors.lastName && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                             </div>
-                            <div className='flex flex-col sm:flex-row gap-2 p-2'>
+                            <div className='flex flex-col sm:flex-row gap-2 p-2 mb-2'>
                                 <DropdownForm
                                     label="Seccion"
                                     input="input"
@@ -191,8 +191,8 @@ const ClientCervantesForm = () => {
                             <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <InputForm
                                     type="checkbox"
-                                    label="He leído y acepto la "
-                                    link="Politica de privacidad"
+                                    label="He leído y acepto la"
+                                    link=" Politica de privacidad"
                                     input="checkbox"
                                     spam={false}
                                     cols={1}
