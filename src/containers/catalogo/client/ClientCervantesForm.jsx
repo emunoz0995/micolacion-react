@@ -79,7 +79,7 @@ const ClientCervantesForm = () => {
 
     return (
         <div
-            className={`text-[#004841 ] relative transition-all h-full w-full min-h-screen bg-cover bg-center bg-[url('../src/assets/logo6.jpg')] flex justify-center `}
+            className={`text-[#004841 ] relative transition-all h-full w-full min-h-screen bg-cover bg-center  flex justify-center `}
         >
             <div className="absolute top-0 left-0 w-full h-full bg-gray-900/60 backdrop-blur-sm"></div>
             <div className="w-full mt-2 transition-all sm:w-2/3 md:w-[70%] h-full bg-[#EAFDFA]/60 sm:bg-[#EAFDFA]/50 backdrop-blur-lg shadow-lg shadow-gray-700 flex justify-center">
@@ -122,7 +122,7 @@ const ClientCervantesForm = () => {
                             </div>
                             <div className='flex flex-col sm:flex-row gap-2 p-2 mb-2'>
                                 <DropdownForm
-                                    label="Seccion"
+                                    label="Sección"
                                     input="input"
                                     spam={true}
                                     cols={1}
@@ -145,12 +145,12 @@ const ClientCervantesForm = () => {
                                 />
                                 <InputForm
                                     type="text"
-                                    label="Nombres"
+                                    label="Nombre y Apellido"
                                     input="input"
                                     spam={true}
                                     cols={1}
                                     register={register("names", { required: true })}
-                                    placeholder="Nombres"
+                                    placeholder="Nombre y Apellido"
                                     errors={errors.names && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
 
@@ -169,12 +169,12 @@ const ClientCervantesForm = () => {
                                 <input type="hidden" value={school_id} {...register('schoolId')} />
                                 <InputForm
                                     type="text"
-                                    label="Telefono"
+                                    label="Teléfono"
                                     input="input"
                                     spam={false}
                                     cols={1}
                                     register={register("telefon")}
-                                    placeholder="Telefono"
+                                    placeholder="Teléfono"
                                 />
                             </div>
                             <div className='flex flex-col sm:flex-row gap-2 p-2'>
@@ -191,8 +191,8 @@ const ClientCervantesForm = () => {
                             <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <InputForm
                                     type="checkbox"
-                                    label="He leído y acepto la"
-                                    link=" Politica de privacidad"
+                                    label="He leído y acepto las"
+                                    link=" Políticas de privacidad"
                                     input="checkbox"
                                     spam={false}
                                     cols={1}
