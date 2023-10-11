@@ -91,12 +91,12 @@ const ClientCervantesForm = () => {
                             <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <InputForm
                                     type="text"
-                                    label="Cedula"
+                                    label="Cédula"
                                     input="input"
                                     spam={true}
                                     cols={1}
                                     register={register("cedulaCliente", { required: true })}
-                                    placeholder="Cedula"
+                                    placeholder="Cédula"
                                     errors={errors.cedulaCliente && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                                 <InputForm
@@ -135,12 +135,12 @@ const ClientCervantesForm = () => {
                             <div className='flex flex-col sm:flex-row gap-2 p-2'>
                                 <InputForm
                                     type="text"
-                                    label="Cedula / Ruc"
+                                    label="Cédula / Ruc"
                                     input="input"
                                     spam={true}
                                     cols={1}
                                     register={register("cedulaRepresentante", { required: true })}
-                                    placeholder="Cedula / Ruc"
+                                    placeholder="Cédula / Ruc"
                                     errors={errors.cedulaRepresentante && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                                 <InputForm
