@@ -210,7 +210,7 @@ export const sectionsSlice = createSlice({
 
 export const getSectionsThunk = () => dispatch => {
     dispatch(requestFetchSections())
-    axios.get(`http://44.197.107.144:4000/sections`)
+    axios.get(`http://localhost:4000/sections`)
         .then(res => {dispatch(fetchSectionsSuccess(res.data))
         })
         .catch(error => {
@@ -222,7 +222,7 @@ export const getSectionsThunk = () => dispatch => {
 
 export const getSectionsBySchoolThunk = (school_id) => dispatch => {
     dispatch(requestFetchSections())
-    axios.get(`http://44.197.107.144:4000/sections/${school_id}`)
+    axios.get(`http://localhost:4000/sections/${school_id}`)
         .then(res => {dispatch(fetchSectionsSuccess(res.data))
         })
         .catch(error => {
@@ -235,7 +235,7 @@ export const getSectionsBySchoolThunk = (school_id) => dispatch => {
 
 export const getSectionThunk = (section_id) => dispatch => {
     dispatch(requestFetchSection());
-    axios.get(`http://44.197.107.144:4000/sections/section/${section_id}`)
+    axios.get(`http://localhost:4000/sections/section/${section_id}`)
     .then(res => {dispatch(fetchSectionSuccess(res.data))
     })
     .catch(error => {
@@ -248,7 +248,7 @@ export const getSectionThunk = (section_id) => dispatch => {
 export const createSectionThunk = (data) => dispatch => {
     console.log(data)
     dispatch(requestCreateSection())
-    axios.post(`http://44.197.107.144:4000/sections/section`, data)
+    axios.post(`http://localhost:4000/sections/section`, data)
     .then(res => {dispatch(createSectionSuccess(res.data))
     })
     .catch(error => {
@@ -261,7 +261,7 @@ export const createSectionThunk = (data) => dispatch => {
 
 export const updateSectionThunk = (section_id, data) => dispatch => {
     dispatch(requestUpdateSection())
-    axios.put(`http://44.197.107.144:4000/sections/section/${section_id}`, data)
+    axios.put(`http://localhost:4000/sections/section/${section_id}`, data)
     .then(res => {dispatch(updateSectionSuccess(res.data))
     })
     .catch(error => {
@@ -274,7 +274,7 @@ export const updateSectionThunk = (section_id, data) => dispatch => {
 
 export const deleteSectionThunk = (section_id) => dispatch => {
     dispatch(requestDeleteSection())
-    axios.delete(`http://44.197.107.144:4000/sections/section/${section_id}`)
+    axios.delete(`http://localhost:4000/sections/section/${section_id}`)
     .then(res => {dispatch(deleteSectionSuccess(res.data))
     })
     .catch(error => {

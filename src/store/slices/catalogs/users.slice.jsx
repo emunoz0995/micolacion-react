@@ -211,7 +211,7 @@ export const usersSlice = createSlice({
 
 export const getUsersThunk = () => dispatch => {
     dispatch(requestFetchUsers())
-    axios.get(`http://44.197.107.144:4000/users`)
+    axios.get(`http://localhost:4000/users`)
         .then(res => {dispatch(fetchUsersSuccess(res.data))
         })
         .catch(error => {
@@ -224,7 +224,7 @@ export const getUsersThunk = () => dispatch => {
 
 export const getUserThunk = (user_id) => dispatch => {
     dispatch(requestFetchUser());
-    axios.get(`http://44.197.107.144:4000/users/${user_id}`)
+    axios.get(`http://localhost:4000/users/${user_id}`)
     .then(res => {dispatch(fetchUserSuccess(res.data))
     })
     .catch(error => {
@@ -236,7 +236,7 @@ export const getUserThunk = (user_id) => dispatch => {
 
 export const createUserThunk = (data) => dispatch => {
     dispatch(requestCreateUser())
-    axios.post(`http://44.197.107.144:4000/users/user`, data)
+    axios.post(`http://localhost:4000/users/user`, data)
     .then(res => {dispatch(createUserSuccess(res.data))
     })
     .catch(error => {
@@ -249,7 +249,7 @@ export const createUserThunk = (data) => dispatch => {
 
 export const updateUserThunk = (user_id, data) => dispatch => {
     dispatch(requestUpdateUser())
-    axios.put(`http://44.197.107.144:4000/users/user/${user_id}`, data)
+    axios.put(`http://localhost:4000/users/user/${user_id}`, data)
     .then(res => {dispatch(updateUserSuccess(res.data))
     })
     .catch(error => {
@@ -262,7 +262,7 @@ export const updateUserThunk = (user_id, data) => dispatch => {
 
 export const deleteUserThunk = (user_id) => dispatch => {
     dispatch(requestDeleteUser())
-    axios.delete(`http://44.197.107.144:4000/users/user/${user_id}`)
+    axios.delete(`http://localhost:4000/users/user/${user_id}`)
     .then(res => {dispatch(deleteUserSuccess(res.data))
     })
     .catch(error => {

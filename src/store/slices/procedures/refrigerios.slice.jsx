@@ -42,7 +42,7 @@ export const refrigeriosProcedureSlice = createSlice({
 export const decrementBreakFastThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalBreakfast())
     console.log(client_ci)
-    axios.put(`http://44.197.107.144:4000/procedures/decrement_breackfast/${client_ci}`)
+    axios.put(`http://localhost:4000/procedures/decrement_breackfast/${client_ci}`)
     .then(res => {dispatch(updateTotalBreakfastSuccess(res.data))
     })
     .catch(error => {
@@ -55,7 +55,7 @@ export const decrementBreakFastThunk = (client_ci) => dispatch => {
 export const incrementBreakFastThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalBreakfast())
     console.log(client_ci)
-    axios.put(`http://44.197.107.144:4000/procedures/increment_breackfast/${client_ci}`)
+    axios.put(`http://localhost:4000/procedures/increment_breackfast/${client_ci}`)
     .then(res => {dispatch(updateTotalBreakfastSuccess(res.data))
     })
     .catch(error => {
@@ -68,7 +68,7 @@ export const incrementBreakFastThunk = (client_ci) => dispatch => {
 export const revertBreakFastThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalBreakfast())
     console.log(client_ci)
-    axios.put(`http://44.197.107.144:4000/procedures/revert_breackfast/${client_ci}`)
+    axios.put(`http://localhost:4000/procedures/revert_breackfast/${client_ci}`)
     .then(res => {dispatch(updateTotalBreakfastSuccess(res.data))
     })
     .catch(error => {

@@ -40,7 +40,7 @@ const ServicesGenerateXML = () => {
 
 
     const handleGenerateXML = () => {
-        const url = "http://44.197.107.144:4000/facturations/generateXML";
+        const url = "http://localhost:4000/facturations/generateXML";
         window.open(url, "_self");
         
     };

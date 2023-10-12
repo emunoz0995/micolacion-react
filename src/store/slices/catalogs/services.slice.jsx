@@ -210,7 +210,7 @@ export const servicesSlice = createSlice({
 
 export const getServicesThunk = () => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`http://44.197.107.144:4000/services`)
+    axios.get(`http://localhost:4000/services`)
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {
@@ -222,7 +222,7 @@ export const getServicesThunk = () => dispatch => {
 
 export const getServicesBySchoolThunk = (school_id) => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`http://44.197.107.144:4000/services/${school_id}`)
+    axios.get(`http://localhost:4000/services/${school_id}`)
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {
@@ -234,7 +234,7 @@ export const getServicesBySchoolThunk = (school_id) => dispatch => {
 
 export const getServicesExtrasThunk = () => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`http://44.197.107.144:4000/services/service/extras`)
+    axios.get(`http://localhost:4000/services/service/extras`)
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {
@@ -247,7 +247,7 @@ export const getServicesExtrasThunk = () => dispatch => {
 
 export const getServiceThunk = (services_id) => dispatch => {
     dispatch(requestFetchService());
-    axios.get(`http://44.197.107.144:4000/services/service/${services_id}`)
+    axios.get(`http://localhost:4000/services/service/${services_id}`)
     .then(res => {dispatch(fetchServiceSuccess(res.data))
     })
     .catch(error => {
@@ -260,7 +260,7 @@ export const getServiceThunk = (services_id) => dispatch => {
 export const createServiceThunk = (data) => dispatch => {
     console.log(data)
     dispatch(requestCreateService())
-    axios.post(`http://44.197.107.144:4000/services/service`, data)
+    axios.post(`http://localhost:4000/services/service`, data)
     .then(res => {dispatch(createServiceSuccess(res.data))
     })
     .catch(error => {
@@ -273,7 +273,7 @@ export const createServiceThunk = (data) => dispatch => {
 
 export const updateServiceThunk = (service_id, data) => dispatch => {
     dispatch(requestUpdateService())
-    axios.put(`http://44.197.107.144:4000/services/service/${service_id}`, data)
+    axios.put(`http://localhost:4000/services/service/${service_id}`, data)
     .then(res => {dispatch(updateServiceSuccess(res.data))
     })
     .catch(error => {
@@ -286,7 +286,7 @@ export const updateServiceThunk = (service_id, data) => dispatch => {
 
 export const deleteServiceThunk = (service_id) => dispatch => {
     dispatch(requestDeleteService())
-    axios.delete(`http://44.197.107.144:4000/services/service/${service_id}`)
+    axios.delete(`http://localhost:4000/services/service/${service_id}`)
     .then(res => {dispatch(deleteServiceSuccess(res.data))
     })
     .catch(error => {

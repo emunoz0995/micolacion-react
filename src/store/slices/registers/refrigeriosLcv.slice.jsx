@@ -43,7 +43,7 @@ export const refrigeriosLcvSlice = createSlice({
 
 export const getRefrigeriosBMThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`http://44.197.107.144:4000/refrigerios_lcv/breakfast_bm/${school_id}`)
+    axios.get(`http://localhost:4000/refrigerios_lcv/breakfast_bm/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -54,7 +54,7 @@ export const getRefrigeriosBMThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosBEThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`http://44.197.107.144:4000/refrigerios_lcv/breakfast_be/${school_id}`)
+    axios.get(`http://localhost:4000/refrigerios_lcv/breakfast_be/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -65,7 +65,7 @@ export const getRefrigeriosBEThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosBSThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`http://44.197.107.144:4000/refrigerios_lcv/breakfast_bs/${school_id}`)
+    axios.get(`http://localhost:4000/refrigerios_lcv/breakfast_bs/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -76,7 +76,7 @@ export const getRefrigeriosBSThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosEventualesThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`http://44.197.107.144:4000/refrigerios_lcv/breakfast_eventuales/${school_id}`)
+    axios.get(`http://localhost:4000/refrigerios_lcv/breakfast_eventuales/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -87,7 +87,7 @@ export const getRefrigeriosEventualesThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosPersonalThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`http://44.197.107.144:4000/refrigerios_lcv/breakfast_personal/${school_id}`)
+    axios.get(`http://localhost:4000/refrigerios_lcv/breakfast_personal/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -98,7 +98,7 @@ export const getRefrigeriosPersonalThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosProcesadosThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`http://44.197.107.144:4000/refrigerios_lcv/breakfast_procesados/${school_id}`)
+    axios.get(`http://localhost:4000/refrigerios_lcv/breakfast_procesados/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
