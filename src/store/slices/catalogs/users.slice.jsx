@@ -211,7 +211,7 @@ export const usersSlice = createSlice({
 
 export const getUsersThunk = () => dispatch => {
     dispatch(requestFetchUsers())
-    axios.get(`http://localhost:3000/users`)
+    axios.get(`http://system.micolacion.com:3000/users`)
         .then(res => {dispatch(fetchUsersSuccess(res.data))
         })
         .catch(error => {
@@ -224,7 +224,7 @@ export const getUsersThunk = () => dispatch => {
 
 export const getUserThunk = (user_id) => dispatch => {
     dispatch(requestFetchUser());
-    axios.get(`http://localhost:3000/users/${user_id}`)
+    axios.get(`http://system.micolacion.com:3000/users/${user_id}`)
     .then(res => {dispatch(fetchUserSuccess(res.data))
     })
     .catch(error => {
@@ -236,7 +236,7 @@ export const getUserThunk = (user_id) => dispatch => {
 
 export const createUserThunk = (data) => dispatch => {
     dispatch(requestCreateUser())
-    axios.post(`http://localhost:3000/users/user`, data)
+    axios.post(`http://system.micolacion.com:3000/users/user`, data)
     .then(res => {dispatch(createUserSuccess(res.data))
     })
     .catch(error => {
@@ -249,7 +249,7 @@ export const createUserThunk = (data) => dispatch => {
 
 export const updateUserThunk = (user_id, data) => dispatch => {
     dispatch(requestUpdateUser())
-    axios.put(`http://localhost:3000/users/user/${user_id}`, data)
+    axios.put(`http://system.micolacion.com:3000/users/user/${user_id}`, data)
     .then(res => {dispatch(updateUserSuccess(res.data))
     })
     .catch(error => {
@@ -262,7 +262,7 @@ export const updateUserThunk = (user_id, data) => dispatch => {
 
 export const deleteUserThunk = (user_id) => dispatch => {
     dispatch(requestDeleteUser())
-    axios.delete(`http://localhost:3000/users/user/${user_id}`)
+    axios.delete(`http://system.micolacion.com:3000/users/user/${user_id}`)
     .then(res => {dispatch(deleteUserSuccess(res.data))
     })
     .catch(error => {
@@ -274,7 +274,7 @@ export const deleteUserThunk = (user_id) => dispatch => {
 
 export const signInThunk = (data) => dispatch => {
     dispatch(requestSigninUser());
-    axios.post('http://localhost:3000/users/login', data)
+    axios.post('http://system.micolacion.com:3000/users/login', data)
         .then(res => {
             dispatch(signinUserSuccess(res.data))
             let userInfo = {

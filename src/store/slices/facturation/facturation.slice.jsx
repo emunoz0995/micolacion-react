@@ -45,7 +45,7 @@ export const FacturationsSlice = createSlice({
 export const getServicesReceivableThunk = (school_id) => dispatch => {
     dispatch(requestFetchFacturations())
     console.log(school_id)
-    axios.get(`http://localhost:3000/facturations/services_receivable/${school_id}`)
+    axios.get(`http://system.micolacion.com:3000/facturations/services_receivable/${school_id}`)
         .then(res => {dispatch(fetchFacturationsSuccess(res.data))
         })
         .catch(error => {
@@ -57,7 +57,7 @@ export const getServicesReceivableThunk = (school_id) => dispatch => {
 
 export const getServiceGenereteXMLThunk = (school_id) => dispatch => {
     dispatch(requestFetchFacturations())
-    axios.get(`http://localhost:3000/facturations/services_generateXML/${school_id}`)
+    axios.get(`http://system.micolacion.com:3000/facturations/services_generateXML/${school_id}`)
         .then(res => {dispatch(fetchFacturationsSuccess(res.data))
         })
         .catch(error => {
