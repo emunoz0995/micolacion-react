@@ -48,7 +48,7 @@ export const ReportsSlice = createSlice({
 
 export const getGeneralReportThunk = (school_id) => dispatch => {
     dispatch(requestFetchReports())
-    axios.get(`http://localhost:4000/reports/generalReport/${school_id}`)
+    axios.get(`http://localhost:3000/reports/generalReport/${school_id}`)
         .then(res => {dispatch(fetchReportsSuccess(res.data))
         })
         .catch(error => {
@@ -60,7 +60,7 @@ export const getGeneralReportThunk = (school_id) => dispatch => {
 
 export const getMenor5ReportThunk = (school_id) => dispatch => {
     dispatch(requestFetchReports())
-    axios.get(`http://localhost:4000/reports/menorFiveReport/${school_id}`)
+    axios.get(`http://localhost:3000/reports/menorFiveReport/${school_id}`)
         .then(res => {dispatch(fetchReportsSuccess(res.data))
         })
         .catch(error => {
@@ -72,7 +72,7 @@ export const getMenor5ReportThunk = (school_id) => dispatch => {
 
 export const getBreakFastReportThunk = (school_id) => dispatch => {
     dispatch(requestFetchReports())
-    axios.get(`http://localhost:4000/reports/reportBreakFast/${school_id}`)
+    axios.get(`http://localhost:3000/reports/reportBreakFast/${school_id}`)
         .then(res => {dispatch(fetchReportsSuccess(res.data))
         })
         .catch(error => {
@@ -84,7 +84,7 @@ export const getBreakFastReportThunk = (school_id) => dispatch => {
 
 export const getLunchReportThunk = (school_id) => dispatch => {
     dispatch(requestFetchReports())
-    axios.get(`http://localhost:4000/reports/reportLunches/${school_id}`)
+    axios.get(`http://localhost:3000/reports/reportLunches/${school_id}`)
         .then(res => {dispatch(fetchReportsSuccess(res.data))
         })
         .catch(error => {
