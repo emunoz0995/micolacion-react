@@ -274,7 +274,7 @@ export const deleteUserThunk = (user_id) => dispatch => {
 
 export const signInThunk = (data) => dispatch => {
     dispatch(requestSigninUser());
-    axios.post('http://system.micolacion.com:4000/users/login', data)
+    axios.post('http://172.26.1.254:4000/users/login', data)
         .then(res => {
             dispatch(signinUserSuccess(res.data))
             let userInfo = {
