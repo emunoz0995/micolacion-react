@@ -210,7 +210,7 @@ export const servicesSlice = createSlice({
 
 export const getServicesThunk = () => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`http://system.micolacion.com:3000/services`)
+    axios.get(`https://system.micolacion.com/api/services`)
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {
@@ -222,7 +222,7 @@ export const getServicesThunk = () => dispatch => {
 
 export const getServicesBySchoolThunk = (school_id) => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`http://system.micolacion.com:3000/services/${school_id}`)
+    axios.get(`https://system.micolacion.com/api/services/${school_id}`)
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {
@@ -234,7 +234,7 @@ export const getServicesBySchoolThunk = (school_id) => dispatch => {
 
 export const getServicesExtrasThunk = () => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`http://system.micolacion.com:3000/services/service/extras`)
+    axios.get(`https://system.micolacion.com/api/services/service/extras`)
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {
@@ -247,7 +247,7 @@ export const getServicesExtrasThunk = () => dispatch => {
 
 export const getServiceThunk = (services_id) => dispatch => {
     dispatch(requestFetchService());
-    axios.get(`http://system.micolacion.com:3000/services/service/${services_id}`)
+    axios.get(`https://system.micolacion.com/api/services/service/${services_id}`)
     .then(res => {dispatch(fetchServiceSuccess(res.data))
     })
     .catch(error => {
@@ -260,7 +260,7 @@ export const getServiceThunk = (services_id) => dispatch => {
 export const createServiceThunk = (data) => dispatch => {
     console.log(data)
     dispatch(requestCreateService())
-    axios.post(`http://system.micolacion.com:3000/services/service`, data)
+    axios.post(`https://system.micolacion.com/api/services/service`, data)
     .then(res => {dispatch(createServiceSuccess(res.data))
     })
     .catch(error => {
@@ -273,7 +273,7 @@ export const createServiceThunk = (data) => dispatch => {
 
 export const updateServiceThunk = (service_id, data) => dispatch => {
     dispatch(requestUpdateService())
-    axios.put(`http://system.micolacion.com:3000/services/service/${service_id}`, data)
+    axios.put(`https://system.micolacion.com/api/services/service/${service_id}`, data)
     .then(res => {dispatch(updateServiceSuccess(res.data))
     })
     .catch(error => {
@@ -286,7 +286,7 @@ export const updateServiceThunk = (service_id, data) => dispatch => {
 
 export const deleteServiceThunk = (service_id) => dispatch => {
     dispatch(requestDeleteService())
-    axios.delete(`http://system.micolacion.com:3000/services/service/${service_id}`)
+    axios.delete(`https://system.micolacion.com/api/services/service/${service_id}`)
     .then(res => {dispatch(deleteServiceSuccess(res.data))
     })
     .catch(error => {

@@ -43,7 +43,7 @@ export const almuerzosLcvSlice = createSlice({
 
 export const getAlmuerzosBMThunk = (school_id) => dispatch => {
     dispatch(requestFetchAlmuerzos())
-    axios.get(`http://system.micolacion.com:3000/almuerzos_lcv/lunch_bm/${school_id}`)
+    axios.get(`https://system.micolacion.com/api/almuerzos_lcv/lunch_bm/${school_id}`)
         .then(res => {dispatch(fetchAlmuerzosSuccess(res.data))
         })
         .catch(error => {
@@ -54,7 +54,7 @@ export const getAlmuerzosBMThunk = (school_id) => dispatch => {
 };
 export const getAlmuerzosBEThunk = (school_id) => dispatch => {
     dispatch(requestFetchAlmuerzos())
-    axios.get(`http://system.micolacion.com:3000/almuerzos_lcv/lunch_be/${school_id}`)
+    axios.get(`https://system.micolacion.com/api/almuerzos_lcv/lunch_be/${school_id}`)
         .then(res => {dispatch(fetchAlmuerzosSuccess(res.data))
         })
         .catch(error => {
@@ -65,7 +65,7 @@ export const getAlmuerzosBEThunk = (school_id) => dispatch => {
 };
 export const getAlmuerzosBSThunk = (school_id) => dispatch => {
     dispatch(requestFetchAlmuerzos())
-    axios.get(`http://system.micolacion.com:3000/almuerzos_lcv/lunch_bs/${school_id}`)
+    axios.get(`https://system.micolacion.com/api/almuerzos_lcv/lunch_bs/${school_id}`)
         .then(res => {dispatch(fetchAlmuerzosSuccess(res.data))
         })
         .catch(error => {
@@ -76,7 +76,7 @@ export const getAlmuerzosBSThunk = (school_id) => dispatch => {
 };
 export const getAlmuerzosEventualesThunk = (school_id) => dispatch => {
     dispatch(requestFetchAlmuerzos())
-    axios.get(`http://system.micolacion.com:3000/almuerzos_lcv/lunch_eventuales/${school_id}`)
+    axios.get(`https://system.micolacion.com/api/almuerzos_lcv/lunch_eventuales/${school_id}`)
         .then(res => {dispatch(fetchAlmuerzosSuccess(res.data))
         })
         .catch(error => {
@@ -87,7 +87,7 @@ export const getAlmuerzosEventualesThunk = (school_id) => dispatch => {
 };
 export const getAlmuerzosPersonalThunk = (school_id) => dispatch => {
     dispatch(requestFetchAlmuerzos())
-    axios.get(`http://system.micolacion.com:3000/almuerzos_lcv/lunch_personal/${school_id}`)
+    axios.get(`https://system.micolacion.com/api/almuerzos_lcv/lunch_personal/${school_id}`)
         .then(res => {dispatch(fetchAlmuerzosSuccess(res.data))
         })
         .catch(error => {
@@ -98,7 +98,7 @@ export const getAlmuerzosPersonalThunk = (school_id) => dispatch => {
 };
 export const getAlmuerzosProcesadosThunk = (school_id) => dispatch => {
     dispatch(requestFetchAlmuerzos())
-    axios.get(`http://system.micolacion.com:3000/almuerzos_lcv/lunch_procesados/${school_id}`)
+    axios.get(`https://system.micolacion.com/api/almuerzos_lcv/lunch_procesados/${school_id}`)
         .then(res => {dispatch(fetchAlmuerzosSuccess(res.data))
         })
         .catch(error => {

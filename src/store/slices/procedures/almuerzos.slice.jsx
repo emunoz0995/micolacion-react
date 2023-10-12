@@ -42,7 +42,7 @@ export const almuerzosProcedureSlice = createSlice({
 export const decrementLunchThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalLunch())
     console.log(client_ci)
-    axios.put(`http://system.micolacion.com:3000/procedures/decrement_lunch/${client_ci}`)
+    axios.put(`https://system.micolacion.com/api/procedures/decrement_lunch/${client_ci}`)
     .then(res => {dispatch(updateTotalLunchSuccess(res.data))
     })
     .catch(error => {
@@ -55,7 +55,7 @@ export const decrementLunchThunk = (client_ci) => dispatch => {
 export const incrementLunchThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalLunch())
     console.log(client_ci)
-    axios.put(`http://system.micolacion.com:3000/procedures/increment_lunch/${client_ci}`)
+    axios.put(`https://system.micolacion.com/api/procedures/increment_lunch/${client_ci}`)
     .then(res => {dispatch(updateTotalLunchSuccess(res.data))
     })
     .catch(error => {
@@ -68,7 +68,7 @@ export const incrementLunchThunk = (client_ci) => dispatch => {
 export const revertLunchThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalLunch())
     console.log(client_ci)
-    axios.put(`http://system.micolacion.com:3000/procedures/revert_lunch/${client_ci}`)
+    axios.put(`https://system.micolacion.com/api/procedures/revert_lunch/${client_ci}`)
     .then(res => {dispatch(updateTotalLunchSuccess(res.data))
     })
     .catch(error => {
