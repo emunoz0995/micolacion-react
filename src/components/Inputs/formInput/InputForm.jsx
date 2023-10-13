@@ -32,7 +32,7 @@ export default function InputForm({
           className={`${input} ${input === 'file-input'
             ? 'file-input-sm file-input-info file-input-bordered  '
             : 'input-sm'
-            }  outline-none input-bordered focus:outline-none focus:ring-1 uppercase rounded-md shadow-base-300 shadow-lg`}
+            }  outline-none input-bordered focus:outline-none focus:ring-1 rounded-md shadow-base-300 shadow-lg`}
           type={type}
           {...register}
           placeholder={placeholder}
