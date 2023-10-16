@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
+import axios from 'axios';
 
 //UI
 import SchoolLayout from '../../../layouts/SchoolsLayout';
@@ -9,7 +10,8 @@ import HeaderSimple from '../../../components/headers/catalogs/HeaderSimple';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import IconStatus from '../../../components/icons/IconStatus';
 //SLICE
-import { getClientsThunk, deleteClientThunk } from '../../../store/slices/catalogs/clients.slice';
+import { deleteClientThunk } from '../../../store/slices/catalogs/clients.slice';
+import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { useParams } from 'react-router-dom';
 
 
@@ -17,13 +19,40 @@ const ClientList = () => {
 
     const { t } = useTranslation();
     const {school_id} = useParams();
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const clientState = useSelector(state => state.clients);
     const dispatch = useDispatch();
+    const [data, setData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
  
 
     useEffect(() => {
-        dispatch(getClientsThunk(school_id));
+        getClients();
     }, []);
+
+    useEffect(() => {
+        const results = data.filter(item => {
+            let nameMatch = false;
+            let lastNameMatch = false;
+            let seccionMatch = false;
+            if (item.lastName) {
+                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            return nameMatch || lastNameMatch || seccionMatch;
+        });
+        setSearchResults(results);
+    }, [searchTerm, data]);
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
 
     if (clientState.message.message === "resource deleted successfully") {
@@ -34,10 +63,22 @@ const ClientList = () => {
         dispatch(deleteClientThunk(user_id));
     };
 
+    const getClients = () => {
+        dispatch(setIsLoading(true));
+        axios.get(`https://system.micolacion.com/api/clients/${school_id}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
+
 
     return (
-        <SchoolLayout>
-             {clientState.fetching || clientState.processing ? (
+        <SchoolLayout value={searchTerm} onchange={handleSearch}>
+             {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-full">
@@ -56,8 +97,9 @@ const ClientList = () => {
                                     <th></th>
                                 </tr>
                             </thead>
+                            {searchResults.length > 0 ?
                             <tbody>
-                                {clientState.clients.map(client => (
+                                {searchResults.map(client => (
                                     <tr className='h-[60px]' key={client.id}>
                                         <td className='p-2'><IconStatus active={client.active} /></td>
                                         <td>{client.cedulaCliente}</td>
@@ -72,7 +114,11 @@ const ClientList = () => {
                                         </td>
                                     </tr>
                                 ))}
-                            </tbody>
+                            </tbody>:
+                                <div className="absolute z-10 top-[400px] left-8 sm:top-[350px] sm:left-[610px]">
+                                    <h1 className='font-semibolt text-[22px] sm:text-[25px] text-gray-400'>NO HAY DATOS PARA MOSTRAR</h1>
+                                </div>
+                            }
                         </table>
                     </div>
                 </div>
