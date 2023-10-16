@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { setIsLoading } from '../isLoading.slice';
 import axios from 'axios';
 
 export const refrigeriosLcvSlice = createSlice({

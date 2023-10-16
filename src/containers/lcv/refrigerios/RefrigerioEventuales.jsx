@@ -1,25 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 //UI
 import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
 //SLICES
-import { getRefrigeriosEventualesThunk } from '../../../store/slices/registers/refrigeriosLcv.slice';
+import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { incrementBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
 
 const RefrigerioEventuales = () => {
     const { school_id } = useParams();
-    const refrigeriosState = useSelector(state => state.refrigeriosLcv);
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
+    const [data, setData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+
 
     useEffect(() => {
-        dispatch(getRefrigeriosEventualesThunk(school_id));
+        getRefrigeriosEventuales();
     }, []);
 
+    useEffect(() => {
+        const results = data.filter(item => {
+            let nameMatch = false;
+            let lastNameMatch = false;
+            let seccionMatch = false;
+            if (item.lastName) {
+                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            return nameMatch || lastNameMatch || seccionMatch;
+        });
+        setSearchResults(results);
+    }, [searchTerm, data]);
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
     const hideRow = (id) => {
         setHiddenRows([...hiddenRows, id]);
@@ -30,9 +57,21 @@ const RefrigerioEventuales = () => {
         hideRow(id);
     }
 
+    const getRefrigeriosEventuales = () => {
+        dispatch(setIsLoading(true));
+        axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_eventuales/${school_id}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
+
     return (
-        <SchoolLayout>
-            {refrigeriosState.fetching || refrigeriosState.processing ? (
+        <SchoolLayout value={searchTerm} onchange={handleSearch}>
+            {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-full">
@@ -55,22 +94,27 @@ const RefrigerioEventuales = () => {
                                     <th>Nivel</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {refrigeriosState.refrigerios.map(refrigerio => {
-                                    if (hiddenRows.includes(refrigerio.id)) {
-                                        return null; 
-                                    }
-                                    return (
-                                        <tr key={refrigerio.id}>
-                                            <td>{refrigerio.firstName} {refrigerio.lastName}</td>
-                                            <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak(refrigerio.cedulaCliente,refrigerio.id)} /></td>
-                                            <td>{refrigerio.breakfastConsumed}</td>
-                                            <td>{refrigerio.cliente_servicio?.name}</td>
-                                            <td>{refrigerio.cliente_seccion?.name}</td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
+                            {searchResults.length > 0 ?
+                                <tbody>
+                                    {searchResults.map(refrigerio => {
+                                        if (hiddenRows.includes(refrigerio.id)) {
+                                            return null;
+                                        }
+                                        return (
+                                            <tr key={refrigerio.id}>
+                                                <td>{refrigerio.firstName} {refrigerio.lastName}</td>
+                                                <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak(refrigerio.cedulaCliente, refrigerio.id)} /></td>
+                                                <td>{refrigerio.breakfastConsumed}</td>
+                                                <td>{refrigerio.cliente_servicio?.name}</td>
+                                                <td>{refrigerio.cliente_seccion?.name}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody> :
+                                <div className="absolute z-10 top-[200px] left-3 sm:left-[380px]">
+                                    <h1 className='font-semibolt text-[22px] sm:text-[25px] text-gray-400'>NO HAY DATOS PARA MOSTRAR</h1>
+                                </div>
+                            }
                         </table>
                     </div>
                 </div>

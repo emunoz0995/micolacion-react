@@ -1,24 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 //UI
 import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
 //SLICES
-import { getAlmuerzosPersonalThunk } from '../../../store/slices/registers/almuerzosLcv.slice';
+import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { incrementLunchThunk } from '../../../store/slices/procedures/almuerzos.slice';
 
 const AlmuerzoPersonal = () => {
     const { school_id } = useParams();
-    const almuerzosState = useSelector(state => state.almuerzosLcv);
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
+    const [data, setData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+
 
     useEffect(() => {
-        dispatch(getAlmuerzosPersonalThunk(school_id));
+        getAlmuerzosPersonal();
     }, []);
+
+    useEffect(() => {
+        const results = data.filter(item => {
+            let nameMatch = false;
+            let lastNameMatch = false;
+            let seccionMatch = false;
+            if (item.lastName) {
+                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            return nameMatch || lastNameMatch || seccionMatch;
+        });
+        setSearchResults(results);
+    }, [searchTerm, data]);
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
 
     const hideRow = (id) => {
@@ -30,9 +58,21 @@ const AlmuerzoPersonal = () => {
         hideRow(id);
     }
 
+    const getAlmuerzosPersonal = () => {
+        dispatch(setIsLoading(true));
+        axios.get(`https://system.micolacion.com/api/almuerzos_lcv/lunch_eventuales/${school_id}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
+
     return (
-        <SchoolLayout>
-            {almuerzosState.fetching || almuerzosState.processing ? (
+        <SchoolLayout value={searchTerm} onchange={handleSearch}>
+            {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-full">
@@ -55,8 +95,9 @@ const AlmuerzoPersonal = () => {
                                     <th>Nivel</th>
                                 </tr>
                             </thead>
+                            {searchResults.length > 0 ?
                             <tbody>
-                                {almuerzosState.almuerzos.map(almuerzo => {
+                                {searchResults.map(almuerzo => {
                                     if (hiddenRows.includes(almuerzo.id)) {
                                         return null; 
                                     }
@@ -70,7 +111,11 @@ const AlmuerzoPersonal = () => {
                                         </tr>
                                     );
                                 })}
-                            </tbody>
+                            </tbody> :
+                            <div className="absolute z-10 top-[200px] left-3 sm:left-[380px]">
+                                <h1 className='font-semibolt text-[22px] sm:text-[25px] text-gray-400'>NO HAY DATOS PARA MOSTRAR</h1>
+                            </div>
+                        }
                         </table>
                     </div>
                 </div>

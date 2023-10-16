@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useToolbarStore } from '../../store/VitalStore';
 //UI
-import { FaUser } from 'react-icons/fa';
+import { FaSearch, FaUser } from 'react-icons/fa';
 import BtnCircle from '../buttons/BtnCircle';
 import { useTranslation } from "react-i18next";
 import eng from '../../assets/eng.png';
 import es from '../../assets/es.png'
 
 
-const NavTop = () => {
+const NavTop = ({onChange, value}) => {
   const { openToolbar } = useToolbarStore((state) => state);
   const user = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -28,6 +28,9 @@ const NavTop = () => {
 
   return (
     <nav className="absolute bg-base-200 shadow-lg flex w-calc md:right-0 h-14 items-center">
+      <div className='ml-5 flex items-center ' >
+                <input className="outline-none input-bordered focus:outline-none focus:ring-1  text-sm border font-normal p-1 rounded-r-lg" type="text" placeholder={"Buscar..."} value={value} onChange={onChange}/>
+            </div>
       <div className="md:hidden absolute left-7">
         <BtnCircle btnAction={() => openToolbar()}>
           <svg

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 //UI
 import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
@@ -8,7 +9,7 @@ import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
 import Swal from 'sweetalert2';
 //SLICES
-import { getRefrigeriosProcesadosThunk } from '../../../store/slices/registers/refrigeriosLcv.slice';
+import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { revertBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
@@ -16,11 +17,13 @@ import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.s
 
 const RefrigerioProcesados = () => {
     const { school_id } = useParams();
-    const refrigeriosState = useSelector(state => state.refrigeriosLcv);
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const servicesState = useSelector(state => state.services)
-    const dispatch = useDispatch();
+    const dispatch = useDispatch();;
     const [hiddenRows, setHiddenRows] = useState([]);
-    const [selected, setSelected] = useState("");
+    const [data, setData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     const Toast = Swal.mixin({
         toast: true,
@@ -36,8 +39,31 @@ const RefrigerioProcesados = () => {
 
     useEffect(() => {
         dispatch(getServicesExtrasThunk());
-        dispatch(getRefrigeriosProcesadosThunk(school_id));
+        getRefrigeriosProcesados();
     }, []);
+
+    useEffect(() => {
+        const results = data.filter(item => {
+            let nameMatch = false;
+            let lastNameMatch = false;
+            let seccionMatch = false;
+            if (item.lastName) {
+                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            return nameMatch || lastNameMatch || seccionMatch;
+        });
+        setSearchResults(results);
+    }, [searchTerm, data]);
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
     const hideRow = (id) => {
         setHiddenRows([...hiddenRows, id]);
@@ -60,14 +86,26 @@ const RefrigerioProcesados = () => {
             icon: 'success',
             title: '¡Servicio extra registrado!'
           }).then(function(result){
-            dispatch(getRefrigeriosProcesadosThunk(school_id));
+            getRefrigeriosProcesados();
 		})
        
     };
 
+    const getRefrigeriosProcesados = () => {
+        dispatch(setIsLoading(true));
+        axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_procesados/${school_id}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
+
     return (
-        <SchoolLayout>
-            {refrigeriosState.fetching || refrigeriosState.processing ? (
+        <SchoolLayout value={searchTerm} onchange={handleSearch}>
+            {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-full">
@@ -91,8 +129,9 @@ const RefrigerioProcesados = () => {
                                     <th>Extras</th>
                                 </tr>
                             </thead>
+                            {searchResults.length > 0 ?
                             <tbody>
-                                {refrigeriosState.refrigerios.map(refrigerio => {
+                                {searchResults.map(refrigerio => {
                                     if (hiddenRows.includes(refrigerio.id)) {
                                         return null;
                                     }
@@ -110,7 +149,7 @@ const RefrigerioProcesados = () => {
                                             }
                                             <td>
                                                 <select onChange={(e)=>handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
-                                                    <option value={selected}>Seleccione</option>
+                                                    <option value="">Seleccione</option>
                                                     {servicesState.services.map((service) => (
                                                         <option key={service.id} value={service.id}>{service.name}</option>
                                                     ))}
@@ -119,7 +158,11 @@ const RefrigerioProcesados = () => {
                                         </tr>
                                     );
                                 })}
-                            </tbody>
+                            </tbody>:
+                                <div className="absolute z-10 top-[450px] left-[30px] sm:top-[350px] sm:left-[630px]">
+                                    <h1 className='font-semibolt text-[22px] sm:text-[25px] text-gray-400'>NO HAY DATOS PARA MOSTRAR</h1>
+                                </div>
+                            }
                         </table>
                     </div>
                 </div>

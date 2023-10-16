@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 //UI
 import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
@@ -8,18 +9,22 @@ import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
 //SLICES
 import { getSchoolThunk } from '../../../store/slices/catalogs/schools.slice';
-import { getRefrigeriosBMThunk } from '../../../store/slices/registers/refrigeriosLcv.slice';
+import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { decrementBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
+
 const RefrigerioBM = () => {
     const { school_id } = useParams();
     const schoolState = useSelector(state => state.schools);
-    const refrigeriosState = useSelector(state => state.refrigeriosLcv);
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
+    const [data, setData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
         dispatch(getSchoolThunk(school_id));
-        dispatch(getRefrigeriosBMThunk(school_id));
+        getRefrigeriosBM();
     }, []);
 
     if (Object.keys(schoolState.school).length !== 0) {
@@ -32,6 +37,29 @@ const RefrigerioBM = () => {
         localStorage.setItem("schoolInfo", JSON.stringify(schoolInfo));
     }
 
+    useEffect(() => {
+        const results = data.filter(item => {
+            let nameMatch = false;
+            let lastNameMatch = false;
+            let seccionMatch = false;
+            if (item.lastName) {
+                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.firstName) {
+                seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            return nameMatch || lastNameMatch || seccionMatch;
+        });
+        setSearchResults(results);
+    }, [searchTerm, data]);
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
     const hideRow = (id) => {
         setHiddenRows([...hiddenRows, id]);
     };
@@ -41,10 +69,21 @@ const RefrigerioBM = () => {
         hideRow(id);
     }
     
-    console.log(refrigeriosState)
+    const getRefrigeriosBM = () => {
+        dispatch(setIsLoading(true));
+        axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_bm/${school_id}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
+
     return (
-        <SchoolLayout>
-             {refrigeriosState.fetching || refrigeriosState.processing ? (
+        <SchoolLayout value={searchTerm} onchange={handleSearch}>
+             {isLoading ? (
                 <MainLoader />
             ) : (
             <div className="mx-5 my-5 w-full">
@@ -67,8 +106,9 @@ const RefrigerioBM = () => {
                                 <th>Nivel</th>
                             </tr>
                         </thead>
+                        {searchResults.length > 0 ?
                         <tbody>
-                                {refrigeriosState.refrigerios.map(refrigerio => {
+                                {searchResults.map(refrigerio => {
                                     if (hiddenRows.includes(refrigerio.id)) {
                                         return null; 
                                     }
@@ -83,6 +123,11 @@ const RefrigerioBM = () => {
                                     );
                                 })}
                             </tbody>
+                            :
+                                <div className="absolute z-10 top-[200px] left-3 sm:left-[380px]">
+                                    <h1 className='font-semibolt text-[22px] sm:text-[25px] text-gray-400'>NO HAY DATOS PARA MOSTRAR</h1>
+                                </div>
+                            }
                     </table>
                 </div>
             </div>
