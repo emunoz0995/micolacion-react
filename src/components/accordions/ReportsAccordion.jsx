@@ -15,7 +15,8 @@ const ReportsAccordion = ({school}) => {
         onClick={() => {
           navigate(`/schools/${school}/general_report`);
         }}
-        className={`w-full ${location.pathname === `/schools/${school}/general_report` ? 'active' : ''}`}
+        className={`w-full ${location.pathname === `/schools/${school}/general_report` ||
+        `/schools/${school}/general_report/:client_id` ? 'active' : ''}`}
       >
         <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />General</BtnDashboard>
       </li>

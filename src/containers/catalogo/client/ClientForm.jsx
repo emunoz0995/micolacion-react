@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,10 +13,12 @@ import HeaderSection from '../../../components/headers/catalogs/HeaderSection';
 import BtnContent from '../../../components/buttons/BtnContent';
 import '../../../App.css';
 // SLICES 
-import { getClientThunk, createClientThunk, updateClientThunk } from '../../../store/slices/catalogs/clients.slice';
+import { setIsLoading } from '../../../store/slices/isLoading.slice';
+import { createClientThunk, updateClientThunk } from '../../../store/slices/catalogs/clients.slice';
 import { getServicesBySchoolThunk } from '../../../store/slices/catalogs/services.slice';
 import { getSectionsBySchoolThunk } from '../../../store/slices/catalogs/sections.slice';
 import DropdownForm from '../../../components/Inputs/formInput/DropdonwForm';
+import axios from 'axios';
 
 
 const ClientForm = () => {
@@ -24,7 +26,9 @@ const ClientForm = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { client_id, school_id } = useParams();
+    const [data, setData] = useState([]);
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const clientState = useSelector(state => state.clients);
     const serviceState = useSelector(state => state.services);
     const sectionsState = useSelector(state => state.sections)
@@ -34,9 +38,21 @@ const ClientForm = () => {
         dispatch(getServicesBySchoolThunk(school_id))
         dispatch(getSectionsBySchoolThunk(school_id))
         if (client_id) {
-            dispatch(getClientThunk(client_id));
+            getClient(client_id);
         }
     }, []);
+
+    const getClient = () => {
+        dispatch(setIsLoading(true));
+        axios.get(`https://system.micolacion.com/api/clients/client/${client_id}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
 
 
     const onSubmit = (data) => {
@@ -52,26 +68,26 @@ const ClientForm = () => {
         navigate(`/schools/${school_id}/clients`);
     }
 
-    if (Object.keys(clientState.client).length > 0) {
-        setValue('cedulaCliente', clientState.client.cedulaCliente)
-        setValue('firstName', clientState.client.firstName)
-        setValue('lastName', clientState.client.lastName)
-        setValue('sectionId', clientState.client.sectionId)
-        setValue('schoolId', clientState.client.schoolId)
-        setValue('serviceId', clientState.client.serviceId)
-        setValue('totalBreakfast', clientState.client.totalBreakfast)
-        setValue('totalLunch', clientState.client.totalLunch)
-        setValue('active', clientState.client.active)
-        setValue('cedulaRepresentante', clientState.client.cliente_representante.cedulaRepresentante)
-        setValue('names', clientState.client.cliente_representante.names)
-        setValue('email', clientState.client.cliente_representante.email)
-        setValue('telefon', clientState.client.cliente_representante.telefon)
-        setValue('adress', clientState.client.cliente_representante.adress)
+    if (Object.keys(data).length > 0) {
+        setValue('cedulaCliente', data.cedulaCliente)
+        setValue('firstName', data.firstName)
+        setValue('lastName', data.lastName)
+        setValue('sectionId', data.sectionId)
+        setValue('schoolId', data.schoolId)
+        setValue('serviceId', data.serviceId)
+        setValue('totalBreakfast', data.totalBreakfast)
+        setValue('totalLunch', data.totalLunch)
+        setValue('active', data.active)
+        setValue('cedulaRepresentante', data.cliente_representante.cedulaRepresentante)
+        setValue('names', data.cliente_representante.names)
+        setValue('email', data.cliente_representante.email)
+        setValue('telefon', data.cliente_representante.telefon)
+        setValue('adress', data.cliente_representante.adress)
     }
 
     return (
         <SchoolLayout>
-            {clientState.fetching || clientState.processing ? (
+            {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="w-[96%] mt-5 ml-5 ">

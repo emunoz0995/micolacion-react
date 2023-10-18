@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import Swal from 'sweetalert2';
-import { FaCheckDouble, FaFilePdf,  FaMoneyBill, FaPlus, FaReply } from 'react-icons/fa';
+import { FaCheckDouble, FaEye, FaFilePdf, FaMoneyBill, FaPlus, FaReply, FaOsi, FaArrowLeft } from 'react-icons/fa';
 
 export default function BtnActions({ action, to, onclick, title, funtion }) {
 
@@ -55,6 +55,15 @@ export default function BtnActions({ action, to, onclick, title, funtion }) {
         <FaPlus/>
       </button>
     );
+  } else if (action === 'view') {
+    return (
+      <button
+        onClick={() => handleEdit()}
+        className="bg-sky-200  hover:bg-sky-400 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
+      >
+        <FaEye/>
+      </button>
+    );
   } else if (action === 'pay') {
     return (
       <button
@@ -102,6 +111,15 @@ export default function BtnActions({ action, to, onclick, title, funtion }) {
         className="bg-rose-200  hover:bg-rose-400 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
       >
         <FaFilePdf color='white'/>
+      </button>
+    );
+  } else if (action === 'exit') {
+    return (
+      <button
+        onClick={() => handleEdit()}
+        className="bg-sky-200  hover:bg-sky-400 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
+      >
+        <FaArrowLeft color='white'/>
       </button>
     );
   } else if (action === 'delete') {

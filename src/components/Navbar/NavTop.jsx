@@ -9,7 +9,7 @@ import eng from '../../assets/eng.png';
 import es from '../../assets/es.png'
 
 
-const NavTop = ({onChange, value}) => {
+const NavTop = ({ onChange, value, view }) => {
   const { openToolbar } = useToolbarStore((state) => state);
   const user = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -17,7 +17,7 @@ const NavTop = ({onChange, value}) => {
   const { i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng); 
+    i18n.changeLanguage(lng);
   };
 
   const logOut = () => {
@@ -28,9 +28,13 @@ const NavTop = ({onChange, value}) => {
 
   return (
     <nav className="absolute bg-base-200 shadow-lg flex w-calc md:right-0 h-14 items-center">
-      <div className='ml-5 flex items-center ' >
-                <input className="outline-none input-bordered focus:outline-none focus:ring-1  text-sm border font-normal p-1 rounded-r-lg" type="text" placeholder={"Buscar..."} value={value} onChange={onChange}/>
-            </div>
+      {view === true ?
+        <div className='ml-5 flex items-center ' >
+          <input className="outline-none input-bordered focus:outline-none focus:ring-1  text-sm border font-normal p-1 rounded-r-lg" type="text" placeholder={"Buscar..."} value={value} onChange={onChange} />
+        </div> : 
+        ""
+      }
+
       <div className="md:hidden absolute left-7">
         <BtnCircle btnAction={() => openToolbar()}>
           <svg
@@ -49,12 +53,12 @@ const NavTop = ({onChange, value}) => {
           </svg>
         </BtnCircle>
       </div>
-      <div className="absolute right-7 flex h-[100%] items-center">       
+      <div className="absolute right-7 flex h-[100%] items-center">
         <div className='h-[88%] border border-gray-300'></div>
         <div className="dropdown dropdown-end h-full">
           <div className='flex justify-between items-center h-full w-[150px]'>
-          <BtnCircle>
-            <p className='text-sm ml-3 mr-2'>{user.userName}</p>
+            <BtnCircle>
+              <p className='text-sm ml-3 mr-2'>{user.userName}</p>
               <FaUser size={"20px"} />
             </BtnCircle>
           </div>

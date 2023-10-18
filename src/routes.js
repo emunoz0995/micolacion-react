@@ -17,6 +17,7 @@ import UserList from "./containers/catalogo/user/UserList";
 import UserForm from "./containers/catalogo/user/UserForm";
 //Reports
 import GeneralReportList from "./containers/reports/GeneralReport";
+import GeneralReportForClient from "./containers/reports/GeneralReportForClient";
 import MenorFiveReport from "./containers/reports/MenorFivelReport ";
 import BreakFastReport from "./containers/reports/BreakFastReport ";
 import LunchReport from "./containers/reports/LunchReport ";
@@ -167,6 +168,10 @@ const routes = [
   {
     path: "/schools/:school_id/general_report",
     component: GeneralReportList,
+  },
+  {
+    path: "/schools/:school_id/general_report_client/:client_id",
+    component: GeneralReportForClient,
   },
   {
     path: "/schools/:school_id/menor5_report",

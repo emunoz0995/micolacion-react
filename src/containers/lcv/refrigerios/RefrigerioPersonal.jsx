@@ -69,7 +69,7 @@ const RefrigerioPersonal = () => {
     }
 
     return (
-        <SchoolLayout value={searchTerm} onchange={handleSearch}>
+        <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
             {isLoading ? (
                 <MainLoader />
             ) : (

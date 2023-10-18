@@ -67,6 +67,18 @@ export const getServiceGenereteXMLThunk = (school_id) => dispatch => {
         })
 };
 
+export const getHistoryThunk = (cliente_ci) => dispatch => {
+    dispatch(requestFetchFacturations())
+    axios.get(`https://system.micolacion.com/api/facturations/history/${cliente_ci}`)
+        .then(res => {dispatch(fetchFacturationsSuccess(res.data))
+        })
+        .catch(error => {
+            if (error.response?.status === 400) {
+                dispatch(fetchFacturationsError(error.response?.data))
+            }
+        })
+};
+
 
 
 export const { 
