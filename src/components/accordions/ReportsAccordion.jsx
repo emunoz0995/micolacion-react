@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import BtnDashboard from '../buttons/BtnDashboard';
 import { useTranslation } from "react-i18next";
 import { FaCircle } from 'react-icons/fa';
@@ -8,6 +8,7 @@ const ReportsAccordion = ({school}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+  const  {client_id} = useParams();
   
   return (
     <ul className=''>
@@ -16,7 +17,7 @@ const ReportsAccordion = ({school}) => {
           navigate(`/schools/${school}/general_report`);
         }}
         className={`w-full ${location.pathname === `/schools/${school}/general_report` ||
-        `/schools/${school}/general_report/:client_id` ? 'active' : ''}`}
+        location.pathname ===`/schools/${school}/general_report_client/${client_id}` ? 'active' : ''}`}
       >
         <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />General</BtnDashboard>
       </li>
