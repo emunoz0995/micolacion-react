@@ -47,7 +47,7 @@ const Login = () => {
               id="username"
               type="text"
               register={register("email")}
-              value="peef@prueba.com"
+             // value="peef@prueba.com"
             />
             <Label htmlFor="username">Usuario</Label>
             <UserLogo />
@@ -57,7 +57,7 @@ const Login = () => {
               isPasswordHidden={isPasswordHidden}
               type={isPasswordHidden ? 'password' : 'text'}
               register={register("password")}
-              value="jintriago2022"
+              //value="jintriago2022"
               autoComplete="off"
             />
             <Label htmlFor="password">Contraseña</Label>
