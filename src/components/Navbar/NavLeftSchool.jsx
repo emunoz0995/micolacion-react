@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Collapse } from 'react-collapse';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useCollapsed, useToolbarStore, useCollapsedRate } from '../../store/VitalStore';
 import { useTranslation } from "react-i18next";
 //UI
@@ -10,17 +11,25 @@ import BtnDashboard from '../buttons/BtnDashboard';
 import { FaBook, FaDollarSign, FaFileExcel, FaReadme, FaSun, FaTree, FaUsers } from 'react-icons/fa';
 import ReportsAccordion from '../accordions/ReportsAccordion';
 import BtnContent from '../buttons/BtnContent';
+//SLICES
+import { startDayThunk } from '../../store/slices/procedures/funtions.slice';
+
 
 const NavLeftSchool = ({ collapsed, setCollapsed }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const school = JSON.parse(localStorage.getItem("schoolInfo"));
   const { isToolbarOpen, closeToolbar } = useToolbarStore((state) => state);
 
   const { isCollapsedRate, openCollapsedRates, closeCollapsedRates } = useCollapsedRate(
     (state) => state
   );
+
+  const handleInitDay = (school_id) => {
+    dispatch(startDayThunk(school_id));
+};
 
   return (
     <div
@@ -40,7 +49,7 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
           </BtnDashboard>
         </li>
         <div className='w-full flex justify-center pl-2'>
-          <BtnContent type="initDay">Iniciar Día</BtnContent>
+          <BtnContent type="initDay" school={school} onclick={() => handleInitDay(school.id)}>Iniciar Día</BtnContent>
         </div>
         <div className='pl-2 text-[10px] text-sky-200 mb-[-10px] border-b-[1px] border-gray-500 w-[90%]'>Servicios</div>
         <li

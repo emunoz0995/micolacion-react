@@ -63,6 +63,18 @@ export const paidServiceThunk = (client_id,data) => dispatch => {
     })
 };
 
+export const startDayThunk = (school_id) => dispatch => {
+    dispatch(requestUpdateService())
+    axios.put(`https://system.micolacion.com/api/procedures/start_day/${school_id}`)
+    .then(res => {dispatch(updateServiceSuccess(res.data))
+    })
+    .catch(error => {
+        if (error.response?.status === 400) {
+            dispatch(updateServiceError(error.response?.data))
+        }
+    })
+};
+
 export const registerExtrasThunk = (data) => dispatch => {
     dispatch(requestUpdateService())
     axios.post(`https://system.micolacion.com/api/procedures/register_serviceExtra`, data)
