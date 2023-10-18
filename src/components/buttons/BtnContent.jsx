@@ -30,7 +30,12 @@ export default function BtnContent({ children, type, cancel, to, onclick, school
           text: 'que tengas un buen dia',
           showConfirmButton: false,
           timer: 1500
+        }).then((result) => {
+          if (result) {
+            navigate(`/schools/${school?.id}/refrigerios_bm`)
+          }
         })
+
       }
     })
   }
