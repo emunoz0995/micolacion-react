@@ -25,6 +25,7 @@ const ServiceForm = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        setValue('price', "0.00")
         if (services_id) {
             dispatch(getServiceThunk(services_id));
         }
@@ -46,9 +47,11 @@ const ServiceForm = () => {
         setValue('name', serviceState.service.name)
         setValue('code', serviceState.service.code)
         setValue('price', serviceState.service.price)
+        setValue('isLcv', serviceState.service.isLcv)
+        setValue('isCervantes', serviceState.service.isCervantes)
+        setValue('isExtra', serviceState.service.isExtra)
         setValue('active', serviceState.service.active)
     }
-
 
     return (
         <HomeLayout>
