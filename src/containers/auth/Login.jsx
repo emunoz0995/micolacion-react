@@ -20,12 +20,22 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const lcvId = "bEB9ZLKPgW";
+  const cervantesId = "ERdKGa9kbV";
+
   const submit = (data) => {
     dispatch(signInThunk(data));
   }
 
   if (Object.keys(userState.user).length !== 0) {
-    navigate('/');
+    if(userState.user.roleId === 1){
+      navigate('/');
+    } else if (userState.user.roleId === 2){
+      navigate(`/schools/${lcvId}/refrigerios_bm`);
+    } else if (userState.user.roleId === 3){
+      navigate(`/schools/${cervantesId}/refrigerios_primaria`);
+    }
+    
   }
   return (
     <div

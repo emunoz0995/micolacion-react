@@ -21,6 +21,7 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const school = JSON.parse(localStorage.getItem("schoolInfo"));
+  const user = JSON.parse(localStorage.getItem("userInfo"));
   const { isToolbarOpen, closeToolbar } = useToolbarStore((state) => state);
 
   const { isCollapsedRate, openCollapsedRates, closeCollapsedRates } = useCollapsedRate(
@@ -29,7 +30,7 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
 
   const handleInitDay = (school_id) => {
     dispatch(startDayThunk(school_id));
-};
+  };
 
   return (
     <div
@@ -40,50 +41,56 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <img className="object-contain h-[80px] mt-8 mb-5" src={school?.name == "Liceo Campoverde" ? lcv : cervantes} alt="logo_school" />
       </div>
       <ul className=" flex flex-col h-full items-start justify-start w-[98%] mt-5 gap-3">
-        <li
-          onClick={(e) => { navigate('/'); closeToolbar(); }}
-          className={`w-full ${location.pathname === '/' || location.pathname === 'exit_list' ? 'active' : ''}`}>
-          <BtnDashboard>
-            <FaReadme />
-            <p>Inicio</p>
-          </BtnDashboard>
-        </li>
+        {user.role === 1 ?
+          <li
+            onClick={(e) => { navigate('/'); closeToolbar(); }}
+            className={`w-full ${location.pathname === '/' || location.pathname === 'exit_list' ? 'active' : ''}`}>
+            <BtnDashboard>
+              <FaReadme />
+              <p>Inicio</p>
+            </BtnDashboard>
+          </li> : ""
+        }
+
         <div className='w-full flex justify-center pl-2'>
           <BtnContent type="initDay" school={school} onclick={() => handleInitDay(school.id)}>Iniciar Día</BtnContent>
         </div>
         <div className='pl-2 text-[10px] text-sky-200 mb-[-10px] border-b-[1px] border-gray-500 w-[90%]'>Servicios</div>
         <li
-          onClick={(e) => { school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/refrigerios_bm`) :  
-                            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/refrigerios_primaria`) : ""; 
-                            closeToolbar(); }}
-          className={`w-full ${
-            location.pathname === `/schools/${school?.id}/refrigerios_bm` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_be` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_bs_bgu` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_eventuales` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_personal` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_procesados`||
-            location.pathname === `/schools/${school?.id}/refrigerios_primaria` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_inicial` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_secundaria` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_eventuales_cervantes` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_procesados_cervantes`
-            ? 'active' : ''}`}>
+          onClick={(e) => {
+            school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/refrigerios_bm`) :
+            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/refrigerios_primaria`) : "";
+            closeToolbar();
+          }}
+          className={`w-full ${location.pathname === `/schools/${school?.id}/refrigerios_bm` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_be` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_bs_bgu` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_eventuales` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_personal` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_procesados` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_primaria` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_inicial` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_secundaria` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_eventuales_cervantes` ||
+              location.pathname === `/schools/${school?.id}/refrigerios_procesados_cervantes`
+              ? 'active' : ''}`}>
           <BtnDashboard>
             <FaSun />
             <p>Refrigerios</p>
           </BtnDashboard>
         </li>
         <li
-          onClick={(e) => { school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/almuerzos_bm`) :
-                            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/almuerzos_primaria`) :
-          closeToolbar(); }}
+          onClick={(e) => {
+            school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/almuerzos_bm`) :
+            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/almuerzos_primaria`) :
+              closeToolbar();
+          }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/almuerzos_bm` ||
             location.pathname === `/schools/${school?.id}/almuerzos_be` ||
             location.pathname === `/schools/${school?.id}/almuerzos_bs_bgu` ||
             location.pathname === `/schools/${school?.id}/almuerzos_eventuales` ||
             location.pathname === `/schools/${school?.id}/almuerzos_personal` ||
-            location.pathname === `/schools/${school?.id}/almuerzos_procesados`||
+            location.pathname === `/schools/${school?.id}/almuerzos_procesados` ||
             location.pathname === `/schools/${school?.id}/almuerzos_primaria` ||
             location.pathname === `/schools/${school?.id}/almuerzos_inicial` ||
             location.pathname === `/schools/${school?.id}/almuerzos_secundaria` ||
@@ -98,10 +105,9 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <div className='pl-2 text-[10px] text-sky-200 mb-[-10px] border-b-[1px] border-gray-500 w-[90%]'>Administración</div>
         <li
           onClick={(e) => { navigate(`/schools/${school?.id}/clients`); closeToolbar(); }}
-          className={`w-full ${
-            location.pathname === `/schools/${school?.id}/clients` ||
-            location.pathname === `/schools/${school?.id}/clients_new`
-            ? 'active' : ''}`}>
+          className={`w-full ${location.pathname === `/schools/${school?.id}/clients` ||
+              location.pathname === `/schools/${school?.id}/clients_new`
+              ? 'active' : ''}`}>
           <BtnDashboard>
             <FaUsers />
             <p>Estudiantes</p>
@@ -134,14 +140,13 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
             </BtnDashboard>
           </label>
           <Collapse isOpened={isCollapsedRate}>
-            <ReportsAccordion  school={school?.id} />
+            <ReportsAccordion school={school?.id} />
           </Collapse>
         </li>
         <li
           onClick={(e) => { navigate(`/schools/${school?.id}/services_receivable`); closeToolbar(); }}
-          className={`w-full ${
-            location.pathname === `/schools/${school?.id}/services_receivable`
-            ? 'active' : ''}`}>
+          className={`w-full ${location.pathname === `/schools/${school?.id}/services_receivable`
+              ? 'active' : ''}`}>
           <BtnDashboard>
             <FaDollarSign />
             <p>Servicios por cobrar</p>
@@ -149,9 +154,8 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         </li>
         <li
           onClick={(e) => { navigate(`/schools/${school?.id}/services_generateXML`); closeToolbar(); }}
-          className={`w-full ${
-            location.pathname === `/schools/${school?.id}/services_generateXML`
-            ? 'active' : ''}`}>
+          className={`w-full ${location.pathname === `/schools/${school?.id}/services_generateXML`
+              ? 'active' : ''}`}>
           <BtnDashboard>
             <FaFileExcel />
             <p>Generar XML</p>

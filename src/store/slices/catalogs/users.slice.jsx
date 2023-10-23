@@ -280,7 +280,7 @@ export const signInThunk = (data) => dispatch => {
             let userInfo = {
                 userName: `${res.data.firstName} ${res.data.lastName}`,
                 accessToken: `${res.data.token}`,
-                role: `${res.data.role}`,
+                role: `${res.data.roleId}`,
             };
             localStorage.setItem('userInfo', JSON.stringify(userInfo))
         })
