@@ -196,8 +196,8 @@ const GeneralReportForClient = () => {
                                                         <td>{report.history_servicio?.name}</td>
                                                         <td className='pl-8' >
                                                             {report.history_servicio?.name === "REFRIGERIO DIARIO" ? report.breakfastConsumed :
-                                                                report.history_servicio?.name === "ALMUERZO DIARIO" ? report.lunchesConsumed :
-                                                                    report.history_servicio?.isExtra ? report.extrasConsumed : ""
+                                                             report.history_servicio?.name === "ALMUERZO DIARIO" ? report.lunchesConsumed :
+                                                             report.history_servicio?.isExtra ? report.extrasConsumed : ""
                                                             }
                                                         </td>
                                                         <td>{formatDateToLocal(report.createdAt)}</td>

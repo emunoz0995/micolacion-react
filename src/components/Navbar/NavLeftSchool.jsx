@@ -53,14 +53,21 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         </div>
         <div className='pl-2 text-[10px] text-sky-200 mb-[-10px] border-b-[1px] border-gray-500 w-[90%]'>Servicios</div>
         <li
-          onClick={(e) => { navigate(`/schools/${school?.id}/refrigerios_bm`); closeToolbar(); }}
+          onClick={(e) => { school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/refrigerios_bm`) :  
+                            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/refrigerios_primaria`) : ""; 
+                            closeToolbar(); }}
           className={`w-full ${
             location.pathname === `/schools/${school?.id}/refrigerios_bm` ||
             location.pathname === `/schools/${school?.id}/refrigerios_be` ||
             location.pathname === `/schools/${school?.id}/refrigerios_bs_bgu` ||
             location.pathname === `/schools/${school?.id}/refrigerios_eventuales` ||
             location.pathname === `/schools/${school?.id}/refrigerios_personal` ||
-            location.pathname === `/schools/${school?.id}/refrigerios_procesados`
+            location.pathname === `/schools/${school?.id}/refrigerios_procesados`||
+            location.pathname === `/schools/${school?.id}/refrigerios_primaria` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_inicial` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_secundaria` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_eventuales_cervantes` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_procesados_cervantes`
             ? 'active' : ''}`}>
           <BtnDashboard>
             <FaSun />
@@ -68,13 +75,20 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
           </BtnDashboard>
         </li>
         <li
-          onClick={(e) => { navigate(`/schools/${school?.id}/almuerzos_bm`); closeToolbar(); }}
+          onClick={(e) => { school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/almuerzos_bm`) :
+                            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/almuerzos_primaria`) :
+          closeToolbar(); }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/almuerzos_bm` ||
             location.pathname === `/schools/${school?.id}/almuerzos_be` ||
             location.pathname === `/schools/${school?.id}/almuerzos_bs_bgu` ||
             location.pathname === `/schools/${school?.id}/almuerzos_eventuales` ||
             location.pathname === `/schools/${school?.id}/almuerzos_personal` ||
-            location.pathname === `/schools/${school?.id}/almuerzos_procesados`
+            location.pathname === `/schools/${school?.id}/almuerzos_procesados`||
+            location.pathname === `/schools/${school?.id}/almuerzos_primaria` ||
+            location.pathname === `/schools/${school?.id}/almuerzos_inicial` ||
+            location.pathname === `/schools/${school?.id}/almuerzos_secundaria` ||
+            location.pathname === `/schools/${school?.id}/almuerzos_eventuales_cervantes` ||
+            location.pathname === `/schools/${school?.id}/almuerzos_procesados_cervantes`
             ? 'active' : ''}`}>
           <BtnDashboard>
             <FaTree />

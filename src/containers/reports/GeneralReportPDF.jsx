@@ -76,7 +76,10 @@ export default function GeneralReportPDF(
       item.firstName + item.lastName , 
       item.history_seccion?.name,  
       item.history_servicio?.name , 
-      item.history_seccion?.name,  
+      item.history_servicio?.name === "REFRIGERIO DIARIO" ? item.breakfastConsumed :
+      item.history_servicio?.name === "ALMUERZO DIARIO" ? item.lunchesConsumed :
+      item.history_servicio?.isExtra ? item.extrasConsumed : ""
+      ,  
       formatDateToLocal(item.createdAt), 
     ];
     tableRows.push(rowData);

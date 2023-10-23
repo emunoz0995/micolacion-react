@@ -24,20 +24,32 @@ import LunchReport from "./containers/reports/LunchReport ";
 //facturation
 import ServicesReceivable from "./containers/facturation/ServicesReceivable";
 import ServicesGenerateXML from "./containers/facturation/ServicesGenerateXML";
-//Refrigerios BM
+//Refrigerios LCV
 import RefrigerioBM from "./containers/lcv/refrigerios/RefrigerioBM";
 import RefrigerioBE from "./containers/lcv/refrigerios/RefrigerioBE";
 import RefrigerioEventuales from "./containers/lcv/refrigerios/RefrigerioEventuales";
 import RefrigerioBS from "./containers/lcv/refrigerios/RefrigerioBS";
 import RefrigerioPersonal from "./containers/lcv/refrigerios/RefrigerioPersonal";
 import RefrigerioProcesados from "./containers/lcv/refrigerios/RefrigerioProcesados";
-//Almuerzos BM
+//Almuerzos LCV
 import AlmuerzoBM from "./containers/lcv/almuerzos/AlmuerzoBM";
 import AlmuerzoBE from "./containers/lcv/almuerzos/AlmuerzoBE";
 import AlmuerzoEventuales from "./containers/lcv/almuerzos/AlmuerzoEventuales";
 import AlmuerzoBS from "./containers/lcv/almuerzos/AlmuerzoBS";
 import AlmuerzoPersonal from "./containers/lcv/almuerzos/AlmuerzoPersonal";
 import AlmuerzoProcesados from "./containers/lcv/almuerzos/AlmuerzoProcesados";
+//Refrigerios CERVANTES
+import RefrigerioPrimaria from "./containers/cervantes/refrigerios/RefrigerioPrimaria";
+import RefrigerioInicial from "./containers/cervantes/refrigerios/RefrigerioInicial";
+import RefrigerioEventualesCervantes from "./containers/cervantes/refrigerios/RefrigerioEventuales";
+import RefrigerioSecundaria from "./containers/cervantes/refrigerios/RefrigerioSecundaria";
+import RefrigerioProcesadosCervantes from "./containers/cervantes/refrigerios/RefrigerioProcesados";
+//Almuerzos CERVANTES
+import AlmuerzoPrimaria from "./containers/cervantes/almuerzos/AlmuerzoPrimaria";
+import AlmuerzoInicial from "./containers/cervantes/almuerzos/AlmuerzoInicial";
+import AlmuerzoEventualesCervantes from "./containers/cervantes/almuerzos/AlmuerzoEventuales";
+import AlmuerzoSecundaria from "./containers/cervantes/almuerzos/AlmuerzoSecundaria";
+import AlmuerzoProcesadosCervantes from "./containers/cervantes/almuerzos/AlmuerzoProcesados";
 
 
 const routes = [
@@ -136,6 +148,50 @@ const routes = [
     path: "/schools/:school_id/almuerzos_procesados",
     component: AlmuerzoProcesados,
   },
+
+
+  //Refrigerios CERVANTES
+  {
+    path: "/schools/:school_id/refrigerios_primaria",
+    component: RefrigerioPrimaria,
+  },
+  {
+     path: "/schools/:school_id/refrigerios_inicial",
+     component: RefrigerioInicial,
+  },
+  {
+     path: "/schools/:school_id/refrigerios_secundaria",
+     component: RefrigerioSecundaria,
+  },
+  {
+     path: "/schools/:school_id/refrigerios_eventuales_cervantes",
+     component: RefrigerioEventualesCervantes,
+  },
+  {
+     path: "/schools/:school_id/refrigerios_procesados_cervantes",
+     component: RefrigerioProcesadosCervantes,
+  },
+  //Almuerzos CERVANTES
+  { 
+     path: "/schools/:school_id/almuerzos_primaria",
+     component: AlmuerzoPrimaria,
+   },
+   {
+     path: "/schools/:school_id/almuerzos_inicial",
+     component: AlmuerzoInicial,
+   },
+   {
+     path: "/schools/:school_id/almuerzos_secundaria",
+     component: AlmuerzoSecundaria,
+   },
+   {
+     path: "/schools/:school_id/almuerzos_eventuales_cervantes",
+     component: AlmuerzoEventualesCervantes,
+   },
+   {
+     path: "/schools/:school_id/almuerzos_procesados_cervantes",
+     component: AlmuerzoProcesadosCervantes,
+   },
 
   //Clients
   {
