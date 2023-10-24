@@ -9,18 +9,17 @@ import BtnTable from '../../../components/buttons/BtnTable';
 import HeaderSimple from '../../../components/headers/catalogs/HeaderSimple';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import IconStatus from '../../../components/icons/IconStatus';
+import Swal from 'sweetalert2';
 //SLICE
-import { deleteClientThunk } from '../../../store/slices/catalogs/clients.slice';
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { useParams } from 'react-router-dom';
 
 
+
 const ClientList = () => {
 
-    const { t } = useTranslation();
     const {school_id} = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
-    const clientState = useSelector(state => state.clients);
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -54,13 +53,8 @@ const ClientList = () => {
         setSearchTerm(e.target.value);
     };
 
-
-    if (clientState.message.message === "resource deleted successfully") {
-        dispatch(getClientsThunk(school_id));
-    }
-
     const handleDelete = (user_id) => {
-        dispatch(deleteClientThunk(user_id));
+        deleteClients(user_id);
     };
 
     const getClients = () => {
@@ -75,6 +69,17 @@ const ClientList = () => {
             .finally(() => dispatch(setIsLoading(false)))
     }
 
+    const deleteClients = (user_id) => {
+        dispatch(setIsLoading(true));
+        axios.delete(`https://system.micolacion.com/api/clients/client/${user_id}`)
+            .then(() =>  {
+                setSearchTerm("")
+                getClients()})
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
 
     return (
         <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>

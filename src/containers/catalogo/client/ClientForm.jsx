@@ -35,6 +35,8 @@ const ClientForm = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        setValue('totalBreakfast', 0)
+        setValue('totalLunch', 0)
         dispatch(getServicesBySchoolThunk(school_id))
         dispatch(getSectionsBySchoolThunk(school_id))
         if (client_id) {
@@ -59,7 +61,6 @@ const ClientForm = () => {
         if (client_id) {
             dispatch(updateClientThunk(client_id, data));
         } else {
-            console.log(data)
             dispatch(createClientThunk(data));
         }
     };
