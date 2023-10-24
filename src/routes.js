@@ -24,6 +24,7 @@ import LunchReport from "./containers/reports/LunchReport ";
 //facturation
 import ServicesReceivable from "./containers/facturation/ServicesReceivable";
 import ServicesGenerateXML from "./containers/facturation/ServicesGenerateXML";
+import FacturaXML from "./containers/facturation/FacturaXML";
 //Refrigerios LCV
 import RefrigerioBM from "./containers/lcv/refrigerios/RefrigerioBM";
 import RefrigerioBE from "./containers/lcv/refrigerios/RefrigerioBE";
@@ -249,6 +250,10 @@ const routes = [
   {
     path: "/schools/:school_id/services_generateXML",
     component: ServicesGenerateXML,
+  },
+  {
+    path: "/schools/:school_id/factura_XML/:client_ci",
+    component: FacturaXML,
   },
  
 ];

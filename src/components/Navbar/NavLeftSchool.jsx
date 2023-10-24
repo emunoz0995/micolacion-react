@@ -41,7 +41,7 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <img className="object-contain h-[80px] mt-8 mb-5" src={school?.name == "Liceo Campoverde" ? lcv : cervantes} alt="logo_school" />
       </div>
       <ul className=" flex flex-col h-full items-start justify-start w-[98%] mt-5 gap-3">
-        {user.role === 1 ?
+        {user.role === "1" ?
           <li
             onClick={(e) => { navigate('/'); closeToolbar(); }}
             className={`w-full ${location.pathname === '/' || location.pathname === 'exit_list' ? 'active' : ''}`}>
@@ -49,7 +49,7 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
               <FaReadme />
               <p>Inicio</p>
             </BtnDashboard>
-          </li> : ""
+          </li> : " "
         }
 
         <div className='w-full flex justify-center pl-2'>

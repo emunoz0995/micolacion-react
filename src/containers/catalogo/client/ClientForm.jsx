@@ -154,7 +154,7 @@ const ClientForm = () => {
                                     input="input"
                                     spam={false}
                                     cols={1}
-                                    register={register("totalBreakfast", { required: true })}
+                                    register={register("totalBreakfast")}
                                     placeholder="0"
                                 />
                                 <InputForm
@@ -163,7 +163,7 @@ const ClientForm = () => {
                                     input="input"
                                     spam={false}
                                     cols={1}
-                                    register={register("totalLunch", { required: true })}
+                                    register={register("totalLunch")}
                                     placeholder="0"
                                 />
                             </div>

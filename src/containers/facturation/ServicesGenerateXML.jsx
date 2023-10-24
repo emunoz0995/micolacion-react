@@ -79,8 +79,8 @@ const ServicesGenerateXML = () => {
                                             <td>{item.firstName} {item.lastName}</td>
                                             <td>{item.XML_servicio?.name}</td>
                                             <td>$ {item.XML_servicio?.price}</td>
-                                            <td className='gap-1 justify-end p-1'>
-                                                <BtnTable action="process" funtion={() => handleGenerateXML()} />
+                                            <td className='flex gap-1 justify-center items-center h-[60px] p-1'>
+                                                <BtnTable action="view" to={`/schools/${school_id}/factura_XML/${item.cedulaCliente}`} />
                                             </td>
                                         </tr>
                                     );
