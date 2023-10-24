@@ -101,7 +101,7 @@ const RefrigerioInicial = () => {
                                     }
                                     return (
                                         <tr className='uppercase' key={refrigerio.id}>
-                                            <td>{refrigerio.firstName} {refrigerio.lastName}</td>
+                                            <td>{refrigerio.lastName} {refrigerio.firstName} </td>
                                             <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak(refrigerio.cedulaCliente,refrigerio.id)} /></td>
                                             <td>{refrigerio.totalBreakfast}</td>
                                             <td>{refrigerio.cliente_servicio?.name}</td>

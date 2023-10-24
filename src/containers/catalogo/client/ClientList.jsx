@@ -105,10 +105,10 @@ const ClientList = () => {
                             {searchResults.length > 0 ?
                             <tbody>
                                 {searchResults.map(client => (
-                                    <tr className='h-[60px]' key={client.id}>
+                                    <tr className='h-[60px] uppercase' key={client.id}>
                                         <td className='p-2'><IconStatus active={client.active} /></td>
                                         <td>{client.cedulaCliente}</td>
-                                        <td>{client.firstName} {client.lastName}</td>
+                                        <td>{client.lastName} {client.firstName} </td>
                                         <td>{client.cliente_seccion?.name}</td>
                                         <td>{client.cliente_servicio?.name}</td>
                                         <td>{client.totalBreakfast} </td>

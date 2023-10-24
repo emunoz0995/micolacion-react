@@ -135,8 +135,8 @@ const RefrigerioProcesadosCervantes = () => {
                                         return null;
                                     }
                                     return (
-                                        <tr className='h-[60px]' key={refrigerio.id}>
-                                            <td className='p-2'>{refrigerio.firstName} {refrigerio.lastName}</td>
+                                        <tr className='h-[60px] uppercase' key={refrigerio.id}>
+                                            <td className='p-2'>{refrigerio.lastName} {refrigerio.firstName} </td>
                                             <td>{refrigerio.cliente_servicio?.name}</td>
                                             <td>{refrigerio.cliente_seccion?.name}</td>
                                             <td className='flex gap-1 items-center h-[60px] p-1'>

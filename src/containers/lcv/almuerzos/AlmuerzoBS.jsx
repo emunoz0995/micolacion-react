@@ -103,7 +103,7 @@ const AlmuerzoBS = () => {
                                     }
                                     return (
                                         <tr key={almuerzo.id}>
-                                            <td>{almuerzo.firstName} {almuerzo.lastName}</td>
+                                            <td>{almuerzo.lastName} {almuerzo.firstName} </td>
                                             <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak(almuerzo.cedulaCliente,almuerzo.id)} /></td>
                                             <td>{almuerzo.totalLunch}</td>
                                             <td>{almuerzo.cliente_servicio?.name}</td>

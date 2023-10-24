@@ -137,7 +137,7 @@ const AlmuerzoProcesados = () => {
                                         }
                                         return (
                                             <tr key={almuerzo.id}>
-                                                <td>{almuerzo.firstName} {almuerzo.lastName}</td>
+                                                <td>{almuerzo.lastName} {almuerzo.firstName} </td>
                                                 <td>{almuerzo.cliente_servicio?.name}</td>
                                                 <td>{almuerzo.cliente_seccion?.name}</td>
                                                 <td className='flex justify-center'>
