@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import Swal from 'sweetalert2';
-import { FaCheckDouble, FaEye, FaFilePdf, FaMoneyBill, FaPlus, FaReply, FaOsi, FaArrowLeft } from 'react-icons/fa';
+import { FaCheckDouble, FaEye, FaFilePdf, FaMoneyBill, FaPlus, FaReply, FaOsi, FaArrowLeft, FaFileExcel } from 'react-icons/fa';
 
 export default function BtnActions({ action, to, onclick, title, funtion }) {
 
@@ -111,6 +111,15 @@ export default function BtnActions({ action, to, onclick, title, funtion }) {
         className="bg-rose-200  hover:bg-rose-400 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
       >
         <FaFilePdf color='white'/>
+      </button>
+    );
+  } else if (action === 'xml') {
+    return (
+      <button
+        onClick={() => handleFuntion()}
+        className="bg-green-200  hover:bg-green-400 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
+      >
+        <FaFileExcel color='white'/>
       </button>
     );
   } else if (action === 'exit') {

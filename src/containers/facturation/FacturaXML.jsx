@@ -17,9 +17,6 @@ import { setIsLoading } from '../../store/slices/isLoading.slice';
 import { getHistoryThunk } from '../../store/slices/facturation/facturation.slice';
 //import GeneralReportPDF from './GeneralReportPDF';
 
-
-
-
 const FacturaXML = () => {
 
     const { client_ci, school_id } = useParams();
@@ -35,7 +32,6 @@ const FacturaXML = () => {
     }, []);
 
     useEffect(() => {
-        // const results = data.cedulaCliente
         dispatch(getHistoryThunk())
     }, [data]);
 
@@ -56,7 +52,6 @@ const FacturaXML = () => {
         GeneralReportPDF(data, historyState.facturations)
     };
 
-
     const formatDateToLocal = (date) => {
         const formattedDate = new Date(date).toLocaleString();
         return formattedDate;
@@ -73,7 +68,7 @@ const FacturaXML = () => {
                     <div className='h-[90%] overflow-y-scroll flex flex-col contenedor'>
                         <div className=' absolute right-3 top-[68px] sm:right-8 sm:top-[70px] flex gap-1 justify-end'>
                             <BtnTable action="exit" to={`/schools/${school_id}/general_report`} />
-                            <BtnTable action="pdf" funtion={onSubmit} />
+                            <BtnTable action="xml" funtion={onSubmit} />
                         </div>
                         <HeaderSection title="Datos para facturación" />
                         <div className='flex'>
@@ -82,13 +77,13 @@ const FacturaXML = () => {
                                     type="text"
                                     label="Cedula"
                                     input="input"
-                                    value={data.cliente_representante.cedulaRepresentante}
+                                    value={data.cliente_representante?.cedulaRepresentante}
                                 />
                                 <LavelForm
                                     type="text"
                                     label="Nombres"
                                     input="input"
-                                    value={data.cliente_representante.names}
+                                    value={data.cliente_representante?.names}
                                 />
                             </div>
                             <div className='flex flex-col p-2'>
@@ -96,23 +91,23 @@ const FacturaXML = () => {
                                     type="text"
                                     label="Email"
                                     input="input"
-                                    value={data.cliente_representante.email}
+                                    value={data.cliente_representante?.email}
                                 />
                                 <LavelForm
                                     type="text"
                                     label="Teléfono"
                                     input="input"
-                                    value={data.cliente_representante.telefon}
+                                    value={data.cliente_representante?.telefon}
                                 />
                             </div>
                         </div>
                         <div className="overflow-y-scroll h-[87%] contenedor">
                             <table className="text-[13px] table-sm table-zebra w-full">
                                 <thead className='border-t-[1px] border-t-sky-500' >
-                                    <tr className='text-left h-[60px] bg-[#b3b4b6]'>
-                                        <th className='pl-2 w-[250px]'>Código</th>
+                                    <tr className='text-left h-[60px] bg-[#eff2f8]'>
+                                        <th className='pl-2'>Código</th>
                                         <th>Cantidad</th>
-                                        <th>Descripción</th>
+                                        <th className='w-[50%]'>Descripción</th>
                                         <th>Precio Unitario</th>
                                         <th>Descuento</th>
                                         <th>Precio Total</th>

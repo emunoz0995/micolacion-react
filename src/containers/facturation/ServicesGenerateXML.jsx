@@ -34,10 +34,6 @@ const ServicesGenerateXML = () => {
         dispatch(getServiceGenereteXMLThunk(school_id));
     }, []);
 
-    const hideRow = (id) => {
-        setHiddenRows([...hiddenRows, id]);
-    };
-
 
     const handleGenerateXML = () => {
         const url = "https://system.micolacion.com/api/facturations/generateXML";
