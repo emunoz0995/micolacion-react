@@ -106,7 +106,7 @@ const RefrigerioPrimaria = () => {
     
     const getRefrigeriosPrimaria = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/refrigerios_cervantes/breakfast_primaria/${school_id}`)
+        axios.get(`/api/refrigerios_cervantes/breakfast_primaria/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

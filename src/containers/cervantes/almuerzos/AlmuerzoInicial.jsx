@@ -92,7 +92,7 @@ const AlmuerzoInicial = () => {
 
     const getAlmuerzosInicial = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/almuerzos_cervantes/lunch_inicial/${school_id}`)
+        axios.get(`/api/almuerzos_cervantes/lunch_inicial/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

@@ -108,7 +108,7 @@ export default function BtnActions({ action, to, onclick, title, funtion }) {
     return (
       <button
         onClick={() => handleFuntion()}
-        className="bg-rose-200  hover:bg-rose-400 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
+        className="bg-rose-300  hover:bg-rose-600 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
       >
         <FaFilePdf color='white'/>
       </button>
@@ -117,7 +117,7 @@ export default function BtnActions({ action, to, onclick, title, funtion }) {
     return (
       <button
         onClick={() => handleFuntion()}
-        className="bg-green-200  hover:bg-green-400 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
+        className="bg-green-300  hover:bg-green-600 transition-all active:scale-95 p-2 rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center gap-1 justify-center text-sm"
       >
         <FaFileExcel color='white'/>
       </button>

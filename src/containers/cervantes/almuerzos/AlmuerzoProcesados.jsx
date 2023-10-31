@@ -93,7 +93,7 @@ const AlmuerzoProcesadosCervantes = () => {
 
     const getAlmuerzosProcesados = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/almuerzos_cervantes/lunch_procesados/${school_id}`)
+        axios.get(`/api/almuerzos_cervantes/lunch_procesados/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

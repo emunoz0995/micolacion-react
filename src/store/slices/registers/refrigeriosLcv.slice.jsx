@@ -44,7 +44,7 @@ export const refrigeriosLcvSlice = createSlice({
 
 export const getRefrigeriosBMThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_bm/${school_id}`)
+    axios.get(`/api/refrigerios_lcv/breakfast_bm/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -55,7 +55,7 @@ export const getRefrigeriosBMThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosBEThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_be/${school_id}`)
+    axios.get(`/api/refrigerios_lcv/breakfast_be/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -66,7 +66,7 @@ export const getRefrigeriosBEThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosBSThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_bs/${school_id}`)
+    axios.get(`/api/refrigerios_lcv/breakfast_bs/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -77,7 +77,7 @@ export const getRefrigeriosBSThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosEventualesThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_eventuales/${school_id}`)
+    axios.get(`/api/refrigerios_lcv/breakfast_eventuales/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -88,7 +88,7 @@ export const getRefrigeriosEventualesThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosPersonalThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_personal/${school_id}`)
+    axios.get(`/api/refrigerios_lcv/breakfast_personal/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {
@@ -99,7 +99,7 @@ export const getRefrigeriosPersonalThunk = (school_id) => dispatch => {
 };
 export const getRefrigeriosProcesadosThunk = (school_id) => dispatch => {
     dispatch(requestFetchRefrigerios())
-    axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_procesados/${school_id}`)
+    axios.get(`/api/refrigerios_lcv/breakfast_procesados/${school_id}`)
         .then(res => {dispatch(fetchRefrigeriosSuccess(res.data))
         })
         .catch(error => {

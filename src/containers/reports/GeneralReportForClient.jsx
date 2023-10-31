@@ -40,7 +40,7 @@ const GeneralReportForClient = () => {
 
     const getClient = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/clients/client/${client_id}`)
+        axios.get(`/api/clients/client/${client_id}`)
             .then(response => {
                 setData(response.data);
             })

@@ -36,7 +36,7 @@ const ServicesGenerateXML = () => {
 
 
     const handleGenerateXML = () => {
-        const url = "https://system.micolacion.com/api/facturations/generateXML";
+        const url = "/api/facturations/generateXML";
         window.open(url, "_self");
         
     };

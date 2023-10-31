@@ -93,7 +93,7 @@ const AlmuerzoPersonal = () => {
 
     const getAlmuerzosPersonal = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/almuerzos_lcv/lunch_eventuales/${school_id}`)
+        axios.get(`/api/almuerzos_lcv/lunch_eventuales/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

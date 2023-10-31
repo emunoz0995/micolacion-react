@@ -210,7 +210,7 @@ export const sectionsSlice = createSlice({
 
 export const getSectionsThunk = () => dispatch => {
     dispatch(requestFetchSections())
-    axios.get(`https://system.micolacion.com/api/sections`)
+    axios.get(`/api/sections`)
         .then(res => {dispatch(fetchSectionsSuccess(res.data))
         })
         .catch(error => {
@@ -222,7 +222,7 @@ export const getSectionsThunk = () => dispatch => {
 
 export const getSectionsBySchoolThunk = (school_id) => dispatch => {
     dispatch(requestFetchSections())
-    axios.get(`https://system.micolacion.com/api/sections/${school_id}`)
+    axios.get(`/api/sections/${school_id}`)
         .then(res => {dispatch(fetchSectionsSuccess(res.data))
         })
         .catch(error => {
@@ -235,7 +235,7 @@ export const getSectionsBySchoolThunk = (school_id) => dispatch => {
 
 export const getSectionThunk = (section_id) => dispatch => {
     dispatch(requestFetchSection());
-    axios.get(`https://system.micolacion.com/api/sections/section/${section_id}`)
+    axios.get(`/api/sections/section/${section_id}`)
     .then(res => {dispatch(fetchSectionSuccess(res.data))
     })
     .catch(error => {
@@ -248,7 +248,7 @@ export const getSectionThunk = (section_id) => dispatch => {
 export const createSectionThunk = (data) => dispatch => {
     console.log(data)
     dispatch(requestCreateSection())
-    axios.post(`https://system.micolacion.com/api/sections/section`, data)
+    axios.post(`/api/sections/section`, data)
     .then(res => {dispatch(createSectionSuccess(res.data))
     })
     .catch(error => {
@@ -261,7 +261,7 @@ export const createSectionThunk = (data) => dispatch => {
 
 export const updateSectionThunk = (section_id, data) => dispatch => {
     dispatch(requestUpdateSection())
-    axios.put(`https://system.micolacion.com/api/sections/section/${section_id}`, data)
+    axios.put(`/api/sections/section/${section_id}`, data)
     .then(res => {dispatch(updateSectionSuccess(res.data))
     })
     .catch(error => {
@@ -274,7 +274,7 @@ export const updateSectionThunk = (section_id, data) => dispatch => {
 
 export const deleteSectionThunk = (section_id) => dispatch => {
     dispatch(requestDeleteSection())
-    axios.delete(`https://system.micolacion.com/api/sections/section/${section_id}`)
+    axios.delete(`/api/sections/section/${section_id}`)
     .then(res => {dispatch(deleteSectionSuccess(res.data))
     })
     .catch(error => {

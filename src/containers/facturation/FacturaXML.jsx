@@ -37,7 +37,7 @@ const FacturaXML = () => {
 
     const getClient = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/facturations/client/${client_ci}`)
+        axios.get(`/api/facturations/client/${client_ci}`)
             .then(response => {
                 setData(response.data);
                 console.log(response.data)
@@ -56,8 +56,6 @@ const FacturaXML = () => {
         const formattedDate = new Date(date).toLocaleString();
         return formattedDate;
     }
-
-    console.log(data)
 
     return (
         <SchoolLayout>

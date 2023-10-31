@@ -94,7 +94,7 @@ const AlmuerzoBS = () => {
 
     const getAlmuerzosBS = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/almuerzos_lcv/lunch_bs/${school_id}`)
+        axios.get(`/api/almuerzos_lcv/lunch_bs/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

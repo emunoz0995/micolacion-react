@@ -92,7 +92,7 @@ const RefrigerioBS = () => {
 
     const getRefrigeriosBS = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/refrigerios_lcv/breakfast_bs/${school_id}`)
+        axios.get(`/api/refrigerios_lcv/breakfast_bs/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

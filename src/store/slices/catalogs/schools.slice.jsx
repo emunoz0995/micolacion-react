@@ -210,7 +210,7 @@ export const schoolsSlice = createSlice({
 
 export const getSchoolsThunk = () => dispatch => {
     dispatch(requestFetchSchools())
-    axios.get(`https://system.micolacion.com/api/schools`)
+    axios.get(`/api/schools`)
         .then(res => {dispatch(fetchSchoolsSuccess(res.data))
         })
         .catch(error => {
@@ -223,7 +223,7 @@ export const getSchoolsThunk = () => dispatch => {
 
 export const getSchoolThunk = (schools_id) => dispatch => {
     dispatch(requestFetchSchool());
-    axios.get(`https://system.micolacion.com/api/schools/${schools_id}`)
+    axios.get(`/api/schools/${schools_id}`)
     .then(res => {dispatch(fetchSchoolSuccess(res.data))
     })
     .catch(error => {
@@ -236,7 +236,7 @@ export const getSchoolThunk = (schools_id) => dispatch => {
 export const createSchoolThunk = (data) => dispatch => {
     console.log(data)
     dispatch(requestCreateSchool())
-    axios.post(`https://system.micolacion.com/api/schools/school`, data)
+    axios.post(`/api/schools/school`, data)
     .then(res => {dispatch(createSchoolSuccess(res.data))
     })
     .catch(error => {
@@ -249,7 +249,7 @@ export const createSchoolThunk = (data) => dispatch => {
 
 export const updateSchoolThunk = (school_id, data) => dispatch => {
     dispatch(requestUpdateSchool())
-    axios.put(`https://system.micolacion.com/api/schools/school/${school_id}`, data)
+    axios.put(`/api/schools/school/${school_id}`, data)
     .then(res => {dispatch(updateSchoolSuccess(res.data))
     })
     .catch(error => {
@@ -262,7 +262,7 @@ export const updateSchoolThunk = (school_id, data) => dispatch => {
 
 export const deleteSchoolThunk = (school_id) => dispatch => {
     dispatch(requestDeleteSchool())
-    axios.delete(`https://system.micolacion.com/api/schools/school/${school_id}`)
+    axios.delete(`/api/schools/school/${school_id}`)
     .then(res => {dispatch(deleteSchoolSuccess(res.data))
     })
     .catch(error => {

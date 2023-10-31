@@ -211,7 +211,7 @@ export const usersSlice = createSlice({
 
 export const getUsersThunk = () => dispatch => {
     dispatch(requestFetchUsers())
-    axios.get(`https://system.micolacion.com/api/users`)
+    axios.get(`/api/users`)
         .then(res => {dispatch(fetchUsersSuccess(res.data))
         })
         .catch(error => {
@@ -224,7 +224,7 @@ export const getUsersThunk = () => dispatch => {
 
 export const getUserThunk = (user_id) => dispatch => {
     dispatch(requestFetchUser());
-    axios.get(`https://system.micolacion.com/api/users/${user_id}`)
+    axios.get(`/api/users/${user_id}`)
     .then(res => {dispatch(fetchUserSuccess(res.data))
     })
     .catch(error => {
@@ -236,7 +236,7 @@ export const getUserThunk = (user_id) => dispatch => {
 
 export const createUserThunk = (data) => dispatch => {
     dispatch(requestCreateUser())
-    axios.post(`https://system.micolacion.com/api/users/user`, data)
+    axios.post(`/api/users/user`, data)
     .then(res => {dispatch(createUserSuccess(res.data))
     })
     .catch(error => {
@@ -249,7 +249,7 @@ export const createUserThunk = (data) => dispatch => {
 
 export const updateUserThunk = (user_id, data) => dispatch => {
     dispatch(requestUpdateUser())
-    axios.put(`https://system.micolacion.com/api/users/user/${user_id}`, data)
+    axios.put(`/api/users/user/${user_id}`, data)
     .then(res => {dispatch(updateUserSuccess(res.data))
     })
     .catch(error => {
@@ -262,7 +262,7 @@ export const updateUserThunk = (user_id, data) => dispatch => {
 
 export const deleteUserThunk = (user_id) => dispatch => {
     dispatch(requestDeleteUser())
-    axios.delete(`https://system.micolacion.com/api/users/user/${user_id}`)
+    axios.delete(`/api/users/user/${user_id}`)
     .then(res => {dispatch(deleteUserSuccess(res.data))
     })
     .catch(error => {
@@ -274,7 +274,7 @@ export const deleteUserThunk = (user_id) => dispatch => {
 
 export const signInThunk = (data) => dispatch => {
     dispatch(requestSigninUser());
-    axios.post('https://system.micolacion.com/api/users/login', data)
+    axios.post('/api/users/login', data)
         .then(res => {
             dispatch(signinUserSuccess(res.data))
             let userInfo = {

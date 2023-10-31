@@ -41,7 +41,7 @@ export const funtionsSlice = createSlice({
 
 export const renewServiceThunk = (client_ci, data) => dispatch => {
     dispatch(requestUpdateService())
-    axios.put(`https://system.micolacion.com/api/procedures/renew_service/${client_ci}`, data)
+    axios.put(`/api/procedures/renew_service/${client_ci}`, data)
     .then(res => {dispatch(updateServiceSuccess(res.data))
     })
     .catch(error => {
@@ -53,7 +53,7 @@ export const renewServiceThunk = (client_ci, data) => dispatch => {
 
 export const paidServiceThunk = (client_id,data) => dispatch => {
     dispatch(requestUpdateService())
-    axios.put(`https://system.micolacion.com/api/procedures/paid_service/${client_id}`,data)
+    axios.put(`/api/procedures/paid_service/${client_id}`,data)
     .then(res => {dispatch(updateServiceSuccess(res.data))
     })
     .catch(error => {
@@ -65,7 +65,7 @@ export const paidServiceThunk = (client_id,data) => dispatch => {
 
 export const startDayThunk = (school_id) => dispatch => {
     dispatch(requestUpdateService())
-    axios.put(`https://system.micolacion.com/api/procedures/start_day/${school_id}`)
+    axios.put(`/api/procedures/start_day/${school_id}`)
     .then(res => {dispatch(updateServiceSuccess(res.data))
     })
     .catch(error => {
@@ -77,7 +77,7 @@ export const startDayThunk = (school_id) => dispatch => {
 
 export const registerExtrasThunk = (data) => dispatch => {
     dispatch(requestUpdateService())
-    axios.post(`https://system.micolacion.com/api/procedures/register_serviceExtra`, data)
+    axios.post(`/api/procedures/register_serviceExtra`, data)
     .then(res => {dispatch(updateServiceSuccess(res.data))
     })
     .catch(error => {

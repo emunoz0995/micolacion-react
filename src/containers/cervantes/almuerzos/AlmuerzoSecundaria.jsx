@@ -94,7 +94,7 @@ const AlmuerzoSecundaria = () => {
 
     const getAlmuerzosSecundaria = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/almuerzos_cervantes/lunch_secundaria/${school_id}`)
+        axios.get(`/api/almuerzos_cervantes/lunch_secundaria/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

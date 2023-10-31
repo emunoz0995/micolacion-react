@@ -55,7 +55,7 @@ const GeneralReportList = () => {
 
     const getGeneralReport = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/reports/generalReport/${school_id}`)
+        axios.get(`/api/reports/generalReport/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

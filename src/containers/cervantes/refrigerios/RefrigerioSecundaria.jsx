@@ -92,7 +92,7 @@ const RefrigerioSecundaria = () => {
 
     const getRefrigeriosSecundaria = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/refrigerios_cervantes/breakfast_secundaria/${school_id}`)
+        axios.get(`/api/refrigerios_cervantes/breakfast_secundaria/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

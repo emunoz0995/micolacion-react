@@ -93,7 +93,7 @@ const RefrigerioInicial = () => {
 
     const getRefrigeriosInicial = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/refrigerios_cervantes/breakfast_inicial/${school_id}`)
+        axios.get(`/api/refrigerios_cervantes/breakfast_inicial/${school_id}`)
             .then(response => {
                 setData(response.data);
             })

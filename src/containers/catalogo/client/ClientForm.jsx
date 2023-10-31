@@ -19,6 +19,7 @@ import { getServicesBySchoolThunk } from '../../../store/slices/catalogs/service
 import { getSectionsBySchoolThunk } from '../../../store/slices/catalogs/sections.slice';
 import DropdownForm from '../../../components/Inputs/formInput/DropdonwForm';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 const ClientForm = () => {
@@ -29,10 +30,22 @@ const ClientForm = () => {
     const [data, setData] = useState([]);
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
     const isLoading = useSelector(state => state.isLoadingSlice);
-    const clientState = useSelector(state => state.clients);
+    const [clientState, setClientState] = useState("");
     const serviceState = useSelector(state => state.services);
-    const sectionsState = useSelector(state => state.sections)
+    const sectionsState = useSelector(state => state.sections);
     const dispatch = useDispatch();
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
 
     useEffect(() => {
         setValue('totalBreakfast', 0)
@@ -46,7 +59,7 @@ const ClientForm = () => {
 
     const getClient = () => {
         dispatch(setIsLoading(true));
-        axios.get(`https://system.micolacion.com/api/clients/client/${client_id}`)
+        axios.get(`/api/clients/client/${client_id}`)
             .then(response => {
                 setData(response.data);
             })
@@ -60,13 +73,16 @@ const ClientForm = () => {
     const onSubmit = (data) => {
         if (client_id) {
             dispatch(updateClientThunk(client_id, data));
+            setClientState("resource updated successfully");
         } else {
             dispatch(createClientThunk(data));
+            setClientState("resource created successfully");
         }
     };
 
-    if (clientState.message.message === "resource created successfully" || clientState.message.message === "resource updated successfully") {
+    if (clientState === "resource created successfully" || clientState === "resource updated successfully") {
         navigate(`/schools/${school_id}/clients`);
+        setClientState("");
     }
 
     if (Object.keys(data).length > 0) {

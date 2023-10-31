@@ -210,7 +210,7 @@ export const clientsSlice = createSlice({
 
 export const getClientsThunk = (school_id) => dispatch => {
     dispatch(requestFetchClients())
-    axios.get(`https://system.micolacion.com/api/clients/${school_id}`)
+    axios.get(`/api/clients/${school_id}`)
         .then(res => {dispatch(fetchClientsSuccess(res.data))
         })
         .catch(error => {
@@ -223,7 +223,7 @@ export const getClientsThunk = (school_id) => dispatch => {
 
 export const getClientThunk = (client_id) => dispatch => {
     dispatch(requestFetchClient());
-    axios.get(`https://system.micolacion.com/api/clients/client/${client_id}`)
+    axios.get(`/api/clients/client/${client_id}`)
     .then(res => {dispatch(fetchClientSuccess(res.data))
     })
     .catch(error => {
@@ -235,7 +235,7 @@ export const getClientThunk = (client_id) => dispatch => {
 
 export const createClientThunk = (data) => dispatch => {
     dispatch(requestCreateClient())
-    axios.post(`https://system.micolacion.com/api/clients/client`, data)
+    axios.post(`/api/clients/client`, data)
     .then(res => {dispatch(createClientSuccess(res.data))
     })
     .catch(error => {
@@ -247,7 +247,7 @@ export const createClientThunk = (data) => dispatch => {
 
 export const createClientForUserThunk = (data) => dispatch => {
     dispatch(requestCreateClient())
-    axios.post(`https://system.micolacion.com/api/clients/clientForUser`, data)
+    axios.post(`/api/clients/clientForUser`, data)
     .then(res => {dispatch(createClientSuccess(res.data))
     })
     .catch(error => {
@@ -260,7 +260,7 @@ export const createClientForUserThunk = (data) => dispatch => {
 
 export const updateClientThunk = (client_id, data) => dispatch => {
     dispatch(requestUpdateClient())
-    axios.put(`https://system.micolacion.com/api/clients/client/${client_id}`, data)
+    axios.put(`/api/clients/client/${client_id}`, data)
     .then(res => {dispatch(updateClientSuccess(res.data))
     })
     .catch(error => {
@@ -273,7 +273,7 @@ export const updateClientThunk = (client_id, data) => dispatch => {
 
 export const deleteClientThunk = (client_id) => dispatch => {
     dispatch(requestDeleteClient())
-    axios.delete(`https://system.micolacion.com/api/clients/client/${client_id}`)
+    axios.delete(`/api/clients/client/${client_id}`)
     .then(res => {dispatch(deleteClientSuccess(res.data))
     })
     .catch(error => {
