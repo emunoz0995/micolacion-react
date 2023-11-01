@@ -110,9 +110,9 @@ const AlmuerzoPrimaria = () => {
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                        titleOne={'Primaria'} toOne={`/schools/${school_id}/almuerzos_primaria`} activeOne={true}
+                        titleOne={'Basica Elemental'} toOne={`/schools/${school_id}/almuerzos_primaria`} activeOne={true}
                         titleTwo={'Inicial'} toTwo={`/schools/${school_id}/almuerzos_inicial`} activeTwo={false}
-                        titleTree={'Secundaria '} toTree={`/schools/${school_id}/almuerzos_secundaria`} activeTree={false}
+                        titleTree={'Basical Media/Superior'} toTree={`/schools/${school_id}/almuerzos_secundaria`} activeTree={false}
                         titleFour={'Eventuales'} toFour={`/schools/${school_id}/almuerzos_eventuales_cervantes`} activeFour={false}
                         titleSix={'Procesados'} toSix={`/schools/${school_id}/almuerzos_procesados_cervantes`} activeSix={false}
                     />
