@@ -4,12 +4,12 @@ import BtnDashboard from '../buttons/BtnDashboard';
 import { useTranslation } from "react-i18next";
 import { FaCircle } from 'react-icons/fa';
 
-const ReportsAccordion = ({school}) => {
+const ReportsAccordion = ({ school }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-  const  {client_id} = useParams();
-  
+  const { client_id } = useParams();
+
   return (
     <ul className=''>
       <li
@@ -17,14 +17,13 @@ const ReportsAccordion = ({school}) => {
           navigate(`/schools/${school}/general_report`);
         }}
         className={`w-full ${location.pathname === `/schools/${school}/general_report` ||
-        location.pathname ===`/schools/${school}/general_report_client/${client_id}` ? 'active' : ''}`}
+          location.pathname === `/schools/${school}/general_report_client/${client_id}` ? 'active' : ''}`}
       >
         <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />General</BtnDashboard>
       </li>
       <li
-        className={`w-full ${
-          location.pathname === `/schools/${school}/menor5_report` ? 'active' : ''
-        }`}
+        className={`w-full ${location.pathname === `/schools/${school}/menor5_report` ? 'active' : ''
+          }`}
         onClick={() => {
           navigate(`/schools/${school}/menor5_report`);
         }}
@@ -33,11 +32,19 @@ const ReportsAccordion = ({school}) => {
       </li>
       <li
         onClick={() => {
+          navigate(`/schools/${school}/history_report`);
+        }}
+        className={`w-full ${location.pathname === `/schools/${school}/history_report` ? 'active' : ''
+          }`}
+      >
+        <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />Historial</BtnDashboard>
+      </li>
+      <li
+        onClick={() => {
           navigate(`/schools/${school}/breakFast_report`);
         }}
-        className={`w-full ${
-          location.pathname === `/schools/${school}/breakFast_report` ? 'active' : ''
-        }`}
+        className={`w-full ${location.pathname === `/schools/${school}/breakFast_report` ? 'active' : ''
+          }`}
       >
         <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />Refrigerios Diarios</BtnDashboard>
       </li>
@@ -45,9 +52,8 @@ const ReportsAccordion = ({school}) => {
         onClick={() => {
           navigate(`/schools/${school}/lunch_report`);
         }}
-        className={`w-full ${
-          location.pathname === `/schools/${school}/lunch_report` ? 'active' : ''
-        }`}
+        className={`w-full ${location.pathname === `/schools/${school}/lunch_report` ? 'active' : ''
+          }`}
       >
         <BtnDashboard><FaCircle className='ml-5' size={"7px"} color='#fff' />Almuerzos Diarios</BtnDashboard>
       </li>

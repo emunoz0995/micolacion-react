@@ -94,6 +94,18 @@ export const getLunchReportThunk = (school_id) => dispatch => {
         })
 };
 
+export const getHistoryReportThunk = (school_id) => dispatch => {
+    dispatch(requestFetchReports())
+    axios.get(`/api/reports/reportHistory/${school_id}`)
+        .then(res => {dispatch(fetchReportsSuccess(res.data))
+        })
+        .catch(error => {
+            if (error.response?.status === 400) {
+                dispatch(fetchReportsError(error.response?.data))
+            }
+        })
+};
+
 
 
 export const { 

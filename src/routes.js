@@ -21,6 +21,7 @@ import GeneralReportForClient from "./containers/reports/GeneralReportForClient"
 import MenorFiveReport from "./containers/reports/MenorFivelReport ";
 import BreakFastReport from "./containers/reports/BreakFastReport ";
 import LunchReport from "./containers/reports/LunchReport ";
+import HistoryReport from "./containers/reports/HistoryReport";
 //facturation
 import ServicesReceivable from "./containers/facturation/ServicesReceivable";
 import ServicesGenerateXML from "./containers/facturation/ServicesGenerateXML";
@@ -241,6 +242,10 @@ const routes = [
   {
     path: "/schools/:school_id/lunch_report",
     component: LunchReport,
+  },
+  {
+    path: "/schools/:school_id/history_report",
+    component: HistoryReport,
   },
   //facturation
   {
