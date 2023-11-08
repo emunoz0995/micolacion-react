@@ -119,11 +119,7 @@ const FacturaXML = () => {
                     downloadLink.href = `data:application/xml;charset=utf-8,${encodeURIComponent(xml)}`;
                     downloadLink.download = `Factura_${formatDateToLocal(today)+invoice[0].ci}`;
                     // Simula un clic en el enlace para iniciar la descarga automática
-                    downloadLink.click();
-                    Toast.fire({
-                        icon: 'success',
-                        title: '¡XML Generado Correctamente!'
-                      }).then(navigate(`/schools/${school_id}/services_generateXML`));
+                   navigate(`/schools/${school_id}/services_generateXML`);
                 })
         } catch (error) {
             Toast.fire({
