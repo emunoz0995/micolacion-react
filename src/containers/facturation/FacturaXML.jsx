@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-
 //UI
 import MainLoader from '../../components/Loaders/MainLoader';
 import SchoolLayout from '../../layouts/SchoolsLayout';
@@ -14,6 +13,7 @@ import '../../App.css';
 import { setIsLoading } from '../../store/slices/isLoading.slice';
 //RESORCES
 import { API_BASE_URL } from '../../store/constans';
+import Swal from 'sweetalert2';
 //import GeneralReportPDF from './GeneralReportPDF';
 
 const FacturaXML = () => {
@@ -23,7 +23,20 @@ const FacturaXML = () => {
     const [porcentaje, setPorcentaje] = useState("0.00");
     const isLoading = useSelector(state => state.isLoadingSlice);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [invoice, setInvoice] = useState([]);
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
 
 
     useEffect(() => {
@@ -86,6 +99,15 @@ const FacturaXML = () => {
         return (parseInt(subtotal) + parseFloat(iva)).toFixed(2);
     };
 
+    const formatDateToLocal = (date) => {
+        const formattedDate = new Date(date);
+        const dia = formattedDate.getDate().toString().padStart(2, '0');
+        const mes = (formattedDate.getMonth() + 1).toString().padStart(2, '0'); // Se suma 1 porque los meses van de 0 a 11
+        const anio = formattedDate.getFullYear();
+        return `${dia}${mes}${anio}`;
+      }
+
+    const today = new Date();
 
     const sendDataToBackend = () => {
         try {
@@ -95,14 +117,20 @@ const FacturaXML = () => {
                     // Crea un enlace de descarga oculto en el DOM
                     const downloadLink = document.createElement('a');
                     downloadLink.href = `data:application/xml;charset=utf-8,${encodeURIComponent(xml)}`;
-                    downloadLink.download = 'factura.xml';
-
+                    downloadLink.download = `Factura_${formatDateToLocal(today)+invoice[0].ci}`;
                     // Simula un clic en el enlace para iniciar la descarga automática
                     downloadLink.click();
+                    Toast.fire({
+                        icon: 'success',
+                        title: '¡XML Generado Correctamente!'
+                      }).then(navigate(`/schools/${school_id}/services_generateXML`));
                 })
-
         } catch (error) {
-            console.error('Error al enviar la factura al backend:', error);
+            Toast.fire({
+                icon: 'error',
+                title: '¡Error al generar XML!',
+                text: error
+              })
         }
     };
 

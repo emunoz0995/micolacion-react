@@ -83,11 +83,11 @@ const MenorFiveReport = () => {
                                         return null;
                                     }
                                     return (
-                                        <tr className='h-[60px]' key={report.id}>
+                                        <tr className='h-[60px] uppercase' key={report.id}>
                                             <td className='p-3'>{report.cliente_representante?.names} </td>
                                             <td className='w-[100px]'>{report.cliente_representante?.email} </td>
                                             <td>{report.cliente_representante?.telefon} </td>
-                                            <td>{report.firstName} {report.lastName}</td>
+                                            <td>{report.lastName} {report.firstName} </td>
                                             <td>{report.cliente_servicio?.name}</td>
                                             <td className='pl-10' >
                                                 <input type="text" className='outline-none border w-[50px] input-bordered focus:outline-none focus:ring-1 uppercase rounded-md shadow-base-300 shadow-lg'
