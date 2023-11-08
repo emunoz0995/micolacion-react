@@ -8,39 +8,48 @@ import MainLoader from '../../components/Loaders/MainLoader';
 import SchoolLayout from '../../layouts/SchoolsLayout';
 import HeaderSection from '../../components/headers/catalogs/HeaderSection';
 import LavelForm from '../../components/Inputs/formInput/LavelForm';
-import BtnDashboard from '../../components/buttons/BtnDashboard';
 import BtnTable from '../../components/buttons/BtnTable';
-import { Collapse } from 'react-collapse';
 import '../../App.css';
 // SLICES 
 import { setIsLoading } from '../../store/slices/isLoading.slice';
-import { getHistoryThunk } from '../../store/slices/facturation/facturation.slice';
+//RESORCES
+import { API_BASE_URL } from '../../store/constans';
 //import GeneralReportPDF from './GeneralReportPDF';
 
 const FacturaXML = () => {
 
     const { client_ci, school_id } = useParams();
-    const [data, setData] = useState([]);
-    const [openHistory, setOpenHistory] = useState(false);
+    const [cantidad, setCantidad] = useState("1");
+    const [porcentaje, setPorcentaje] = useState("0.00");
     const isLoading = useSelector(state => state.isLoadingSlice);
-    const historyState = useSelector(state => state.facturations);
     const dispatch = useDispatch();
+    const [invoice, setInvoice] = useState([]);
 
 
     useEffect(() => {
-        getClient();
+        getServiceXMLByClient();
     }, []);
 
-    useEffect(() => {
-        dispatch(getHistoryThunk())
-    }, [data]);
-
-    const getClient = () => {
+    const getServiceXMLByClient = () => {
         dispatch(setIsLoading(true));
-        axios.get(`/api/facturations/client/${client_ci}`)
+        axios.get(`/api/facturations/services_generateXMLByClient/${client_ci}`)
             .then(response => {
-                setData(response.data);
-                console.log(response.data)
+                const formattedData = response.data.map((item) => {
+                    return {
+                        ci: item.XML_representante?.cedulaRepresentante,
+                        names: item.XML_representante?.names,
+                        email: item.XML_representante?.email,
+                        dir: item.XML_representante?.adress,
+                        telefon: item.XML_representante?.telefon,
+                        id: item.id,
+                        code: item.XML_servicio?.code,
+                        description: item.XML_servicio?.name + " - " + item.lastName + " " + item.firstName,
+                        percernt: porcentaje,
+                        quantity: cantidad,
+                        price: item.XML_servicio?.price,
+                    };
+                })
+                setInvoice(formattedData);
             })
             .catch(error => {
                 console.error('Error al obtener datos de la API: ' + error);
@@ -48,14 +57,56 @@ const FacturaXML = () => {
             .finally(() => dispatch(setIsLoading(false)))
     }
 
-    const onSubmit = () => {
-        GeneralReportPDF(data, historyState.facturations)
+    const handleQuantityChange = (itemId, quantity) => {
+        const updatedInvoice = invoice.map((item) =>
+            item.id === itemId ? { ...item, quantity: parseInt(quantity) } : item
+        );
+        setInvoice(updatedInvoice);
     };
 
-    const formatDateToLocal = (date) => {
-        const formattedDate = new Date(date).toLocaleString();
-        return formattedDate;
-    }
+    const handlePriceChange = (itemId, price) => {
+        const updatedInvoice = invoice.map((item) =>
+            item.id === itemId ? { ...item, price: parseFloat(price) } : item
+        );
+        setInvoice(updatedInvoice);
+    };
+
+    const calculateSubTotal = () => {
+        return invoice.reduce((total, item) => total + item.quantity * item.price, 0);
+    };
+
+    const calculateIva = () => {
+        const subtotal = invoice.reduce((total, item) => total + item.quantity * item.price, 0);
+        return (subtotal * 0.12).toFixed(2);
+    };
+
+    const calculateTotal = () => {
+        const subtotal = invoice.reduce((total, item) => total + item.quantity * item.price, 0);
+        const iva = (subtotal * 0.12).toFixed(2);
+        return (parseInt(subtotal) + parseFloat(iva)).toFixed(2);
+    };
+
+
+    const sendDataToBackend = () => {
+        try {
+            axios.post(`${API_BASE_URL}api/facturations/generateXML`, invoice)
+                .then(res => {
+                    const xml = res.data
+                    // Crea un enlace de descarga oculto en el DOM
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = `data:application/xml;charset=utf-8,${encodeURIComponent(xml)}`;
+                    downloadLink.download = 'factura.xml';
+
+                    // Simula un clic en el enlace para iniciar la descarga automática
+                    downloadLink.click();
+                })
+
+        } catch (error) {
+            console.error('Error al enviar la factura al backend:', error);
+        }
+    };
+
+    console.log(invoice)
 
     return (
         <SchoolLayout>
@@ -65,8 +116,8 @@ const FacturaXML = () => {
                 <div className="w-[96%] mt-5 ml-5 ">
                     <div className='h-[90%] overflow-y-scroll flex flex-col contenedor'>
                         <div className=' absolute right-3 top-[68px] sm:right-8 sm:top-[70px] flex gap-1 justify-end'>
-                            <BtnTable action="exit" to={`/schools/${school_id}/general_report`} />
-                            <BtnTable action="xml" funtion={onSubmit} />
+                            <BtnTable action="exit" to={`/schools/${school_id}/services_generateXML`} />
+                            <BtnTable action="xml" funtion={sendDataToBackend} />
                         </div>
                         <HeaderSection title="Datos para facturación" />
                         <div className='flex'>
@@ -75,13 +126,13 @@ const FacturaXML = () => {
                                     type="text"
                                     label="Cedula"
                                     input="input"
-                                    value={data.cliente_representante?.cedulaRepresentante}
+                                    value={invoice[0]?.ci}
                                 />
                                 <LavelForm
                                     type="text"
                                     label="Nombres"
                                     input="input"
-                                    value={data.cliente_representante?.names}
+                                    value={invoice[0]?.names}
                                 />
                             </div>
                             <div className='flex flex-col p-2'>
@@ -89,47 +140,86 @@ const FacturaXML = () => {
                                     type="text"
                                     label="Email"
                                     input="input"
-                                    value={data.cliente_representante?.email}
+                                    value={invoice[0]?.email}
                                 />
                                 <LavelForm
                                     type="text"
                                     label="Teléfono"
                                     input="input"
-                                    value={data.cliente_representante?.telefon}
+                                    value={invoice[0]?.telefon}
+                                />
+                            </div>
+                            <div className='flex flex-col p-2'>
+                                <LavelForm
+                                    type="text"
+                                    label="Dirección"
+                                    input="input"
+                                    value={invoice[0]?.dir}
                                 />
                             </div>
                         </div>
+
                         <div className="overflow-y-scroll h-[87%] contenedor">
                             <table className="text-[13px] table-sm table-zebra w-full">
                                 <thead className='border-t-[1px] border-t-sky-500' >
                                     <tr className='text-left h-[60px] bg-[#eff2f8]'>
-                                        <th className='pl-2'>Código</th>
-                                        <th>Cantidad</th>
+                                        <th className='pl-2 w-[70px]'>Código</th>
+                                        <th className='w-[100px]'>Cantidad</th>
                                         <th className='w-[50%]'>Descripción</th>
-                                        <th>Precio Unitario</th>
-                                        <th>Descuento</th>
-                                        <th>Precio Total</th>
+                                        <th className='text-center'>Precio Unitario</th>
+                                        <th className='text-center'>Precio Total</th>
                                     </tr>
                                 </thead>
-
                                 <tbody>
-                                    {historyState.facturations.map(report => (
-                                        <tr className='h-[60px]' key={report.id}>
-                                            <td className='pl-2'>{report.firstName} {report.lastName}</td>
-                                            <td>{report.history_seccion?.name}</td>
-                                            <td>{report.history_servicio?.name}</td>
-                                            <td className='pl-8' >
-                                                {report.history_servicio?.name === "REFRIGERIO DIARIO" ? report.breakfastConsumed :
-                                                    report.history_servicio?.name === "ALMUERZO DIARIO" ? report.lunchesConsumed :
-                                                        report.history_servicio?.isExtra ? report.extrasConsumed : ""
-                                                }
+                                    {invoice.map(item => (
+                                        <tr className='h-[60px]' key={item.id}>
+                                            <td className='pl-2'>{item.code}</td>
+                                            <td >
+                                                <input
+                                                    className='text-center outline-none border w-[50%] h-[30px] input-bordered focus:outline-none focus:ring-1 uppercase rounded-md shadow-base-300 shadow-lg'
+                                                    defaultValue={item.quantity}
+                                                    onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                                                />
                                             </td>
-                                            <td>{formatDateToLocal(report.createdAt)}</td>
+                                            <td>
+                                                <textarea
+                                                    className='p-1 outline-none border w-[95%] input-bordered focus:outline-none focus:ring-1 uppercase rounded-md shadow-base-300 shadow-lg'
+                                                    defaultValue={item.description}
+
+                                                />
+                                            </td>
+                                            <td className='text-center'>
+                                                <input
+                                                    className='text-center outline-none border w-[50%] h-[30px] input-bordered focus:outline-none focus:ring-1 uppercase rounded-md shadow-base-300 shadow-lg'
+                                                    defaultValue={item.price}
+                                                    onChange={(e) => handlePriceChange(item.id, e.target.value)}
+                                                />
+                                            </td>
+                                            <td className='text-center'>
+                                                $ {(item.quantity * item.price).toFixed(2)}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
+
                         </div>
+                        <table className="text-[13px] table-xm table-zebra w-full">
+                            <thead className='border-t-[1px] border-t-sky-500'>
+                                <tr className='text-left bg-[#eff2f8]'>
+                                    <th className='p-2 w-[90%] text-end'>SUBTOTAL</th>
+                                    <th className='w-[10%] text-center'>${calculateSubTotal()}</th>
+                                </tr>
+                                <tr className='text-left bg-[#eff2f8]'>
+                                    <th className='p-2 w-[90%] text-end'>IVA 12%</th>
+                                    <th className='w-[10%] text-center'>${calculateIva()}</th>
+                                </tr>
+                                <tr className='text-left bg-[#eff2f8]'>
+                                    <th className='p-2 w-[90%] text-end'>TOTAL</th>
+                                    <th className='w-[10%] text-center'>${calculateTotal()}</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
 

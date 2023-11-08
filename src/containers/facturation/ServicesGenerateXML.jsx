@@ -9,6 +9,9 @@ import MainLoader from '../../components/Loaders/MainLoader';
 import Swal from 'sweetalert2';
 //SLICE
 import { getServiceGenereteXMLThunk } from '../../store/slices/facturation/facturation.slice';
+import GeneralRateCell from '../../components/rates/GeneralRateCell';
+import ServiceNameCell from '../../components/rates/ServiceNameCell';
+import ServicePriceCell from '../../components/rates/ServicePriceCell';
 
 
 const ServicesGenerateXML = () => {
@@ -25,21 +28,15 @@ const ServicesGenerateXML = () => {
         timer: 2000,
         timerProgressBar: true,
         didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
-      })
+    })
 
     useEffect(() => {
         dispatch(getServiceGenereteXMLThunk(school_id));
     }, []);
 
-
-    const handleGenerateXML = () => {
-        const url = "/api/facturations/generateXML";
-        window.open(url, "_self");
-        
-    };
 
 
     return (
@@ -55,10 +52,10 @@ const ServicesGenerateXML = () => {
                                 <tr className='text-left h-[60px] bg-[#f2f7ff] sticky top-0'>
                                     <th className='p-3 w-[200px]'>Representante</th>
                                     <th>Email</th>
-                                    <th>Telefono</th>
-                                    <th className='w-[200px]'>Estudiante</th>
-                                    <th>Servicio</th>   
-                                    <th>Valor</th>                
+                                    <th className='w-[100px]'>Telefono</th>
+                                    <th className='w-[220px]'>Estudiante/s</th>
+                                    <th>Servicio</th>
+                                    <th>Valor</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -69,14 +66,23 @@ const ServicesGenerateXML = () => {
                                     }
                                     return (
                                         <tr className='h-[60px]' key={item.id}>
-                                            <td className='p-3'>{item.XML_representante?.names} </td>
-                                            <td className='w-[150px]'>{item.XML_representante?.email} </td>
-                                            <td>{item.XML_representante?.telefon} </td>
-                                            <td>{item.firstName} {item.lastName}</td>
-                                            <td>{item.XML_servicio?.name}</td>
-                                            <td>$ {item.XML_servicio?.price}</td>
+                                            <td className='p-3'>{item.names} </td>
+                                            <td className='w-[150px]'>{item.email} </td>
+                                            <td>{item.telefon} </td>
+                                            <td> {item.representante_cliente?.map(representado => (
+                                                <GeneralRateCell key={representado.id} client={representado.lastName + " " + representado.firstName} />
+                                            ))
+                                            }</td>
+                                            <td> {item.representante_cliente?.map(representado => (
+                                                <ServiceNameCell key={representado.id} client={representado.cliente_servicio?.name} />
+                                            ))
+                                            }</td>
+                                            <td> {item.representante_cliente?.map(representado => (
+                                                <ServicePriceCell key={representado.id} client={representado.cliente_servicio?.price} />
+                                            ))
+                                            }</td>
                                             <td className='flex gap-1 justify-center items-center h-[60px] p-1'>
-                                                <BtnTable action="view" to={`/schools/${school_id}/factura_XML/${item.cedulaCliente}`} />
+                                                <BtnTable action="view" to={`/schools/${school_id}/factura_XML/${item.id}`} />
                                             </td>
                                         </tr>
                                     );

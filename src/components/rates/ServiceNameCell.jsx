@@ -1,13 +1,13 @@
 import React from 'react';
 import { useTranslation } from "react-i18next";
-import { FaDollarSign, FaPlaneDeparture, FaUser } from 'react-icons/fa';
+import { FaCoffee} from 'react-icons/fa';
 
-const GeneralRateCell = ({client,operator,ticket}) => {
+const ServiceNameCell = ({client,operator,ticket}) => {
     const { t } = useTranslation();
     return (
         <div className='w-full'>
             <div className='flex gap-3 mb-1'>
-                <FaUser className='text-sky-600 mt-[3px]' />
+                <FaCoffee className='text-green-600 mt-[3px]' />
                 <div className='flex flex-col'>
                     <h3 className='mb-[-5px] font-semibold'>{client} </h3>
                 </div>
@@ -16,4 +16,4 @@ const GeneralRateCell = ({client,operator,ticket}) => {
     );
 };
 
-export default GeneralRateCell;
+export default ServiceNameCell;
