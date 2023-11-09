@@ -13,7 +13,7 @@ import { Collapse } from 'react-collapse';
 import '../../App.css';
 // SLICES 
 import { setIsLoading } from '../../store/slices/isLoading.slice';
-import { getHistoryThunk } from '../../store/slices/facturation/facturation.slice';
+import { getHistoryReportByClientThunk } from '../../store/slices/reports/reports.slice';
 import GeneralReportPDF from './GeneralReportPDF';
 
 import BtnTable from '../../components/buttons/BtnTable';
@@ -25,7 +25,7 @@ const GeneralReportForClient = () => {
     const [data, setData] = useState([]);
     const [openHistory, setOpenHistory] = useState(false);
     const isLoading = useSelector(state => state.isLoadingSlice);
-    const historyState = useSelector(state => state.facturations);
+    const historyState = useSelector(state => state.reports);
     const dispatch = useDispatch();
 
 
@@ -35,7 +35,7 @@ const GeneralReportForClient = () => {
 
     useEffect(() => {
         const results = data.cedulaCliente
-        dispatch(getHistoryThunk(results))
+     //   dispatch(getHistoryReportByClientThunk(results))
     }, [data]);
 
     const getClient = () => {
@@ -51,14 +51,14 @@ const GeneralReportForClient = () => {
     }
 
     const onSubmit = () => {
-        GeneralReportPDF(data , historyState.facturations)
+        GeneralReportPDF(data , historyState.reports)
     };
 
     const handleHistoyClick = () => {
         const results = data.cedulaCliente
         setOpenHistory(!openHistory);
         if (!openHistory) {
-            dispatch(getHistoryThunk(results))
+            dispatch(getHistoryReportByClientThunk(results))
         }
     };
 
@@ -189,7 +189,7 @@ const GeneralReportForClient = () => {
                                             </thead>
 
                                             <tbody>
-                                                {historyState.facturations.map(report => (
+                                                {historyState.reports.map(report => (
                                                     <tr className='h-[60px]' key={report.id}>
                                                         <td className='pl-2'>{report.firstName} {report.lastName}</td>
                                                         <td>{report.history_seccion?.name}</td>

@@ -106,6 +106,18 @@ export const getHistoryReportThunk = (school_id) => dispatch => {
         })
 };
 
+export const getHistoryReportByClientThunk = (cliente_ci) => dispatch => {
+    dispatch(requestFetchReports())
+    axios.get(`/api/reports/reportHistoryByClient/${cliente_ci}`)
+        .then(res => {dispatch(fetchReportsSuccess(res.data))
+        })
+        .catch(error => {
+            if (error.response?.status === 400) {
+                dispatch(fetchReportsError(error.response?.data))
+            }
+        })
+};
+
 
 
 export const { 

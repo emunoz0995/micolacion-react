@@ -51,7 +51,6 @@ const HistoryReport = () => {
                                     <th className='w-[200px] p-2'>Estudiante</th>
                                     <th>Seccion</th>
                                     <th>Servicio</th>
-                                    <th>Valor</th>
                                     <th>Consumidos</th>
                                 </tr>
                             </thead>
@@ -66,7 +65,6 @@ const HistoryReport = () => {
                                             <td className='p-2'>{item.lastName} {item.firstName}</td>
                                             <td>{item.history_seccion?.name}</td>
                                             <td>{item.history_servicio?.name}</td>
-                                            <td>$ {item.history_servicio?.price}</td>
                                             <td className='pl-8' >
                                                 {item.history_servicio?.name === "REFRIGERIO DIARIO" ? item.breakfastConsumed :
                                                     item.history_servicio?.name === "ALMUERZO DIARIO" ? item.lunchesConsumed :
