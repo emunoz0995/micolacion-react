@@ -32,7 +32,11 @@ export default function BtnContent({ children, type, cancel, to, onclick, school
           timer: 1500
         }).then((result) => {
           if (result) {
-            navigate(`/schools/${school?.id}/refrigerios_bm`)
+            if(school?.id == 'ERdKGa9kbV'){
+              navigate (`/schools/${school?.id}/refrigerios_primaria`);
+            } else if (school?.id == 'bEB9ZLKPgW'){
+              navigate (`/schools/${school?.id}/refrigerios_bm`);
+            }
           }
         })
 

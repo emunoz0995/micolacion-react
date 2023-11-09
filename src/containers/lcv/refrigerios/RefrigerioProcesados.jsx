@@ -118,7 +118,7 @@ const RefrigerioProcesados = () => {
                         titleSix={'Procesados'} toSix={`/schools/${school_id}/refrigerios_procesados`} activeSix={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
-                        <table className="text-[13px] table-sm table-zebra w-full">
+                        <table className="text-[13px] table-sm table-zebra w-full uppercase">
                             <thead className='sticky top-0 border-t-2 border-t-sky-500' >
                                 <tr className='text-left h-[60px] bg-[#f2f7ff]'>
                                     <th className='p-2'>Nombre</th>

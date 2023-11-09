@@ -73,7 +73,7 @@ const GeneralReportList = () => {
                 <div className="mx-5 my-5 w-[97%]">
                     <Header title="Reporte general" />
                     <div className="overflow-y-scroll h-[87%] contenedor">
-                        <table className="text-[13px] table-sm table-zebra w-full">
+                        <table className="text-[13px] table-sm table-zebra w-full uppercase">
                             <thead className='border-t-2 border-t-sky-500' >
                                 <tr className='text-left h-[60px] bg-[#f2f7ff]'>
                                     <th className='pl-2 w-[250px]'>Representante</th>

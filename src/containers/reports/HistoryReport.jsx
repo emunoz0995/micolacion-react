@@ -44,7 +44,7 @@ const HistoryReport = () => {
                         <BtnTable action="xml" funtion={handleGenerateExcel} />
                     </div>
                     <div className="overflow-y-scroll h-[87%] contenedor">
-                        <table className="text-[13px] table-sm table-zebra w-full">
+                        <table className="text-[13px] table-sm table-zebra w-full uppercase">
                             <thead className='border-t-2 border-t-sky-500' >
                                 <tr className='text-left h-[60px] bg-[#f2f7ff] sticky top-0'>
                                     <th className='w-[200px] p-2'>Fecha y Hora</th>

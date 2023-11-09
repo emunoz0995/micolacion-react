@@ -28,7 +28,7 @@ const LunchReport = () => {
                 <div className="mx-5 my-5 w-[97%]">
                     <Header title="Almuerzos diarios" />
                     <div className="overflow-y-scroll h-[87%] contenedor">
-                        <table className="text-[13px] table-sm table-zebra w-full">
+                        <table className="text-[13px] table-sm table-zebra w-full uppercase">
                             <thead className='border-t-2 border-t-sky-500' >
                                 <tr className='text-left h-[60px] bg-[#f2f7ff] sticky top-0'>
                                     <th className='p-3 w-[200px]'>Nombres</th>
