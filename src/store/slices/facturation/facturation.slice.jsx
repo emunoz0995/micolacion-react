@@ -44,7 +44,6 @@ export const FacturationsSlice = createSlice({
 
 export const getServicesReceivableThunk = (school_id) => dispatch => {
     dispatch(requestFetchFacturations())
-    console.log(school_id)
     axios.get(`/api/facturations/services_receivable/${school_id}`)
         .then(res => {dispatch(fetchFacturationsSuccess(res.data))
         })

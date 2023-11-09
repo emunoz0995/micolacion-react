@@ -119,7 +119,8 @@ const FacturaXML = () => {
                     downloadLink.href = `data:application/xml;charset=utf-8,${encodeURIComponent(xml)}`;
                     downloadLink.download = `Factura_${formatDateToLocal(today)+invoice[0].ci}`;
                     // Simula un clic en el enlace para iniciar la descarga automática
-                   navigate(`/schools/${school_id}/services_generateXML`);
+                    downloadLink.click();
+                    navigate(`/schools/${school_id}/services_generateXML`);
                 })
         } catch (error) {
             Toast.fire({
@@ -129,8 +130,6 @@ const FacturaXML = () => {
               })
         }
     };
-
-    console.log(invoice)
 
     return (
         <SchoolLayout>

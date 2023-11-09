@@ -41,7 +41,6 @@ export const refrigeriosProcedureSlice = createSlice({
 
 export const decrementBreakFastThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalBreakfast())
-    console.log(client_ci)
     axios.put(`/api/procedures/decrement_breackfast/${client_ci}`)
     .then(res => {dispatch(updateTotalBreakfastSuccess(res.data))
     })
@@ -54,7 +53,6 @@ export const decrementBreakFastThunk = (client_ci) => dispatch => {
 
 export const incrementBreakFastThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalBreakfast())
-    console.log(client_ci)
     axios.put(`/api/procedures/increment_breackfast/${client_ci}`)
     .then(res => {dispatch(updateTotalBreakfastSuccess(res.data))
     })
@@ -67,7 +65,6 @@ export const incrementBreakFastThunk = (client_ci) => dispatch => {
 
 export const revertBreakFastThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalBreakfast())
-    console.log(client_ci)
     axios.put(`/api/procedures/revert_breackfast/${client_ci}`)
     .then(res => {dispatch(updateTotalBreakfastSuccess(res.data))
     })

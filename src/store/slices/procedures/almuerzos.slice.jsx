@@ -41,7 +41,6 @@ export const almuerzosProcedureSlice = createSlice({
 
 export const decrementLunchThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalLunch())
-    console.log(client_ci)
     axios.put(`/api/procedures/decrement_lunch/${client_ci}`)
     .then(res => {dispatch(updateTotalLunchSuccess(res.data))
     })
@@ -54,7 +53,6 @@ export const decrementLunchThunk = (client_ci) => dispatch => {
 
 export const incrementLunchThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalLunch())
-    console.log(client_ci)
     axios.put(`/api/procedures/increment_lunch/${client_ci}`)
     .then(res => {dispatch(updateTotalLunchSuccess(res.data))
     })
@@ -67,7 +65,6 @@ export const incrementLunchThunk = (client_ci) => dispatch => {
 
 export const revertLunchThunk = (client_ci) => dispatch => {
     dispatch(requestUpdateTotalLunch())
-    console.log(client_ci)
     axios.put(`/api/procedures/revert_lunch/${client_ci}`)
     .then(res => {dispatch(updateTotalLunchSuccess(res.data))
     })

@@ -258,7 +258,6 @@ export const getServiceThunk = (services_id) => dispatch => {
 };
 
 export const createServiceThunk = (data) => dispatch => {
-    console.log(data)
     dispatch(requestCreateService())
     axios.post(`/api/services/service`, data)
     .then(res => {dispatch(createServiceSuccess(res.data))

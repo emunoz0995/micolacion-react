@@ -234,7 +234,6 @@ export const getSchoolThunk = (schools_id) => dispatch => {
 };
 
 export const createSchoolThunk = (data) => dispatch => {
-    console.log(data)
     dispatch(requestCreateSchool())
     axios.post(`/api/schools/school`, data)
     .then(res => {dispatch(createSchoolSuccess(res.data))

@@ -75,8 +75,6 @@ const ClientCervantesForm = () => {
         })
     }
 
-    console.log(clientState)
-
     return (
         <div
             className={`text-[#004841 ] relative transition-all h-full w-full min-h-screen bg-cover bg-center  flex justify-center `}

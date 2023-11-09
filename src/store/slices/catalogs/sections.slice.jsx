@@ -246,7 +246,6 @@ export const getSectionThunk = (section_id) => dispatch => {
 };
 
 export const createSectionThunk = (data) => dispatch => {
-    console.log(data)
     dispatch(requestCreateSection())
     axios.post(`/api/sections/section`, data)
     .then(res => {dispatch(createSectionSuccess(res.data))
