@@ -109,12 +109,13 @@ const AlmuerzoEventuales = () => {
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                        titleOne={'Basica Media'} toOne={`/schools/${school_id}/almuerzos_bm`} activeOne={false}
-                        titleTwo={'Basica Elemental'} toTwo={`/schools/${school_id}/almuerzos_be`} activeTwo={false}
-                        titleTree={'Basica BS-BGU '} toTree={`/schools/${school_id}/almuerzos_bs_bgu`} activeTree={false}
-                        titleFour={'Eventuales'} toFour={`/schools/${school_id}/almuerzos_eventuales`} activeFour={true}
-                        titleFive={'Personal'} toFive={`/schools/${school_id}/almuerzos_personal`} activeFive={false}
-                        titleSix={'Procesados'} toSix={`/schools/${school_id}/almuerzos_procesados`} activeSix={false}
+                         titleOne={'Basica Media'} toOne={`/schools/${school_id}/almuerzos_bm`} activeOne={false}
+                         titleTwo={'Basica Elemental'} toTwo={`/schools/${school_id}/almuerzos_be`} activeTwo={false}
+                         titleTree={'Segundo Y Tercero EGB'} toTree={`/schools/${school_id}/almuerzos_2do_3ro_EGB`} activeTree={false}
+                         titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/almuerzos_bs_bgu`} activeFour={false}
+                         titleFive={'Eventuales'} toFive={`/schools/${school_id}/almuerzos_eventuales`} activeFive={true}
+                        // titleSix={'Personal'} toSix={`/schools/${school_id}/almuerzos_personal`} activeSix={false}
+                         titleSeven={'Procesados'} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={false}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full uppercase">

@@ -36,6 +36,7 @@ import RefrigerioProcesados from "./containers/lcv/refrigerios/RefrigerioProcesa
 //Almuerzos LCV
 import AlmuerzoBM from "./containers/lcv/almuerzos/AlmuerzoBM";
 import AlmuerzoBE from "./containers/lcv/almuerzos/AlmuerzoBE";
+import Almuerzo2doAnd3roEGB from "./containers/lcv/almuerzos/Almuerzo2doAnd3roEGB";
 import AlmuerzoEventuales from "./containers/lcv/almuerzos/AlmuerzoEventuales";
 import AlmuerzoBS from "./containers/lcv/almuerzos/AlmuerzoBS";
 import AlmuerzoPersonal from "./containers/lcv/almuerzos/AlmuerzoPersonal";
@@ -142,6 +143,10 @@ const routes = [
   {
     path: "/schools/:school_id/almuerzos_bs_bgu",
     component: AlmuerzoBS,
+  },
+  {
+    path: "/schools/:school_id/almuerzos_2do_3ro_EGB",
+    component: Almuerzo2doAnd3roEGB,
   },
   {
     path: "/schools/:school_id/almuerzos_eventuales",
