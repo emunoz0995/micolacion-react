@@ -42,6 +42,7 @@ import AlmuerzoPersonal from "./containers/lcv/almuerzos/AlmuerzoPersonal";
 import AlmuerzoProcesados from "./containers/lcv/almuerzos/AlmuerzoProcesados";
 //Refrigerios CERVANTES
 import RefrigerioPrimaria from "./containers/cervantes/refrigerios/RefrigerioPrimaria";
+import Refrigerio2doAnd3roEGB from "./containers/lcv/refrigerios/Refrigerio2doAnd3roEGB";
 import RefrigerioInicial from "./containers/cervantes/refrigerios/RefrigerioInicial";
 import RefrigerioEventualesCervantes from "./containers/cervantes/refrigerios/RefrigerioEventuales";
 import RefrigerioSecundaria from "./containers/cervantes/refrigerios/RefrigerioSecundaria";
@@ -74,8 +75,8 @@ const routes = [
     path: "/services/:services_id",
     component: ServiceForm,
   },
-   //Sections
-   {
+  //Sections
+  {
     path: "/sections",
     component: SectionList,
   },
@@ -108,6 +109,10 @@ const routes = [
   {
     path: "/schools/:school_id/refrigerios_be",
     component: RefrigerioBE,
+  },
+  {
+    path: "/schools/:school_id/refrigerios_2do_3ro_EGB",
+    component: Refrigerio2doAnd3roEGB,
   },
   {
     path: "/schools/:school_id/refrigerios_bs_bgu",
@@ -158,42 +163,42 @@ const routes = [
     component: RefrigerioPrimaria,
   },
   {
-     path: "/schools/:school_id/refrigerios_inicial",
-     component: RefrigerioInicial,
+    path: "/schools/:school_id/refrigerios_inicial",
+    component: RefrigerioInicial,
   },
   {
-     path: "/schools/:school_id/refrigerios_secundaria",
-     component: RefrigerioSecundaria,
+    path: "/schools/:school_id/refrigerios_secundaria",
+    component: RefrigerioSecundaria,
   },
   {
-     path: "/schools/:school_id/refrigerios_eventuales_cervantes",
-     component: RefrigerioEventualesCervantes,
+    path: "/schools/:school_id/refrigerios_eventuales_cervantes",
+    component: RefrigerioEventualesCervantes,
   },
   {
-     path: "/schools/:school_id/refrigerios_procesados_cervantes",
-     component: RefrigerioProcesadosCervantes,
+    path: "/schools/:school_id/refrigerios_procesados_cervantes",
+    component: RefrigerioProcesadosCervantes,
   },
   //Almuerzos CERVANTES
-  { 
-     path: "/schools/:school_id/almuerzos_primaria",
-     component: AlmuerzoPrimaria,
-   },
-   {
-     path: "/schools/:school_id/almuerzos_inicial",
-     component: AlmuerzoInicial,
-   },
-   {
-     path: "/schools/:school_id/almuerzos_secundaria",
-     component: AlmuerzoSecundaria,
-   },
-   {
-     path: "/schools/:school_id/almuerzos_eventuales_cervantes",
-     component: AlmuerzoEventualesCervantes,
-   },
-   {
-     path: "/schools/:school_id/almuerzos_procesados_cervantes",
-     component: AlmuerzoProcesadosCervantes,
-   },
+  {
+    path: "/schools/:school_id/almuerzos_primaria",
+    component: AlmuerzoPrimaria,
+  },
+  {
+    path: "/schools/:school_id/almuerzos_inicial",
+    component: AlmuerzoInicial,
+  },
+  {
+    path: "/schools/:school_id/almuerzos_secundaria",
+    component: AlmuerzoSecundaria,
+  },
+  {
+    path: "/schools/:school_id/almuerzos_eventuales_cervantes",
+    component: AlmuerzoEventualesCervantes,
+  },
+  {
+    path: "/schools/:school_id/almuerzos_procesados_cervantes",
+    component: AlmuerzoProcesadosCervantes,
+  },
 
   //Clients
   {
@@ -260,7 +265,7 @@ const routes = [
     path: "/schools/:school_id/factura_XML/:client_ci",
     component: FacturaXML,
   },
- 
+
 ];
 
 export default routes;

@@ -32,10 +32,10 @@ const RefrigerioProcesados = () => {
         timer: 1000,
         timerProgressBar: true,
         didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
-      })
+    })
 
     useEffect(() => {
         dispatch(getServicesExtrasThunk());
@@ -85,10 +85,10 @@ const RefrigerioProcesados = () => {
         Toast.fire({
             icon: 'success',
             title: '¡Servicio extra registrado!'
-          }).then(function(result){
+        }).then(function (result) {
             getRefrigeriosProcesados();
-		})
-       
+        })
+
     };
 
     const getRefrigeriosProcesados = () => {
@@ -112,10 +112,11 @@ const RefrigerioProcesados = () => {
                     <TabParts
                         titleOne={'Basica Media'} toOne={`/schools/${school_id}/refrigerios_bm`} activeOne={false}
                         titleTwo={'Basica Elemental'} toTwo={`/schools/${school_id}/refrigerios_be`} activeTwo={false}
-                        titleTree={'Basica BS-BGU '} toTree={`/schools/${school_id}/refrigerios_bs_bgu`} activeTree={false}
-                        titleFour={'Eventuales'} toFour={`/schools/${school_id}/refrigerios_eventuales`} activeFour={false}
-                        titleFive={'Personal'} toFive={`/schools/${school_id}/refrigerios_personal`} activeFive={false}
-                        titleSix={'Procesados'} toSix={`/schools/${school_id}/refrigerios_procesados`} activeSix={true}
+                        titleTree={'Segundo Y Tercero EGB'} toTree={`/schools/${school_id}/refrigerios_2do_3ro_EGB`} activeTree={false}
+                        titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/refrigerios_bs_bgu`} activeFour={false}
+                        titleFive={'Eventuales'} toFive={`/schools/${school_id}/refrigerios_eventuales`} activeFive={false}
+                        // titleSix={'Personal'} toSix={`/schools/${school_id}/refrigerios_personal`} activeSix={false}
+                        titleSeven={'Procesados'} toSeven={`/schools/${school_id}/refrigerios_procesados`} activeSeven={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table-sm table-zebra w-full uppercase">
@@ -130,35 +131,35 @@ const RefrigerioProcesados = () => {
                                 </tr>
                             </thead>
                             {searchResults.length > 0 ?
-                            <tbody>
-                                {searchResults.map(refrigerio => {
-                                    if (hiddenRows.includes(refrigerio.id)) {
-                                        return null;
-                                    }
-                                    return (
-                                        <tr className='h-[60px]' key={refrigerio.id}>
-                                            <td className='p-2'>{refrigerio.lastName} {refrigerio.firstName} </td>
-                                            <td>{refrigerio.cliente_servicio?.name}</td>
-                                            <td>{refrigerio.cliente_seccion?.name}</td>
-                                            <td className='flex gap-1 items-center h-[60px] p-1'>
-                                                <BtnTable action="revert" funtion={() => handleRevertBreak(refrigerio.cedulaCliente, refrigerio.id)} />
-                                            </td>
-                                            {refrigerio.cliente_servicio?.name === "SIN SERVICIO" ?
-                                                <td>{refrigerio.breakfastConsumed}</td> :
-                                                <td>{refrigerio.totalBreakfast}</td>
-                                            }
-                                            <td>
-                                                <select onChange={(e)=>handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
-                                                    <option value="">Seleccione</option>
-                                                    {servicesState.services.map((service) => (
-                                                        <option key={service.id} value={service.id}>{service.name}</option>
-                                                    ))}
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>:
+                                <tbody>
+                                    {searchResults.map(refrigerio => {
+                                        if (hiddenRows.includes(refrigerio.id)) {
+                                            return null;
+                                        }
+                                        return (
+                                            <tr className='h-[60px]' key={refrigerio.id}>
+                                                <td className='p-2'>{refrigerio.lastName} {refrigerio.firstName} </td>
+                                                <td>{refrigerio.cliente_servicio?.name}</td>
+                                                <td>{refrigerio.cliente_seccion?.name}</td>
+                                                <td className='flex gap-1 items-center h-[60px] p-1'>
+                                                    <BtnTable action="revert" funtion={() => handleRevertBreak(refrigerio.cedulaCliente, refrigerio.id)} />
+                                                </td>
+                                                {refrigerio.cliente_servicio?.name === "SIN SERVICIO" ?
+                                                    <td>{refrigerio.breakfastConsumed}</td> :
+                                                    <td>{refrigerio.totalBreakfast}</td>
+                                                }
+                                                <td>
+                                                    <select onChange={(e) => handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
+                                                        <option value="">Seleccione</option>
+                                                        {servicesState.services.map((service) => (
+                                                            <option key={service.id} value={service.id}>{service.name}</option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody> :
                                 <div className="absolute z-10 top-[450px] left-[30px] sm:top-[350px] sm:left-[630px]">
                                     <h1 className='font-semibolt text-[22px] sm:text-[25px] text-gray-400'>NO HAY DATOS PARA MOSTRAR</h1>
                                 </div>
