@@ -29,8 +29,8 @@ const NavTop = ({ onChange, value, view }) => {
   return (
     <nav className="absolute bg-base-200 shadow-lg flex w-calc md:right-0 h-14 items-center">
       {view === true ?
-        <div className='ml-5 flex items-center ' >
-          <input className="outline-none input-bordered focus:outline-none focus:ring-1  text-sm border font-normal p-1 rounded-r-lg" type="text" placeholder={"Buscar..."} value={value} onChange={onChange} />
+        <div className=' flex ml-20 w-60 sm:ml-5 sm:items-center ' >
+          <input className="outline-none w-full input-bordered focus:outline-none focus:ring-1  text-sm border font-normal p-1 rounded-r-lg" type="text" placeholder={"Buscar..."} value={value} onChange={onChange} />
         </div> : 
         ""
       }
@@ -54,11 +54,11 @@ const NavTop = ({ onChange, value, view }) => {
         </BtnCircle>
       </div>
       <div className="absolute right-7 flex h-[100%] items-center">
-        <div className='h-[88%] border border-gray-300'></div>
+        <div className='hidden sm:flex sm:h-[88%] sm:border sm:border-gray-300'></div>
         <div className="dropdown dropdown-end h-full">
-          <div className='flex justify-between items-center h-full w-[150px]'>
+          <div className='flex justify-end md:justify-between sm:justify-between items-center h-full md:w-[150px] sm:w-[150px]'>
             <BtnCircle>
-              <p className='text-sm ml-3 mr-2'>{user.userName}</p>
+              <p className='hidden sm:flex sm:text-sm sm:ml-3 sm:mr-2'>{user.userName}</p>
               <FaUser size={"20px"} />
             </BtnCircle>
           </div>
