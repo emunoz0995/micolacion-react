@@ -66,9 +66,9 @@ const HistoryReport = () => {
                                             <td>{item.history_seccion?.name}</td>
                                             <td>{item.history_servicio?.name}</td>
                                             <td className='pl-8' >
-                                                {item.history_servicio?.name === "REFRIGERIO DIARIO" ? item.breakfastConsumed :
-                                                    item.history_servicio?.name === "ALMUERZO DIARIO" ? item.lunchesConsumed :
-                                                        item.history_servicio?.isExtra ? item.extrasConsumed : ""
+                                                {item.history_servicio?.name === "REFRIGERIO INDIVIDUAL CAMPOVERDE" || "REFRIGERIO INDIVIDUAL CERVANTES" ? item.breakfastConsumed :
+                                                 item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || "ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed :
+                                                 item.history_servicio?.isExtra ? item.extrasConsumed : ""
                                                 }
                                             </td>
                                         </tr>

@@ -26,10 +26,10 @@ const ServicesReceivable = () => {
         timer: 2000,
         timerProgressBar: true,
         didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
-      })
+    })
 
     useEffect(() => {
         dispatch(getServicesReceivableThunk(school_id));
@@ -39,15 +39,15 @@ const ServicesReceivable = () => {
         setHiddenRows([...hiddenRows, id]);
     };
 
-    const handlePaidService = (clientId,cedulaCliente) => {
+    const handlePaidService = (clientId, cedulaCliente) => {
         Toast.fire({
             icon: 'success',
             title: 'Pago registrado, ¡ya puede general XML!'
-          })
-          const data = {
+        })
+        const data = {
             cedulaCliente
-          }
-        dispatch(paidServiceThunk(clientId,data));
+        }
+        dispatch(paidServiceThunk(clientId, data));
         hideRow(clientId);
     };
 
@@ -66,8 +66,8 @@ const ServicesReceivable = () => {
                                     <th>Email</th>
                                     <th>Telefono</th>
                                     <th className='w-[200px]'>Estudiante</th>
-                                    <th>Servicio</th>   
-                                    <th>Valor</th>                
+                                    <th>Servicio</th>
+                                    <th>Valor</th>
                                     <th>Consumidos</th>
                                     <th></th>
                                 </tr>
@@ -86,10 +86,10 @@ const ServicesReceivable = () => {
                                             <td>{item.history_servicio?.name}</td>
                                             <td>$ {item.history_servicio?.price}</td>
                                             <td className='pl-8' >
-                                                { item.history_servicio?.name === "REFRIGERIO DIARIO" ? item.breakfastConsumed : 
-                                                  item.history_servicio?.name === "ALMUERZO DIARIO" ? item.lunchesConsumed :
-                                                  item.history_servicio?.isExtra ? item.extrasConsumed : ""
-                                                }                                         
+                                                {item.history_servicio?.name === "REFRIGERIO INDIVIDUAL CAMPOVERDE" || "REFRIGERIO INDIVIDUAL CERVANTES" ? item.breakfastConsumed :
+                                                 item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || "ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed :
+                                                 item.history_servicio?.isExtra ? item.extrasConsumed : ""
+                                                }
                                             </td>
                                             <td className='gap-1 justify-end p-1'>
                                                 <BtnTable action="process" funtion={() => handlePaidService(item.id, item.cedulaCliente)} />
