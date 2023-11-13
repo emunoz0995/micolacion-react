@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 //UI
 import SchoolLayout from '../../layouts/SchoolsLayout';
 import BtnTable from '../../components/buttons/BtnTable';
@@ -11,7 +12,8 @@ import Swal from 'sweetalert2';
 import { getMenor5ReportThunk } from '../../store/slices/reports/reports.slice';
 import { setIsLoading } from '../../store/slices/isLoading.slice';
 import { renewServiceThunk } from '../../store/slices/procedures/funtions.slice';
-import axios from 'axios';
+//RESORCES
+import { API_BASE_URL } from '../../store/constans';
 
 
 
@@ -125,7 +127,7 @@ const MenorFiveReport = () => {
     };
 
     const handleGenerateExcel = () => {
-        const url = `${API_BASE_URL}api/reports/clients/${school_id}`;
+        const url = `${API_BASE_URL}api/reports/reportMenorFive/${school_id}`;
         window.open(url, "_self");
         
     };
