@@ -72,18 +72,29 @@ const ClientForm = () => {
 
     const onSubmit = (data) => {
         if (client_id) {
-            dispatch(updateClientThunk(client_id, data));
-            setClientState("resource updated successfully");
+            dispatch(setIsLoading(true));
+            axios.put(`/api/clients/client/${client_id}`, data)
+                .then(res => { setClientState(res.data) })
+                .catch(error => {
+                    setClientState(error.response?.data)
+                })
+                .finally(() => dispatch(setIsLoading(false)))
         } else {
-            dispatch(createClientThunk(data));
-            setClientState("resource created successfully");
+            dispatch(setIsLoading(true));
+            axios.post(`/api/clients/client`, data)
+                .then(res => { setClientState(res.data) })
+                .catch(error => {
+                    setClientState(error.response?.data)
+                })
+                .finally(() => dispatch(setIsLoading(false)))
         }
     };
 
-    if (clientState === "resource created successfully" || clientState === "resource updated successfully") {
+    if (clientState.message === "resource created successfully" || clientState.message === "resource updated successfully") {
         navigate(`/schools/${school_id}/clients`);
-        setClientState("");
     }
+
+    console.log(clientState)
 
     if (Object.keys(data).length > 0) {
         setValue('cedulaCliente', data.cedulaCliente)
