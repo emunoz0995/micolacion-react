@@ -248,6 +248,7 @@ const ClientForm = () => {
                                     cols={1}
                                     register={register("telefon", { required: true })}
                                     placeholder="Telefono"
+                                    errors={errors.telefon && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                             </div>
                             <div className='flex gap-2 p-2'>
