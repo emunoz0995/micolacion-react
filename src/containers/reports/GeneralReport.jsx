@@ -16,10 +16,10 @@ import GeneralReportPDF from './GeneralReportPDF';
 
 const GeneralReportList = () => {
 
-    const { t } = useTranslation();
+    //const { t } = useTranslation();
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
-    const clientState = useSelector(state => state.clients)
+    //const clientState = useSelector(state => state.clients)
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
