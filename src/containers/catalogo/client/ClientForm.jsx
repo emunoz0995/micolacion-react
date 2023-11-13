@@ -258,7 +258,7 @@ const ClientForm = () => {
                                     input="input"
                                     spam={false}
                                     cols={1}
-                                    register={register("adress", { required: true })}
+                                    register={register("adress")}
                                     placeholder="Dirección"
                                 />
                             </div>
