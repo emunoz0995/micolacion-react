@@ -114,7 +114,7 @@ const RefrigerioProcesadosCervantes = () => {
                       titleTwo={'Inicial'} toTwo={`/schools/${school_id}/refrigerios_inicial`} activeTwo={false}
                       titleTree={'Secundaria '} toTree={`/schools/${school_id}/refrigerios_secundaria`} activeTree={false}
                       titleFour={'Eventuales'} toFour={`/schools/${school_id}/refrigerios_eventuales_cervantes`} activeFour={false}
-                      titleSix={'Procesados'} toSix={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSix={true}
+                      titleSeven={'Procesados'} toSeven={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSeven={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table-sm table-zebra w-full">
