@@ -244,7 +244,7 @@ const ClientForm = () => {
                                     type="text"
                                     label="Telefono"
                                     input="input"
-                                    spam={false}
+                                    spam={true}
                                     cols={1}
                                     register={register("telefon", { required: true })}
                                     placeholder="Telefono"
