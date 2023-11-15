@@ -16,7 +16,11 @@ export const countProcessSlice = createSlice({
 export const countBreakFastProcessThunk = (school_id) => dispatch => {
     axios.get(`/api/procedures/countBreakfast_procesados/${school_id}`)
     .then(res => dispatch(setCount(res.data)))
+};
 
+export const countLunchProcessThunk = (school_id) => dispatch => {
+    axios.get(`/api/procedures/countLuch_procesados/${school_id}`)
+    .then(res => dispatch(setCount(res.data)))
 };
 
 

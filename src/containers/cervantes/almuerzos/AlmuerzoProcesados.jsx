@@ -20,6 +20,7 @@ const AlmuerzoProcesadosCervantes = () => {
     const servicesState = useSelector(state => state.services)
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
+    const [countProcess, setCountProcess] = useState('');
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -43,19 +44,17 @@ const AlmuerzoProcesadosCervantes = () => {
 
     useEffect(() => {
         const results = data.filter(item => {
-            let nameMatch = false;
-            let lastNameMatch = false;
             let seccionMatch = false;
-            if (item.lastName) {
-                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
-                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
+            let fullName =  false 
+
+            if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            return nameMatch || lastNameMatch || seccionMatch;
+            if (item.lastName && item.firstName){
+                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+            }
+        
+            return fullName || seccionMatch ;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
@@ -95,7 +94,8 @@ const AlmuerzoProcesadosCervantes = () => {
         dispatch(setIsLoading(true));
         axios.get(`/api/almuerzos_cervantes/lunch_procesados/${school_id}`)
             .then(response => {
-                setData(response.data);
+                setData(response.data.result);
+                setCountProcess(response.data.countProcess);
             })
             .catch(error => {
                 console.error('Error al obtener datos de la API: ' + error);
@@ -114,7 +114,7 @@ const AlmuerzoProcesadosCervantes = () => {
                       titleTwo={'Inicial'} toTwo={`/schools/${school_id}/almuerzos_inicial`} activeTwo={false}
                       titleTree={'Secundaria '} toTree={`/schools/${school_id}/almuerzos_secundaria`} activeTree={false}
                       titleFour={'Eventuales'} toFour={`/schools/${school_id}/almuerzos_eventuales_cervantes`} activeFour={false}
-                      titleSeven={'Procesados'} toSeven={`/schools/${school_id}/almuerzos_procesados_cervantes`} activeSeven={true}
+                      titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/almuerzos_procesados_cervantes`} activeSeven={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full">

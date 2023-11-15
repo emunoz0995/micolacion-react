@@ -14,11 +14,13 @@ import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
 import { incrementLunchThunk } from '../../../store/slices/procedures/almuerzos.slice';
+import { countLunchProcessThunk} from '../../../store/slices/procedures/countProcess';
 
 const AlmuerzoEventualesCervantes = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const servicesState = useSelector(state => state.services);
+    const countProcces = useSelector(state => state.countProcess);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
@@ -40,23 +42,22 @@ const AlmuerzoEventualesCervantes = () => {
     useEffect(() => {
         getAlmuerzosEventuales();
         dispatch(getServicesExtrasThunk());
+        dispatch(countLunchProcessThunk(school_id));
     }, []);
 
     useEffect(() => {
         const results = data.filter(item => {
-            let nameMatch = false;
-            let lastNameMatch = false;
             let seccionMatch = false;
-            if (item.lastName) {
-                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
-                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
+            let fullName =  false 
+
+            if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            return nameMatch || lastNameMatch || seccionMatch;
+            if (item.lastName && item.firstName){
+                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+            }
+        
+            return fullName || seccionMatch ;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
@@ -71,6 +72,9 @@ const AlmuerzoEventualesCervantes = () => {
 
     const handlePlusBreak = (cedula, id) => {
         dispatch(incrementLunchThunk(cedula));
+        setTimeout(() => {
+            dispatch(countLunchProcessThunk(school_id));
+        }, 500);
         hideRow(id);
     }
 
@@ -115,7 +119,7 @@ const AlmuerzoEventualesCervantes = () => {
                         titleTwo={'Inicial'} toTwo={`/schools/${school_id}/almuerzos_inicial`} activeTwo={false}
                         titleTree={'Basical Media/Superior'} toTree={`/schools/${school_id}/almuerzos_secundaria`} activeTree={false}
                         titleFour={'Eventuales'} toFour={`/schools/${school_id}/almuerzos_eventuales_cervantes`} activeFour={true}
-                        titleSeven={'Procesados'} toSeven={`/schools/${school_id}/almuerzos_procesados_cervantes`} activeSeven={false}
+                        titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/almuerzos_procesados_cervantes`} activeSeven={false}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full">
