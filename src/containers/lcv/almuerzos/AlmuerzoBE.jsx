@@ -13,11 +13,13 @@ import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
 import { decrementLunchThunk } from '../../../store/slices/procedures/almuerzos.slice';
+import { countLunchProcessThunk} from '../../../store/slices/procedures/countProcess';
 
 const AlmuerzoBE = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const servicesState = useSelector(state => state.services);
+    const countProcces = useSelector(state => state.countProcess);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
@@ -39,6 +41,7 @@ const AlmuerzoBE = () => {
     useEffect(() => {
         getAlmuerzosBE();
         dispatch(getServicesExtrasThunk());
+        dispatch(countLunchProcessThunk(school_id));
     }, []);
 
     useEffect(() => {
@@ -68,6 +71,9 @@ const AlmuerzoBE = () => {
 
     const handlePlusBreak = (cedula, id) => {
         dispatch(decrementLunchThunk(cedula));
+        setTimeout(() => {
+            dispatch(countLunchProcessThunk(school_id));
+        }, 500);
         hideRow(id);
     }
 
@@ -107,12 +113,13 @@ const AlmuerzoBE = () => {
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                        titleOne={'Basica Media'} toOne={`/schools/${school_id}/almuerzos_bm`} activeOne={false}
-                        titleTwo={'Basica Elemental'} toTwo={`/schools/${school_id}/almuerzos_be`} activeTwo={true}
-                        titleTree={'Basica BS-BGU '} toTree={`/schools/${school_id}/almuerzos_bs_bgu`} activeTree={false}
-                        titleFour={'Eventuales'} toFour={`/schools/${school_id}/almuerzos_eventuales`} activeFour={false}
-                        titleFive={'Personal'} toFive={`/schools/${school_id}/almuerzos_personal`} activeFive={false}
-                        titleSix={'Procesados'} toSix={`/schools/${school_id}/almuerzos_procesados`} activeSix={false}
+                         titleOne={'Basica Media'} toOne={`/schools/${school_id}/almuerzos_bm`} activeOne={false}
+                         titleTwo={'Basica Elemental'} toTwo={`/schools/${school_id}/almuerzos_be`} activeTwo={true}
+                         titleTree={'Segundo Y Tercero EGB'} toTree={`/schools/${school_id}/almuerzos_2do_3ro_EGB`} activeTree={false}
+                         titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/almuerzos_bs_bgu`} activeFour={false}
+                         titleFive={'Eventuales'} toFive={`/schools/${school_id}/almuerzos_eventuales`} activeFive={false}
+                        // titleSix={'Personal'} toSix={`/schools/${school_id}/almuerzos_personal`} activeSix={false}
+                         titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={false}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full uppercase">

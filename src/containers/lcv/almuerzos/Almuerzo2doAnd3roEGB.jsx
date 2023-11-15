@@ -9,18 +9,18 @@ import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
 import Swal from 'sweetalert2';
 //SLICES
-import { getSchoolThunk } from '../../../store/slices/catalogs/schools.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
-import { decrementBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
+import { decrementLunchThunk } from '../../../store/slices/procedures/almuerzos.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
+import { countLunchProcessThunk} from '../../../store/slices/procedures/countProcess';
 
 
 const Almuerzo2doAnd3roEGB = () => {
     const { school_id } = useParams();
-    const schoolState = useSelector(state => state.schools);
     const servicesState = useSelector(state => state.services);
     const isLoading = useSelector(state => state.isLoadingSlice);
+    const countProcces = useSelector(state => state.countProcess);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
@@ -40,20 +40,11 @@ const Almuerzo2doAnd3roEGB = () => {
       })
 
     useEffect(() => {
-        dispatch(getSchoolThunk(school_id));
-        dispatch(getServicesExtrasThunk());
         getAlmuerzos2doy3ro();
+        dispatch(getServicesExtrasThunk());
+        dispatch(countLunchProcessThunk(school_id));
     }, []);
 
-    if (Object.keys(schoolState.school).length !== 0) {
-        let schoolInfo = {
-            name: `${schoolState.school.name}`,
-            active: `${schoolState.school.active}`,
-            id: `${schoolState.school.id}`,
-        };
-
-        localStorage.setItem("schoolInfo", JSON.stringify(schoolInfo));
-    }
 
     useEffect(() => {
         const results = data.filter(item => {
@@ -81,7 +72,10 @@ const Almuerzo2doAnd3roEGB = () => {
     };
 
     const handlePlusBreak = (cedula, id) => {
-        dispatch(decrementBreakFastThunk(cedula));
+        dispatch(decrementLunchThunk(cedula));
+        setTimeout(() => {
+            dispatch(countLunchProcessThunk(school_id));
+        }, 500);
         hideRow(id);
     }
 
@@ -127,7 +121,7 @@ const Almuerzo2doAnd3roEGB = () => {
                    titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/almuerzos_bs_bgu`} activeFour={false}
                    titleFive={'Eventuales'} toFive={`/schools/${school_id}/almuerzos_eventuales`} activeFive={false}
                   // titleSix={'Personal'} toSix={`/schools/${school_id}/almuerzos_personal`} activeSix={false}
-                   titleSeven={'Procesados'} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={false}
+                   titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={false}
                 />
                 <div className="overflow-y-scroll h-[87%] contenedor">
                     <table className="text-[13px] table table-zebra w-full">

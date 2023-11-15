@@ -17,7 +17,8 @@ import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.s
 const AlmuerzoProcesados = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
-    const servicesState = useSelector(state => state.services)
+    const servicesState = useSelector(state => state.services);
+    const [countProcess, setCountProcess] = useState('');
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
@@ -93,7 +94,8 @@ const AlmuerzoProcesados = () => {
         dispatch(setIsLoading(true));
         axios.get(`/api/almuerzos_lcv/lunch_procesados/${school_id}`)
             .then(response => {
-                setData(response.data);
+                setData(response.data.result);
+                setCountProcess(response.data.countProcess);
             })
             .catch(error => {
                 console.error('Error al obtener datos de la API: ' + error);
@@ -114,7 +116,7 @@ const AlmuerzoProcesados = () => {
                        titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/almuerzos_bs_bgu`} activeFour={false}
                        titleFive={'Eventuales'} toFive={`/schools/${school_id}/almuerzos_eventuales`} activeFive={false}
                       // titleSix={'Personal'} toSix={`/schools/${school_id}/almuerzos_personal`} activeSix={false}
-                       titleSeven={'Procesados'} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={true}
+                       titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full uppercase">

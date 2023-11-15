@@ -13,11 +13,13 @@ import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
 import { incrementLunchThunk } from '../../../store/slices/procedures/almuerzos.slice';
+import { countLunchProcessThunk} from '../../../store/slices/procedures/countProcess';
 
 const AlmuerzoEventuales = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const servicesState = useSelector(state => state.services);
+    const countProcces = useSelector(state => state.countProcess);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
@@ -39,6 +41,7 @@ const AlmuerzoEventuales = () => {
     useEffect(() => {
         getAlmuerzosEventuales();
         dispatch(getServicesExtrasThunk());
+        dispatch(countLunchProcessThunk(school_id));
     }, []);
 
     useEffect(() => {
@@ -68,6 +71,9 @@ const AlmuerzoEventuales = () => {
 
     const handlePlusBreak = (cedula, id) => {
         dispatch(incrementLunchThunk(cedula));
+        setTimeout(() => {
+            dispatch(countLunchProcessThunk(school_id));
+        }, 500);
         hideRow(id);
     }
 
@@ -113,7 +119,7 @@ const AlmuerzoEventuales = () => {
                          titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/almuerzos_bs_bgu`} activeFour={false}
                          titleFive={'Eventuales'} toFive={`/schools/${school_id}/almuerzos_eventuales`} activeFive={true}
                         // titleSix={'Personal'} toSix={`/schools/${school_id}/almuerzos_personal`} activeSix={false}
-                         titleSeven={'Procesados'} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={false}
+                         titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={false}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full uppercase">
