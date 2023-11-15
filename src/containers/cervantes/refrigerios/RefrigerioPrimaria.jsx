@@ -13,6 +13,7 @@ import { getSchoolThunk } from '../../../store/slices/catalogs/schools.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { decrementBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
+import { countBreakFastProcessThunk } from '../../../store/slices/procedures/countProcess';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
 
 
@@ -21,6 +22,7 @@ const RefrigerioPrimaria = () => {
     const schoolState = useSelector(state => state.schools);
     const servicesState = useSelector(state => state.services);
     const isLoading = useSelector(state => state.isLoadingSlice);
+    const countProcces = useSelector(state => state.countProcess);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
@@ -40,9 +42,10 @@ const RefrigerioPrimaria = () => {
       })
 
     useEffect(() => {
+        getRefrigeriosPrimaria();
         dispatch(getSchoolThunk(school_id));
         dispatch(getServicesExtrasThunk());
-        getRefrigeriosPrimaria();
+        dispatch(countBreakFastProcessThunk(school_id));       
     }, []);
 
     if (Object.keys(schoolState.school).length !== 0) {
@@ -57,19 +60,17 @@ const RefrigerioPrimaria = () => {
 
     useEffect(() => {
         const results = data.filter(item => {
-            let nameMatch = false;
-            let lastNameMatch = false;
             let seccionMatch = false;
-            if (item.lastName) {
-                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
-                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
+            let fullName =  false 
+
+            if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            return nameMatch || lastNameMatch || seccionMatch;
+            if (item.lastName && item.firstName){
+                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+            }
+        
+            return fullName || seccionMatch ;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
@@ -84,6 +85,9 @@ const RefrigerioPrimaria = () => {
 
     const handlePlusBreak = (cedula, id) => {
         dispatch(decrementBreakFastThunk(cedula));
+        setTimeout(() => {
+            dispatch(countBreakFastProcessThunk(school_id));
+        }, 500);       
         hideRow(id);
     }
 
@@ -127,7 +131,7 @@ const RefrigerioPrimaria = () => {
                     titleTwo={'Inicial'} toTwo={`/schools/${school_id}/refrigerios_inicial`} activeTwo={false}
                     titleTree={'Basical Media/Superior'} toTree={`/schools/${school_id}/refrigerios_secundaria`} activeTree={false}
                     titleFour={'Eventuales'} toFour={`/schools/${school_id}/refrigerios_eventuales_cervantes`} activeFour={false}
-                    titleSeven={'Procesados'} toSeven={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSeven={false}
+                    titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSeven={false}
                 />
                 <div className="overflow-y-scroll h-[87%] contenedor">
                     <table className="text-[13px] table table-zebra w-full">

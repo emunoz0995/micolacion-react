@@ -45,19 +45,17 @@ const RefrigerioProcesadosCervantes = () => {
 
     useEffect(() => {
         const results = data.filter(item => {
-            let nameMatch = false;
-            let lastNameMatch = false;
             let seccionMatch = false;
-            if (item.lastName) {
-                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
-                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
+            let fullName =  false 
+
+            if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            return nameMatch || lastNameMatch || seccionMatch;
+            if (item.lastName && item.firstName){
+                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+            }
+        
+            return fullName || seccionMatch ;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
@@ -80,9 +78,7 @@ const RefrigerioProcesadosCervantes = () => {
             serviceId,
             cedulaCliente,
         }
-
         dispatch(registerExtrasThunk(data));
-
         Toast.fire({
             icon: 'success',
             title: '¡Servicio extra registrado!'
@@ -113,9 +109,9 @@ const RefrigerioProcesadosCervantes = () => {
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                      titleOne={'Primaria'} toOne={`/schools/${school_id}/refrigerios_primaria`} activeOne={false}
+                      titleOne={'Basical Elemental'} toOne={`/schools/${school_id}/refrigerios_primaria`} activeOne={false}
                       titleTwo={'Inicial'} toTwo={`/schools/${school_id}/refrigerios_inicial`} activeTwo={false}
-                      titleTree={'Secundaria '} toTree={`/schools/${school_id}/refrigerios_secundaria`} activeTree={false}
+                      titleTree={'Basical Media/Superior '} toTree={`/schools/${school_id}/refrigerios_secundaria`} activeTree={false}
                       titleFour={'Eventuales'} toFour={`/schools/${school_id}/refrigerios_eventuales_cervantes`} activeFour={false}
                       titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSeven={true}
                     />
