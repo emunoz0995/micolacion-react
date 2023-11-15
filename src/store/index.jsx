@@ -12,6 +12,7 @@ import refrigeriosProcedure from './slices/procedures/refrigerios.slice';
 import funtions from './slices/procedures/funtions.slice';
 import facturations from "./slices/facturation/facturation.slice";
 import isLoadingSlice from './slices/isLoading.slice';
+import countProcess from './slices/procedures/countProcess';
 
 
 export default configureStore({
@@ -27,6 +28,7 @@ export default configureStore({
     almuerzosLcv,
     funtions,
     facturations,
-    isLoadingSlice
+    isLoadingSlice,
+    countProcess
 	}
 })

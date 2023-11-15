@@ -106,12 +106,15 @@ const ClientForm = () => {
         setValue('totalBreakfast', data.totalBreakfast)
         setValue('totalLunch', data.totalLunch)
         setValue('active', data.active)
+        setValue('representativeId', data.cliente_representante.id)
         setValue('cedulaRepresentante', data.cliente_representante.cedulaRepresentante)
         setValue('names', data.cliente_representante.names)
         setValue('email', data.cliente_representante.email)
         setValue('telefon', data.cliente_representante.telefon)
         setValue('adress', data.cliente_representante.adress)
     }
+
+    console.log(data)
 
     return (
         <SchoolLayout>
@@ -207,6 +210,7 @@ const ClientForm = () => {
                             </div>
                             <HeaderSection title="Datos representante" />
                             <div className='flex gap-2 p-2'>
+                                 <input type="text" {...register('representativeId')} hidden/> 
                                 <InputForm
                                     type="text"
                                     label="Cedula"

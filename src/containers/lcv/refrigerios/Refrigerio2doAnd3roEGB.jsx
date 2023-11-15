@@ -57,19 +57,17 @@ const Refrigerio2doAnd3roEGB = () => {
 
     useEffect(() => {
         const results = data.filter(item => {
-            let nameMatch = false;
-            let lastNameMatch = false;
             let seccionMatch = false;
-            if (item.lastName) {
-                nameMatch = item.lastName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
-                lastNameMatch = item.firstName.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.firstName) {
+            let fullName =  false 
+
+            if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            return nameMatch || lastNameMatch || seccionMatch;
+            if (item.lastName && item.firstName){
+                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+            }
+        
+            return fullName || seccionMatch ;
         });
         setSearchResults(results);
     }, [searchTerm, data]);

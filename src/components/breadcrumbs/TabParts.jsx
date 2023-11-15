@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 const TabParts = ({
     titleOne, titleTwo, titleTree, titleFour, titleFive, titleSix, titleSeven,
     toOne, toTwo, toTree, toFour, toFive, toSix, toSeven,
-    activeOne, activeTwo, activeTree, activeFour, activeFive, activeSix, activeSeven
+    activeOne, activeTwo, activeTree, activeFour, activeFive, activeSix, activeSeven,
+    countProcces
 }) => {
     return (
         <div className='flex w-[99%] justify-between'>
@@ -17,7 +18,12 @@ const TabParts = ({
                 <Link to={toSix} className={`${activeSix === true ? 'tab-active text-sky-500' : ''}  tab tab-lifted font-semibold`}>{titleSix}</Link>
             </div>
             <div className="tabs mb-2">
-                <Link to={toSeven} className={`${activeSeven === true ? 'tab-active text-sky-500' : ''}  tab tab-lifted font-semibold`}>{titleSeven}</Link>
+                <Link to={toSeven} className={`${activeSeven === true ? 'tab-active text-sky-500' : ''}  tab tab-lifted font-semibold`}>
+                {titleSeven}
+                    <div className='ml-3 w-[23px] h-[23px] bg-sky-500 text-white rounded-full flex justify-center items-center' >
+                        <p>{countProcces}</p>
+                    </div>
+                </Link>
             </div>
         </div>
 

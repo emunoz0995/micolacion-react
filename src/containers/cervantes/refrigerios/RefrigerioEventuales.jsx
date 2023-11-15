@@ -12,12 +12,14 @@ import Swal from 'sweetalert2';
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
+import { countBreakFastProcessThunk } from '../../../store/slices/procedures/countProcess';
 import { incrementBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
 
 const RefrigerioEventualesCervantes = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const servicesState = useSelector(state => state.services);
+    const countProcces = useSelector(state => state.countProcess)
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
@@ -39,6 +41,7 @@ const RefrigerioEventualesCervantes = () => {
 
     useEffect(() => {
         getRefrigeriosEventuales();
+        dispatch(countBreakFastProcessThunk(school_id));
         dispatch(getServicesExtrasThunk());
     }, []);
 
@@ -71,6 +74,9 @@ const RefrigerioEventualesCervantes = () => {
 
     const handlePlusBreak = (cedula, id) => {
         dispatch(incrementBreakFastThunk(cedula));
+        setTimeout(() => {
+            dispatch(countBreakFastProcessThunk(school_id));
+        }, 500);       
         hideRow(id);
     }
 
@@ -114,7 +120,7 @@ const RefrigerioEventualesCervantes = () => {
                         titleTwo={'Inicial'} toTwo={`/schools/${school_id}/refrigerios_inicial`} activeTwo={false}
                         titleTree={'Basica Media/Superior'} toTree={`/schools/${school_id}/refrigerios_secundaria`} activeTree={false}
                         titleFour={'Eventuales'} toFour={`/schools/${school_id}/refrigerios_eventuales_cervantes`} activeFour={true}
-                        titleSeven={'Procesados'} toSeven={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSeven={false}
+                        titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSeven={false}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full">
