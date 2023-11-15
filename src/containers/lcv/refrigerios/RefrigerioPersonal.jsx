@@ -13,11 +13,13 @@ import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { incrementBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
+import { countBreakFastProcessThunk } from '../../../store/slices/procedures/countProcess';
 
 const RefrigerioPersonal = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const servicesState = useSelector(state => state.services);
+    const countProcces = useSelector(state => state.countProcess);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
@@ -39,6 +41,7 @@ const RefrigerioPersonal = () => {
     useEffect(() => {
         getRefrigeriosPersonal();
         dispatch(getServicesExtrasThunk());
+        dispatch(countBreakFastProcessThunk(school_id));
     }, []);
 
     useEffect(() => {
@@ -68,6 +71,9 @@ const RefrigerioPersonal = () => {
 
     const handlePlusBreak = (cedula, id) => {
         dispatch(incrementBreakFastThunk(cedula));
+        setTimeout(() => {
+            dispatch(countBreakFastProcessThunk(school_id));
+        }, 500);
         hideRow(id);
     }
 
@@ -107,13 +113,13 @@ const RefrigerioPersonal = () => {
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                        titleOne={'Basica Media'} toOne={`/schools/${school_id}/refrigerios_bm`} activeOne={false}
-                        titleTwo={'Basica Elemental'} toTwo={`/schools/${school_id}/refrigerios_be`} activeTwo={false}
-                        titleTree={'Segundo Y Tercero EGB'} toTree={`/schools/${school_id}/refrigerios_2do_3ro_EGB`} activeTree={false}
-                        titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/refrigerios_bs_bgu`} activeFour={false}
-                        titleFive={'Eventuales'} toFive={`/schools/${school_id}/refrigerios_eventuales`} activeFive={false}
-                        titleSix={'Personal'} toSix={`/schools/${school_id}/refrigerios_personal`} activeSix={true}
-                        titleSeven={'Procesados'} toSeven={`/schools/${school_id}/refrigerios_procesados`} activeSeven={false}
+                         titleOne={'Basica Media'} toOne={`/schools/${school_id}/refrigerios_bm`} activeOne={false}
+                         titleTwo={'Basica Elemental'} toTwo={`/schools/${school_id}/refrigerios_be`} activeTwo={false}
+                         titleTree={'Segundo Y Tercero EGB'} toTree={`/schools/${school_id}/refrigerios_2do_3ro_EGB`} activeTree={false}
+                         titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/refrigerios_bs_bgu`} activeFour={false}
+                         titleFive={'Eventuales'} toFive={`/schools/${school_id}/refrigerios_eventuales`} activeFive={false}
+                        // titleSix={'Personal'} toSix={`/schools/${school_id}/refrigerios_personal`} activeSix={true}
+                         titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/refrigerios_procesados`} activeSeven={false}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full uppercase">

@@ -21,6 +21,7 @@ const RefrigerioProcesados = () => {
     const servicesState = useSelector(state => state.services)
     const dispatch = useDispatch();;
     const [hiddenRows, setHiddenRows] = useState([]);
+    const [countProcess, setCountProcess] = useState('');
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -93,7 +94,8 @@ const RefrigerioProcesados = () => {
         dispatch(setIsLoading(true));
         axios.get(`/api/refrigerios_lcv/breakfast_procesados/${school_id}`)
             .then(response => {
-                setData(response.data);
+                setData(response.data.result);
+                setCountProcess(response.data.countProcess);
             })
             .catch(error => {
                 console.error('Error al obtener datos de la API: ' + error);
@@ -114,7 +116,7 @@ const RefrigerioProcesados = () => {
                         titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/refrigerios_bs_bgu`} activeFour={false}
                         titleFive={'Eventuales'} toFive={`/schools/${school_id}/refrigerios_eventuales`} activeFive={false}
                         // titleSix={'Personal'} toSix={`/schools/${school_id}/refrigerios_personal`} activeSix={false}
-                        titleSeven={'Procesados'} toSeven={`/schools/${school_id}/refrigerios_procesados`} activeSeven={true}
+                        titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/refrigerios_procesados`} activeSeven={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table-sm table-zebra w-full uppercase">
