@@ -7,20 +7,56 @@ import BtnTable from '../../components/buttons/BtnTable';
 import Header from '../../components/headers/catalogs/Header';
 import MainLoader from '../../components/Loaders/MainLoader';
 //SLICE
-import { getHistoryReportThunk } from '../../store/slices/reports/reports.slice';
+import { setIsLoading } from '../../store/slices/isLoading.slice';
 //RESORCES
 import { API_BASE_URL } from '../../store/constans';
+import axios from 'axios';
 
 const HistoryReport = () => {
 
     const { school_id } = useParams();
-    const reportState = useSelector(state => state.reports);
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const dispatch = useDispatch();
-    const [hiddenRows, setHiddenRows] = useState([]);
+    const [data, setData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
-        dispatch(getHistoryReportThunk(school_id));
+        getHistoryReportThunk();
     }, []);
+
+    useEffect(() => {
+        const results = data.filter(item => {
+            let seccionMatch = false;
+            let fullName = false
+
+            if (item.cliente_seccion?.name) {
+                seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.lastName && item.firstName) {
+                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+            }
+
+            return fullName || seccionMatch;
+        });
+        setSearchResults(results);
+    }, [searchTerm, data]);
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const getHistoryReportThunk = () => {
+        dispatch(setIsLoading(true));
+        axios.get(`/api/reports/reportHistory/${school_id}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
 
     const formatDateToLocal = (date) => {
         const formattedDate = new Date(date).toLocaleString();
@@ -30,12 +66,14 @@ const HistoryReport = () => {
     const handleGenerateExcel = () => {
         const url = `${API_BASE_URL}api/reports/history/${school_id}`;
         window.open(url, "_self");
-        
+
     };
 
+    console.log(data)
+
     return (
-        <SchoolLayout>
-            {reportState.fetching || reportState.processing ? (
+        <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
+            {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-[97%]">
@@ -54,12 +92,9 @@ const HistoryReport = () => {
                                     <th>Consumidos</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {reportState.reports.map(item => {
-                                    if (hiddenRows.includes(item.id)) {
-                                        return null;
-                                    }
-                                    return (
+                            {searchResults.length > 0 ?
+                                <tbody>
+                                    {searchResults.map(item => (
                                         <tr className='h-[60px]' key={item.id}>
                                             <td className='p-2'>{formatDateToLocal(item.createdAt)}</td>
                                             <td className='p-2'>{item.lastName} {item.firstName}</td>
@@ -67,14 +102,17 @@ const HistoryReport = () => {
                                             <td>{item.history_servicio?.name}</td>
                                             <td className='pl-8' >
                                                 {item.history_servicio?.name === "REFRIGERIO INDIVIDUAL CAMPOVERDE" || "REFRIGERIO INDIVIDUAL CERVANTES" ? item.breakfastConsumed :
-                                                 item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || "ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed :
-                                                 item.history_servicio?.isExtra ? item.extrasConsumed : ""
+                                                    item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || "ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed :
+                                                        item.history_servicio?.isExtra ? item.extrasConsumed : ""
                                                 }
                                             </td>
                                         </tr>
-                                    );
-                                })}
-                            </tbody>
+                                    ))}
+                                </tbody> :
+                                <div className="absolute z-10 top-[400px] left-8 sm:top-[350px] sm:left-[610px]">
+                                    <h1 className='font-semibolt text-[22px] sm:text-[25px] text-gray-400'>NO HAY DATOS PARA MOSTRAR</h1>
+                                </div>
+                            }
                         </table>
                     </div>
                 </div>
