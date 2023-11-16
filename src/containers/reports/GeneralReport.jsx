@@ -39,7 +39,7 @@ const GeneralReportList = () => {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
             if (item.lastName && item.firstName){
-                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+                fullName = `${item.lastName}${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
             }
         
             return fullName || seccionMatch ;
