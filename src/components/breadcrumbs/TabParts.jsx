@@ -8,7 +8,7 @@ const TabParts = ({
     countProcces
 }) => {
     return (
-        <div className='flex w-[99%] justify-between'>
+        <div className='flex flex-col md:flex-row sm:flex-row w-[99%] justify-between'>
             <div className="tabs mb-2">
                 <Link to={toOne} className={`${activeOne === true ? 'tab-active text-sky-500' : ''}  tab tab-lifted font-semibold`}>{titleOne}</Link>
                 <Link to={toTwo} className={`${activeTwo === true ? 'tab-active text-sky-500' : ''}  tab tab-lifted font-semibold`}>{titleTwo}</Link>
