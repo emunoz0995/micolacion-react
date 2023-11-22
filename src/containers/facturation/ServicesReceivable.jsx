@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 //SLICE
 import { getServicesReceivableThunk } from '../../store/slices/facturation/facturation.slice';
 import { paidServiceThunk } from '../../store/slices/procedures/funtions.slice';
+import ServiceReceivableCell from '../../components/rates/ServiceReceivableCell';
 
 
 const ServicesReceivable = () => {
@@ -51,6 +52,8 @@ const ServicesReceivable = () => {
         hideRow(clientId);
     };
 
+    console.log(receivableServiceState)
+
     return (
         <SchoolLayout>
             {receivableServiceState.fetching || receivableServiceState.processing ? (
@@ -58,15 +61,15 @@ const ServicesReceivable = () => {
             ) : (
                 <div className="mx-5 my-5 w-[97%]">
                     <Header title="Servicios por cobrar" />
-                    <div className="overflow-y-scroll h-[87%] contenedor">
+                    <div className="overflow-y-scroll h-[87%] contenedor uppercase">
                         <table className="text-[13px] table-sm table-zebra w-full">
                             <thead className='border-t-2 border-t-sky-500' >
                                 <tr className='text-left h-[60px] bg-[#f2f7ff] sticky top-0'>
-                                    <th className='p-3 w-[200px]'>Representante</th>
+                                    <th className='p-3 w-[150px]'>Representante</th>
                                     <th>Email</th>
-                                    <th>Telefono</th>
-                                    <th className='w-[200px]'>Estudiante</th>
-                                    <th>Servicio</th>
+                                    <th className='px-5' >Telefono</th>
+                                    <th className='w-[150px]'>Estudiante</th>
+                                    <th className='w-[280px]'>Servicio</th>
                                     <th>Valor</th>
                                     <th>Consumidos</th>
                                     <th></th>
@@ -81,9 +84,16 @@ const ServicesReceivable = () => {
                                         <tr className='h-[60px]' key={item.id}>
                                             <td className='p-3'>{item.history_representante?.names} </td>
                                             <td className='w-[150px]'>{item.history_representante?.email} </td>
-                                            <td>{item.history_representante?.telefon} </td>
+                                            <td className='px-5'>{item.history_representante?.telefon} </td>
                                             <td>{item.firstName} {item.lastName}</td>
-                                            <td>{item.history_servicio?.name}</td>
+                                            <td>
+                                               <ServiceReceivableCell
+                                               servicioPrincipal={item.history_servicioPrincipal?.name}
+                                               servicioTomado={item.history_servicio?.name}
+                                               totalBreakFast={item.totalBreakfast}
+                                               totalLunch={item.totalLunch}
+                                               />
+                                            </td>
                                             <td>$ {item.history_servicio?.price}</td>
                                             <td className='pl-8' >
                                                 {item.history_servicio?.name === "REFRIGERIO INDIVIDUAL CAMPOVERDE" || "REFRIGERIO INDIVIDUAL CERVANTES" ? item.breakfastConsumed :
