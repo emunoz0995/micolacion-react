@@ -50,11 +50,6 @@ export default function DropdownForm({
           ))}
         </select>
       }
-
-
-
-
-
       {errors}
     </div>
   );

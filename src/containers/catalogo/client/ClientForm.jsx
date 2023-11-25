@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
+import axios from 'axios';
 
 //UI
 import MainLoader from '../../../components/Loaders/MainLoader';
@@ -11,15 +12,16 @@ import SchoolLayout from '../../../layouts/SchoolsLayout';
 import HeaderForm from '../../../components/headers/catalogs/HeaderForm';
 import HeaderSection from '../../../components/headers/catalogs/HeaderSection';
 import BtnContent from '../../../components/buttons/BtnContent';
+import DropdownForm from '../../../components/Inputs/formInput/DropdonwForm';
+import { FaCircle, FaPlus, FaTrash } from 'react-icons/fa';
 import '../../../App.css';
 // SLICES 
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
-import { createClientThunk, updateClientThunk } from '../../../store/slices/catalogs/clients.slice';
 import { getServicesBySchoolThunk } from '../../../store/slices/catalogs/services.slice';
 import { getSectionsBySchoolThunk } from '../../../store/slices/catalogs/sections.slice';
-import DropdownForm from '../../../components/Inputs/formInput/DropdonwForm';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+
+
+
 
 
 const ClientForm = () => {
@@ -30,22 +32,15 @@ const ClientForm = () => {
     const [data, setData] = useState([]);
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
     const isLoading = useSelector(state => state.isLoadingSlice);
-    const [clientState, setClientState] = useState("");
     const serviceState = useSelector(state => state.services);
     const sectionsState = useSelector(state => state.sections);
-    const dispatch = useDispatch();
+    const [clientState, setClientState] = useState("");
+    const [items, setItems] = useState([]);
+    const [serviceId, setServiceId] = useState('');
+    const [text, setText] = useState('');
+    const [total, setTotal] = useState('');
 
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setValue('totalBreakfast', 0)
@@ -53,7 +48,7 @@ const ClientForm = () => {
         dispatch(getServicesBySchoolThunk(school_id))
         dispatch(getSectionsBySchoolThunk(school_id))
         if (client_id) {
-            getClient(client_id);
+            getClient();
         }
     }, []);
 
@@ -61,7 +56,8 @@ const ClientForm = () => {
         dispatch(setIsLoading(true));
         axios.get(`/api/clients/client/${client_id}`)
             .then(response => {
-                setData(response.data);
+                setData(response.data?.result);
+                setItems(response.data?.studentServices);
             })
             .catch(error => {
                 console.error('Error al obtener datos de la API: ' + error);
@@ -69,19 +65,49 @@ const ClientForm = () => {
             .finally(() => dispatch(setIsLoading(false)))
     }
 
+    const agregarItem = () => {
+        if (serviceId && total) {
+            const newItem = { servicio: { name: text }, serviceId, total };
+            console.log(newItem)
+            setItems([...items, newItem]);
+            setServiceId('');
+            setTotal('');
+            resetSelect();
+
+        }
+    };
+
+    function mostrarSeleccion() {
+        var selectElement = document.getElementById("miSelect");
+        var valorSeleccionado = selectElement.value;
+        var textoSeleccionado = selectElement.options[selectElement.selectedIndex].text;
+        setServiceId(valorSeleccionado);
+        setText(textoSeleccionado)
+    }
+
+    function resetSelect() {
+        var selectElement = document.getElementById("miSelect");
+        selectElement.value = "";
+        for (var i = 0; i < selectElement.options.length; i++) {
+            selectElement.options[i].removeAttribute("selected");
+        }
+    }
+
 
     const onSubmit = (data) => {
         if (client_id) {
+            const allData = { data, items }
             dispatch(setIsLoading(true));
-            axios.put(`/api/clients/client/${client_id}`, data)
+            axios.put(`/api/clients/client/${client_id}`, allData)
                 .then(res => { setClientState(res.data) })
                 .catch(error => {
                     setClientState(error.response?.data)
                 })
                 .finally(() => dispatch(setIsLoading(false)))
         } else {
+            const allData = { data, items }
             dispatch(setIsLoading(true));
-            axios.post(`/api/clients/client`, data)
+            axios.post(`/api/clients/client`, allData)
                 .then(res => { setClientState(res.data) })
                 .catch(error => {
                     setClientState(error.response?.data)
@@ -90,11 +116,21 @@ const ClientForm = () => {
         }
     };
 
+    const deleteService = (service_id) => {
+        dispatch(setIsLoading(true));
+        axios.delete(`/api/services/servicesByStudent/${service_id}`)
+            .then(() => {
+                getClient();
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
+
     if (clientState.message === "resource created successfully" || clientState.message === "resource updated successfully") {
         navigate(`/schools/${school_id}/clients`);
     }
-
-    console.log(clientState)
 
     if (Object.keys(data).length > 0) {
         setValue('cedulaCliente', data.cedulaCliente)
@@ -113,8 +149,6 @@ const ClientForm = () => {
         setValue('telefon', data.cliente_representante.telefon)
         setValue('adress', data.cliente_representante.adress)
     }
-
-    console.log(data)
 
     return (
         <SchoolLayout>
@@ -158,7 +192,7 @@ const ClientForm = () => {
                                     errors={errors.name && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                             </div>
-                            <div className='flex gap-2 p-2'>
+                            <div className='flex gap-2 p-2 mb-3'>
                                 <DropdownForm
                                     label="Seccion"
                                     input="input"
@@ -198,7 +232,59 @@ const ClientForm = () => {
                                     placeholder="0"
                                 />
                             </div>
-                            <div className='flex gap-2 p-2'>
+                            <HeaderSection title="Servicios Adicionales" />
+                            <div className='flex gap-2 p-2 w-[50%] items-center'>
+                                <div className='flex flex-col w-[50%] cols'>
+                                    <label className='text-sm flex items-center m-1'>
+                                        <p>Servicio</p>
+                                    </label>
+                                    <select id="miSelect" onChange={mostrarSeleccion} className="input input-sm outline-none input-bordered focus:outline-none focus:ring-1 rounded-md shadow-base-300 shadow-lg">
+                                        <option value="">Seleccione</option>
+                                        {serviceState.services.map((service) => (
+                                            <option key={service.id} value={service.id}>{service.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className={`flex flex-col w-full cols`} >
+                                    <label className="text-sm flex items-center m-1">
+                                        <p>Total</p>
+                                    </label>
+                                    <input
+                                        className={`input input-sm outline-none input-bordered focus:outline-none focus:ring-1 rounded-md shadow-base-300 shadow-lg`}
+                                        onChange={(e) => setTotal(e.target.value)}
+                                        value={total}
+                                    />
+                                </div>
+                                <button onClick={agregarItem} type='button' className="bg-sky-400  hover:bg-sky-600 text-white transition-all active:scale-95 p-2 
+                                    rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center mt-7 gap-1 justify-center text-sm">
+                                    <FaPlus />
+                                </button>
+                            </div>
+                            {items ?
+                                items.map(item => (
+                                    <div key={item.id} className='flex gap-2 p-2 w-[50%] border'>
+                                        <div className={`flex flex-col w-full cols`} >
+                                            <label className="text-sm flex items-center m-1 gap-2">
+                                            <FaCircle size={"10px"} color='green'/>
+                                                <p>{item.servicio?.name}</p>
+                                            </label>
+
+                                        </div>
+                                        <div className={`flex flex-col w-full cols`} >
+                                            <label className="text-sm flex items-center m-1">
+                                                <p>{item.total}</p>
+                                            </label>
+
+                                        </div>
+                                        <button onClick={()=>deleteService(item.id)} type='button' className="bg-red-400  hover:bg-red-600 text-white transition-all active:scale-95 p-2 
+                                             rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center mt-1 gap-1 justify-center text-sm">
+                                            <FaTrash />
+                                        </button>
+                                    </div>
+                                ))
+                                : ""
+                            }
+                            <div className='flex gap-2 p-2 w-full'>
                                 <InputForm
                                     type="checkbox"
                                     label="Activo"
@@ -210,7 +296,7 @@ const ClientForm = () => {
                             </div>
                             <HeaderSection title="Datos representante" />
                             <div className='flex gap-2 p-2'>
-                                 <input type="text" {...register('representativeId')} hidden/> 
+                                <input type="text" {...register('representativeId')} hidden />
                                 <InputForm
                                     type="text"
                                     label="Cedula"
