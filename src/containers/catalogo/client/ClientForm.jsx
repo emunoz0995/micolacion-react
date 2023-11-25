@@ -117,7 +117,6 @@ const ClientForm = () => {
     };
 
     const deleteService = (service_id) => {
-        dispatch(setIsLoading(true));
         axios.delete(`/api/services/servicesByStudent/${service_id}`)
             .then(() => {
                 getClient();
@@ -125,7 +124,6 @@ const ClientForm = () => {
             .catch(error => {
                 console.error('Error al obtener datos de la API: ' + error);
             })
-            .finally(() => dispatch(setIsLoading(false)))
     }
 
     if (clientState.message === "resource created successfully" || clientState.message === "resource updated successfully") {
