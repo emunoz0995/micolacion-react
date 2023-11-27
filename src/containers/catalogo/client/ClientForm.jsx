@@ -20,6 +20,7 @@ import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesBySchoolThunk } from '../../../store/slices/catalogs/services.slice';
 import { getAditionalServicesBySchoolThunk } from '../../../store/slices/catalogs/aditionalServices.slice';
 import { getSectionsBySchoolThunk } from '../../../store/slices/catalogs/sections.slice';
+import getConfig from '../../../utils/getConfig';
 
 
 const ClientForm = () => {
@@ -116,7 +117,7 @@ const ClientForm = () => {
     };
 
     const deleteService = (service_id) => {
-        axios.delete(`/api/services/servicesByStudent/${service_id}`)
+        axios.delete(`/api/services/servicesByStudent/${service_id}`,getConfig())
             .then(() => {
                 getClient();
             })
