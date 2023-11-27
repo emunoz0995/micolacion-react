@@ -23,6 +23,11 @@ export const countLunchProcessThunk = (school_id) => dispatch => {
     .then(res => dispatch(setCount(res.data)))
 };
 
+export const countAdicionalProcessThunk = (school_id) => dispatch => {
+    axios.get(`/api/procedures/countAdicional_procesados/${school_id}`)
+    .then(res => dispatch(setCount(res.data)))
+};
+
 
 export const { 
     setCount,

@@ -18,10 +18,8 @@ import '../../../App.css';
 // SLICES 
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesBySchoolThunk } from '../../../store/slices/catalogs/services.slice';
+import { getAditionalServicesBySchoolThunk } from '../../../store/slices/catalogs/aditionalServices.slice';
 import { getSectionsBySchoolThunk } from '../../../store/slices/catalogs/sections.slice';
-
-
-
 
 
 const ClientForm = () => {
@@ -33,6 +31,7 @@ const ClientForm = () => {
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const serviceState = useSelector(state => state.services);
+    const aditionalServicesState = useSelector(state => state.aditionalServices)
     const sectionsState = useSelector(state => state.sections);
     const [clientState, setClientState] = useState("");
     const [items, setItems] = useState([]);
@@ -47,6 +46,7 @@ const ClientForm = () => {
         setValue('totalLunch', 0)
         dispatch(getServicesBySchoolThunk(school_id))
         dispatch(getSectionsBySchoolThunk(school_id))
+        dispatch(getAditionalServicesBySchoolThunk(school_id));
         if (client_id) {
             getClient();
         }
@@ -68,7 +68,6 @@ const ClientForm = () => {
     const agregarItem = () => {
         if (serviceId && total) {
             const newItem = { servicio: { name: text }, serviceId, total };
-            console.log(newItem)
             setItems([...items, newItem]);
             setServiceId('');
             setTotal('');
@@ -238,7 +237,7 @@ const ClientForm = () => {
                                     </label>
                                     <select id="miSelect" onChange={mostrarSeleccion} className="input input-sm outline-none input-bordered focus:outline-none focus:ring-1 rounded-md shadow-base-300 shadow-lg">
                                         <option value="">Seleccione</option>
-                                        {serviceState.services.map((service) => (
+                                        {aditionalServicesState.services.map((service) => (
                                             <option key={service.id} value={service.id}>{service.name}</option>
                                         ))}
                                     </select>

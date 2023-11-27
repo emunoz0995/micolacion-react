@@ -13,6 +13,8 @@ import funtions from './slices/procedures/funtions.slice';
 import facturations from "./slices/facturation/facturation.slice";
 import isLoadingSlice from './slices/isLoading.slice';
 import countProcess from './slices/procedures/countProcess';
+import aditionalServices from './slices/catalogs/aditionalServices.slice';
+import adicionalProcedure from './slices/procedures/adicionales.slice';
 
 
 export default configureStore({
@@ -29,6 +31,8 @@ export default configureStore({
     funtions,
     facturations,
     isLoadingSlice,
-    countProcess
+    countProcess,
+    aditionalServices,
+    adicionalProcedure
 	}
 })

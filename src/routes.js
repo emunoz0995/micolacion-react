@@ -54,6 +54,9 @@ import AlmuerzoInicial from "./containers/cervantes/almuerzos/AlmuerzoInicial";
 import AlmuerzoEventualesCervantes from "./containers/cervantes/almuerzos/AlmuerzoEventuales";
 import AlmuerzoSecundaria from "./containers/cervantes/almuerzos/AlmuerzoSecundaria";
 import AlmuerzoProcesadosCervantes from "./containers/cervantes/almuerzos/AlmuerzoProcesados";
+//Servicios adicionales LCV
+import AdicionalServices from "./containers/servicios_adicionales/lcv/AdicionalServices";
+import AdicionalServicesProcesados from "./containers/servicios_adicionales/lcv/AdicionalServicesProcesados";
 
 
 const routes = [
@@ -204,6 +207,26 @@ const routes = [
     path: "/schools/:school_id/almuerzos_procesados_cervantes",
     component: AlmuerzoProcesadosCervantes,
   },
+  //SERVICIOS ADICIONALES LCV
+  {
+    path: "/schools/:school_id/aditional_services_lcv",
+    component: AdicionalServices,
+  },
+  {
+    path: "/schools/:school_id/aditional_servicesProcess_lcv",
+    component: AdicionalServicesProcesados,
+  },
+
+  //SERVICIOS ADICIONALES CERVANTES
+  // {
+  //   path: "/schools/:school_id/aditional_services_lcv",
+  //   component: AdicionalServices,
+  // },
+  // {
+  //   path: "/schools/:school_id/aditional_servicesProcess_lcv",
+  //   component: AdicionalServicesProcesados,
+  // },
+
 
   //Clients
   {

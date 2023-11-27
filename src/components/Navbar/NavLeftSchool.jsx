@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import lcv from '../../assets/Logo.png';
 import cervantes from '../../assets/cervantes.png'
 import BtnDashboard from '../buttons/BtnDashboard';
-import { FaBook, FaDollarSign, FaFileExcel, FaReadme, FaSun, FaTree, FaUsers } from 'react-icons/fa';
+import { FaBook, FaCookie, FaDollarSign, FaFileExcel, FaReadme, FaSun, FaTree, FaUsers } from 'react-icons/fa';
 import ReportsAccordion from '../accordions/ReportsAccordion';
 import BtnContent from '../buttons/BtnContent';
 //SLICES
@@ -100,6 +100,22 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
           <BtnDashboard>
             <FaTree />
             <p>Almuerzos</p>
+          </BtnDashboard>
+        </li>
+        <li
+          onClick={(e) => {
+            school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/aditional_services_lcv`) :
+            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/aditional_services_cervantes`) :
+              closeToolbar();
+          }}
+          className={`w-full ${location.pathname === `/schools/${school?.id}/aditional_services_lcv` ||
+            location.pathname === `/schools/${school?.id}/aditional_services_cervantes` ||
+            location.pathname === `/schools/${school?.id}/aditional_servicesProcess_lcv` ||
+            location.pathname === `/schools/${school?.id}/aditional_servicesProcess_cervantes`
+            ? 'active' : ''}`}>
+          <BtnDashboard>
+            <FaCookie />
+            <p>Servicios Adicionales</p>
           </BtnDashboard>
         </li>
         <div className='pl-2 text-[10px] text-sky-200 mb-[-10px] border-b-[1px] border-gray-500 w-[90%]'>Administración</div>

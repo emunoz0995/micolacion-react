@@ -50,6 +50,7 @@ const ServiceForm = () => {
         setValue('isLcv', serviceState.service.isLcv)
         setValue('isCervantes', serviceState.service.isCervantes)
         setValue('isExtra', serviceState.service.isExtra)
+        setValue('isAditional', serviceState.service.isAditional)
         setValue('active', serviceState.service.active)
     }
 
@@ -117,6 +118,14 @@ const ServiceForm = () => {
                                     spam={false}
                                     cols={1}
                                     register={register("isExtra")}
+                                />
+                                <InputForm
+                                    type="checkbox"
+                                    label="Adicional"
+                                    input="checkbox"
+                                    spam={false}
+                                    cols={1}
+                                    register={register("isAditional")}
                                 />
                             </div>
                             <div className='flex gap-2 p-2'>

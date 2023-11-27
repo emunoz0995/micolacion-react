@@ -9,7 +9,7 @@ import eng from '../../assets/eng.png';
 import es from '../../assets/es.png'
 
 
-const NavTop = ({ onChange, value, view }) => {
+const NavTop = ({ onChange, options, value, view, viewOption, onChangeSelect }) => {
   const { openToolbar } = useToolbarStore((state) => state);
   const user = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -28,13 +28,27 @@ const NavTop = ({ onChange, value, view }) => {
 
   return (
     <nav className="absolute bg-base-200 shadow-lg flex w-calc md:right-0 h-14 items-center">
-      {view === true ?
-        <div className=' flex ml-20 w-60 sm:ml-5 sm:items-center ' >
-          <input className="outline-none w-full input-bordered focus:outline-none focus:ring-1  text-sm border font-normal p-1 rounded-r-lg" type="text" placeholder={"Buscar..."} value={value} onChange={onChange} />
-        </div> : 
+      {viewOption === true ?
+        <div className=' flex ml-20 w-40 sm:ml-5 sm:items-center ' >
+          <select onChange={(e) => onChangeSelect(e.target.value)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-full rounded-md shadow-base-300 shadow-lg">
+            <option value="all">Todos</option>
+            {options.map((service) => (
+              <option key={service.id} value={service.id}>{service.name}</option>
+            ))}
+          </select>
+        </div> :
         ""
       }
-
+      {view === true ?
+        <div className=' flex ml-20 w-60 sm:ml-5 sm:items-center ' >
+          <input className="outline-none w-full input-bordered focus:outline-none focus:ring-1 text-sm border font-normal p-1 rounded-r-lg"
+            type="text"
+            placeholder={"Buscar..."}
+            value={value}
+            onChange={onChange} />
+        </div> :
+        ""
+      }
       <div className="md:hidden absolute left-7">
         <BtnCircle btnAction={() => openToolbar()}>
           <svg
