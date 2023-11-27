@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import getConfig from '../../../utils/getConfig';
 import axios from 'axios';
 
 export const sectionsSlice = createSlice({
@@ -43,7 +44,7 @@ export const sectionsSlice = createSlice({
                 error: "",
             }
         },
-        fetchSectionsError(state) {
+        fetchSectionsError(state, action) {
             return {
                 sections: [],
                 section: {},
@@ -175,42 +176,12 @@ export const sectionsSlice = createSlice({
                 error: action.payload,
             }
         },
-        requestSigninSection(state, action) {
-            return {
-                sections: [],
-                section: {},
-                processing: true,
-                fetching: false,
-                message: "",
-                error: "",
-            }
-        },
-        signinSectionSuccess(state, action) {
-            return {
-                sections: [],
-                section: action.payload,
-                processing: false,
-                fetching: false,
-                message: "",
-                error: "",
-            }
-        },
-        signinSectionError(state, action) {
-            return {
-                sections: [],
-                section: {},
-                processing: false,
-                fetching: false,
-                message: "",
-                error: action.payload,
-            }
-        },
     }
 })
 
 export const getSectionsThunk = () => dispatch => {
     dispatch(requestFetchSections())
-    axios.get(`/api/sections`)
+    axios.get(`/api/sections`, getConfig())
         .then(res => {dispatch(fetchSectionsSuccess(res.data))
         })
         .catch(error => {
@@ -222,7 +193,7 @@ export const getSectionsThunk = () => dispatch => {
 
 export const getSectionsBySchoolThunk = (school_id) => dispatch => {
     dispatch(requestFetchSections())
-    axios.get(`/api/sections/${school_id}`)
+    axios.get(`/api/sections/${school_id}`, getConfig())
         .then(res => {dispatch(fetchSectionsSuccess(res.data))
         })
         .catch(error => {
@@ -235,7 +206,7 @@ export const getSectionsBySchoolThunk = (school_id) => dispatch => {
 
 export const getSectionThunk = (section_id) => dispatch => {
     dispatch(requestFetchSection());
-    axios.get(`/api/sections/section/${section_id}`)
+    axios.get(`/api/sections/section/${section_id}`, getConfig())
     .then(res => {dispatch(fetchSectionSuccess(res.data))
     })
     .catch(error => {
@@ -247,7 +218,7 @@ export const getSectionThunk = (section_id) => dispatch => {
 
 export const createSectionThunk = (data) => dispatch => {
     dispatch(requestCreateSection())
-    axios.post(`/api/sections/section`, data)
+    axios.post(`/api/sections/section`, data, getConfig())
     .then(res => {dispatch(createSectionSuccess(res.data))
     })
     .catch(error => {
@@ -260,7 +231,7 @@ export const createSectionThunk = (data) => dispatch => {
 
 export const updateSectionThunk = (section_id, data) => dispatch => {
     dispatch(requestUpdateSection())
-    axios.put(`/api/sections/section/${section_id}`, data)
+    axios.put(`/api/sections/section/${section_id}`, data, getConfig())
     .then(res => {dispatch(updateSectionSuccess(res.data))
     })
     .catch(error => {
@@ -273,7 +244,7 @@ export const updateSectionThunk = (section_id, data) => dispatch => {
 
 export const deleteSectionThunk = (section_id) => dispatch => {
     dispatch(requestDeleteSection())
-    axios.delete(`/api/sections/section/${section_id}`)
+    axios.delete(`/api/sections/section/${section_id}`, getConfig())
     .then(res => {dispatch(deleteSectionSuccess(res.data))
     })
     .catch(error => {
@@ -299,8 +270,6 @@ export const { initialStateSection,
     requestDeleteSection,
     deleteSectionSuccess,
     deleteSectionError,
-    requestSigninSection,
-    signinSectionSuccess,
-    signinSectionError } = sectionsSlice.actions;
+    } = sectionsSlice.actions;
 
 export default sectionsSlice.reducer;

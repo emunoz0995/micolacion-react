@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import getConfig from '../../../utils/getConfig';
 import axios from 'axios';
 
 export const servicesSlice = createSlice({
@@ -43,7 +44,7 @@ export const servicesSlice = createSlice({
                 error: "",
             }
         },
-        fetchServicesError(state) {
+        fetchServicesError(state, action) {
             return {
                 services: [],
                 service: {},
@@ -210,7 +211,7 @@ export const servicesSlice = createSlice({
 
 export const getServicesThunk = () => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`/api/services`)
+    axios.get(`/api/services`, getConfig())
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {
@@ -222,7 +223,7 @@ export const getServicesThunk = () => dispatch => {
 
 export const getServicesBySchoolThunk = (school_id) => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`/api/services/${school_id}`)
+    axios.get(`/api/services/${school_id}`, getConfig())
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {
@@ -234,7 +235,7 @@ export const getServicesBySchoolThunk = (school_id) => dispatch => {
 
 export const getServicesExtrasThunk = () => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`/api/services/service/extras`)
+    axios.get(`/api/services/service/extras`, getConfig())
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {
@@ -247,7 +248,7 @@ export const getServicesExtrasThunk = () => dispatch => {
 
 export const getServiceThunk = (services_id) => dispatch => {
     dispatch(requestFetchService());
-    axios.get(`/api/services/service/${services_id}`)
+    axios.get(`/api/services/service/${services_id}`, getConfig())
     .then(res => {dispatch(fetchServiceSuccess(res.data))
     })
     .catch(error => {
@@ -259,7 +260,7 @@ export const getServiceThunk = (services_id) => dispatch => {
 
 export const createServiceThunk = (data) => dispatch => {
     dispatch(requestCreateService())
-    axios.post(`/api/services/service`, data)
+    axios.post(`/api/services/service`, data, getConfig())
     .then(res => {dispatch(createServiceSuccess(res.data))
     })
     .catch(error => {
@@ -272,7 +273,7 @@ export const createServiceThunk = (data) => dispatch => {
 
 export const updateServiceThunk = (service_id, data) => dispatch => {
     dispatch(requestUpdateService())
-    axios.put(`/api/services/service/${service_id}`, data)
+    axios.put(`/api/services/service/${service_id}`, data, getConfig())
     .then(res => {dispatch(updateServiceSuccess(res.data))
     })
     .catch(error => {
@@ -285,7 +286,7 @@ export const updateServiceThunk = (service_id, data) => dispatch => {
 
 export const deleteServiceThunk = (service_id) => dispatch => {
     dispatch(requestDeleteService())
-    axios.delete(`/api/services/service/${service_id}`)
+    axios.delete(`/api/services/service/${service_id}`, getConfig())
     .then(res => {dispatch(deleteServiceSuccess(res.data))
     })
     .catch(error => {

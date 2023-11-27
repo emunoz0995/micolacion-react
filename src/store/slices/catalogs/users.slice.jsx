@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import getConfig from '../../../utils/getConfig';
 import axios from 'axios';
 
 
@@ -44,7 +45,7 @@ export const usersSlice = createSlice({
                 error: "",
             }
         },
-        fetchUsersError(state) {
+        fetchUsersError(state, action) {
             return {
                 users: [],
                 user: {},
@@ -211,7 +212,7 @@ export const usersSlice = createSlice({
 
 export const getUsersThunk = () => dispatch => {
     dispatch(requestFetchUsers())
-    axios.get(`/api/users`)
+    axios.get(`/api/users`, getConfig())
         .then(res => {dispatch(fetchUsersSuccess(res.data))
         })
         .catch(error => {
@@ -224,7 +225,7 @@ export const getUsersThunk = () => dispatch => {
 
 export const getUserThunk = (user_id) => dispatch => {
     dispatch(requestFetchUser());
-    axios.get(`/api/users/${user_id}`)
+    axios.get(`/api/users/${user_id}`, getConfig())
     .then(res => {dispatch(fetchUserSuccess(res.data))
     })
     .catch(error => {
@@ -236,7 +237,7 @@ export const getUserThunk = (user_id) => dispatch => {
 
 export const createUserThunk = (data) => dispatch => {
     dispatch(requestCreateUser())
-    axios.post(`/api/users/user`, data)
+    axios.post(`/api/users/user`, data, getConfig())
     .then(res => {dispatch(createUserSuccess(res.data))
     })
     .catch(error => {
@@ -249,7 +250,7 @@ export const createUserThunk = (data) => dispatch => {
 
 export const updateUserThunk = (user_id, data) => dispatch => {
     dispatch(requestUpdateUser())
-    axios.put(`/api/users/user/${user_id}`, data)
+    axios.put(`/api/users/user/${user_id}`, data, getConfig())
     .then(res => {dispatch(updateUserSuccess(res.data))
     })
     .catch(error => {
@@ -262,7 +263,7 @@ export const updateUserThunk = (user_id, data) => dispatch => {
 
 export const deleteUserThunk = (user_id) => dispatch => {
     dispatch(requestDeleteUser())
-    axios.delete(`/api/users/user/${user_id}`)
+    axios.delete(`/api/users/user/${user_id}`, getConfig())
     .then(res => {dispatch(deleteUserSuccess(res.data))
     })
     .catch(error => {
@@ -283,6 +284,7 @@ export const signInThunk = (data) => dispatch => {
                 role: `${res.data.roleId}`,
             };
             localStorage.setItem('userInfo', JSON.stringify(userInfo))
+            localStorage.setItem('token', res.data.token)
         })
         .catch(error => {
             if (error.response?.status === 400) {

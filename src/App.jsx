@@ -1,14 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import './App.css';
 import ProtectedRoutes from './components/protectedRoutes/ProtectedRoutes';
-import Login from './containers/auth/Login';
 import ClientCervantesForm from './containers/catalogo/client/ClientCervantesForm';
+import Login from './containers/auth/Login';
 import routes from './routes';
-import { Provider } from 'react-redux';
 import store from './store';
 
 function App() {
-
 
   return (
     <Provider store={store}>

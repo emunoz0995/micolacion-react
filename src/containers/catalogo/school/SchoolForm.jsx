@@ -10,6 +10,7 @@ import InputForm from '../../../components/Inputs/formInput/InputForm';
 import HomeLayout from '../../../layouts/HomeLayout';
 import HeaderForm from '../../../components/headers/catalogs/HeaderForm';
 import BtnContent from '../../../components/buttons/BtnContent';
+import Toast from '../../../utils/toast';
 import '../../../App.css';
 // SLICES 
 import { getSchoolThunk, createSchoolThunk, updateSchoolThunk } from '../../../store/slices/catalogs/schools.slice';
@@ -30,6 +31,15 @@ const SchoolForm = () => {
         }
     }, []);
 
+    if (schoolState.error.error === "invalid token") {
+        Toast.fire({
+            icon: 'error',
+            title: 'Su sesión ha caducado!, vuelva a iniciar sesión'
+        })
+        setTimeout(() => {
+            navigate("/login");
+        }, 2000);
+    }
 
     const onSubmit = (data) => {
         if (schools_id) {

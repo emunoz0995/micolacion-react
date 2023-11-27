@@ -10,6 +10,7 @@ import HomeLayout from '../../../layouts/HomeLayout';
 import HeaderForm from '../../../components/headers/catalogs/HeaderForm';
 import BtnContent from '../../../components/buttons/BtnContent';
 import DropdownForm from '../../../components/Inputs/formInput/DropdonwForm';
+import Toast from '../../../utils/toast';
 import '../../../App.css';
 // SLICES 
 import { getUserThunk, createUserThunk, updateUserThunk } from '../../../store/slices/catalogs/users.slice';
@@ -31,6 +32,15 @@ const UserForm = () => {
         }
     }, []);
 
+    if (userState.error.error === "invalid token") {
+        Toast.fire({
+            icon: 'error',
+            title: 'Su sesión ha caducado!, vuelva a iniciar sesión'
+        })
+        setTimeout(() => {
+            navigate("/login");
+        }, 2000);
+    }
 
     const onSubmit = (data) => {
         if (user_id) {

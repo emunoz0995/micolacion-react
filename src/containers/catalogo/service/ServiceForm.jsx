@@ -10,6 +10,7 @@ import InputForm from '../../../components/Inputs/formInput/InputForm';
 import HomeLayout from '../../../layouts/HomeLayout';
 import HeaderForm from '../../../components/headers/catalogs/HeaderForm';
 import BtnContent from '../../../components/buttons/BtnContent';
+import Toast from '../../../utils/toast';
 import '../../../App.css';
 // SLICES 
 import { getServiceThunk, createServiceThunk, updateServiceThunk } from '../../../store/slices/catalogs/services.slice';
@@ -30,6 +31,16 @@ const ServiceForm = () => {
             dispatch(getServiceThunk(services_id));
         }
     }, []);
+
+    if (serviceState.error.error === "invalid token") {
+        Toast.fire({
+            icon: 'error',
+            title: 'Su sesión ha caducado!, vuelva a iniciar sesión'
+        })
+        setTimeout(() => {
+            navigate("/login");
+        }, 2000);
+    }
 
     const onSubmit = (data) => {
         if (services_id) {

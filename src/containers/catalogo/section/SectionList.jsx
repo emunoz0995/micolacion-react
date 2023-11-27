@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 
 //UI
 import HomeLayout from '../../../layouts/HomeLayout';
@@ -8,13 +9,16 @@ import BtnTable from '../../../components/buttons/BtnTable';
 import HeaderSimple from '../../../components/headers/catalogs/HeaderSimple';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import IconStatus from '../../../components/icons/IconStatus';
+import Toast from '../../../utils/toast';
 //SLICE
 import { getSectionsThunk, deleteSectionThunk } from '../../../store/slices/catalogs/sections.slice';
+
 
 const SectionList = () => {
 
     const { t } = useTranslation();
     const sectionState = useSelector(state => state.sections);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
  
 
@@ -30,6 +34,16 @@ const SectionList = () => {
     const handleDelete = (section_id) => {
         dispatch(deleteSectionThunk(section_id));
     };
+
+    if (sectionState.error.error === "invalid token") {
+        Toast.fire({
+            icon: 'error',
+            title: 'Su sesión ha caducado!, vuelva a iniciar sesión'
+        })
+        setTimeout(() => {
+            navigate("/login");
+        }, 2000);
+    }
 
     return (
         <HomeLayout>

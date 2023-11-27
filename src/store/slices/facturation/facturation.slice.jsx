@@ -29,7 +29,7 @@ export const FacturationsSlice = createSlice({
                 error: "",
             }
         },
-        fetchFacturationsError(state) {
+        fetchFacturationsError(state,action) {
             return {
                 facturations: [],
                 processing: false,

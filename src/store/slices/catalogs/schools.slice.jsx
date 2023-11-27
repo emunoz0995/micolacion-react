@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import getConfig from '../../../utils/getConfig';
 import axios from 'axios';
 
 export const schoolsSlice = createSlice({
@@ -43,7 +44,7 @@ export const schoolsSlice = createSlice({
                 error: "",
             }
         },
-        fetchSchoolsError(state) {
+        fetchSchoolsError(state,action) {
             return {
                 schools: [],
                 school: {},
@@ -210,8 +211,9 @@ export const schoolsSlice = createSlice({
 
 export const getSchoolsThunk = () => dispatch => {
     dispatch(requestFetchSchools())
-    axios.get(`/api/schools`)
-        .then(res => {dispatch(fetchSchoolsSuccess(res.data))
+    axios.get(`/api/schools`, getConfig())
+        .then(res => {
+            dispatch(fetchSchoolsSuccess(res.data))
         })
         .catch(error => {
             if (error.response?.status === 400) {
@@ -223,52 +225,56 @@ export const getSchoolsThunk = () => dispatch => {
 
 export const getSchoolThunk = (schools_id) => dispatch => {
     dispatch(requestFetchSchool());
-    axios.get(`/api/schools/${schools_id}`)
-    .then(res => {dispatch(fetchSchoolSuccess(res.data))
-    })
-    .catch(error => {
-        if (error.response?.status === 400) {
-            dispatch(fetchSchoolError(error.response?.data))
-        }
-    })
+    axios.get(`/api/schools/${schools_id}`, getConfig())
+        .then(res => {
+            dispatch(fetchSchoolSuccess(res.data))
+        })
+        .catch(error => {
+            if (error.response?.status === 400) {
+                dispatch(fetchSchoolError(error.response?.data))
+            }
+        })
 };
 
 export const createSchoolThunk = (data) => dispatch => {
     dispatch(requestCreateSchool())
-    axios.post(`/api/schools/school`, data)
-    .then(res => {dispatch(createSchoolSuccess(res.data))
-    })
-    .catch(error => {
-        if (error.response?.status === 400) {
-            dispatch(createSchoolError(error.response?.data))
-        }
-    })
+    axios.post(`/api/schools/school`, data, getConfig())
+        .then(res => {
+            dispatch(createSchoolSuccess(res.data))
+        })
+        .catch(error => {
+            if (error.response?.status === 400) {
+                dispatch(createSchoolError(error.response?.data))
+            }
+        })
 };
 
 
 export const updateSchoolThunk = (school_id, data) => dispatch => {
     dispatch(requestUpdateSchool())
-    axios.put(`/api/schools/school/${school_id}`, data)
-    .then(res => {dispatch(updateSchoolSuccess(res.data))
-    })
-    .catch(error => {
-        if (error.response?.status === 400) {
-            dispatch(updateSchoolError(error.response?.data))
-        }
-    })
+    axios.put(`/api/schools/school/${school_id}`, data, getConfig())
+        .then(res => {
+            dispatch(updateSchoolSuccess(res.data))
+        })
+        .catch(error => {
+            if (error.response?.status === 400) {
+                dispatch(updateSchoolError(error.response?.data))
+            }
+        })
 };
 
 
 export const deleteSchoolThunk = (school_id) => dispatch => {
     dispatch(requestDeleteSchool())
-    axios.delete(`/api/schools/school/${school_id}`)
-    .then(res => {dispatch(deleteSchoolSuccess(res.data))
-    })
-    .catch(error => {
-        if (error.response?.status === 400) {
-            dispatch(deleteSchoolError(error.response?.data))
-        }
-    })
+    axios.delete(`/api/schools/school/${school_id}`, getConfig())
+        .then(res => {
+            dispatch(deleteSchoolSuccess(res.data))
+        })
+        .catch(error => {
+            if (error.response?.status === 400) {
+                dispatch(deleteSchoolError(error.response?.data))
+            }
+        })
 };
 
 export const { initialStateSchool,

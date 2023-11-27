@@ -43,7 +43,7 @@ export const clientsSlice = createSlice({
                 error: "",
             }
         },
-        fetchClientsError(state) {
+        fetchClientsError(state, action) {
             return {
                 clients: [],
                 client: {},

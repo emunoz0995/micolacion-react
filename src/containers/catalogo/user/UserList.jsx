@@ -2,20 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 //UI
 import HomeLayout from '../../../layouts/HomeLayout';
 import BtnTable from '../../../components/buttons/BtnTable';
 import HeaderSimple from '../../../components/headers/catalogs/HeaderSimple';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import IconStatus from '../../../components/icons/IconStatus';
+import Toast from '../../../utils/toast';
 //SLICE
 import { getUsersThunk, deleteUserThunk } from '../../../store/slices/catalogs/users.slice';
-import axios from 'axios';
 
 const UserList = () => {
 
     const { t } = useTranslation();
     const userState = useSelector(state => state.users);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -30,6 +32,16 @@ const UserList = () => {
     const handleDelete = (user_id) => {
         dispatch(deleteUserThunk(user_id));
     };
+
+    if (userState.error.error === "invalid token") {
+        Toast.fire({
+            icon: 'error',
+            title: 'Su sesión ha caducado!, vuelva a iniciar sesión'
+        })
+        setTimeout(() => {
+            navigate("/login");
+        }, 2000);
+    }
 
     return (
         <HomeLayout>
