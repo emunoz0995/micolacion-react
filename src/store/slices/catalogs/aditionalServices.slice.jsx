@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import getConfig from '../../../utils/getConfig';
 import axios from 'axios';
 
 export const servicesSlice = createSlice({
     name: 'aditionalServices',
     initialState: {
         services: [],
-
         processing: false,
         fetching: false,
         message: "",
@@ -15,7 +15,6 @@ export const servicesSlice = createSlice({
         initialStateService(state) {
             return {
                 services: [],
-        
                 processing: false,
                 fetching: false,
                 message: "",
@@ -26,7 +25,6 @@ export const servicesSlice = createSlice({
         requestFetchServices(state, action) {
             return {
                 services: [],
-        
                 processing: false,
                 fetching: true,
                 message: "",
@@ -36,7 +34,6 @@ export const servicesSlice = createSlice({
         fetchServicesSuccess(state, action) {
             return {
                 services: action.payload,
-        
                 processing: false,
                 fetching: false,
                 message: "",
@@ -46,7 +43,6 @@ export const servicesSlice = createSlice({
         fetchServicesError(state, action) {
             return {
                 services: [],
-        
                 processing: false,
                 fetching: false,
                 message: "",
@@ -59,7 +55,7 @@ export const servicesSlice = createSlice({
 
 export const getAditionalServicesBySchoolThunk = (school_id) => dispatch => {
     dispatch(requestFetchServices())
-    axios.get(`/api/services/aditionalServices/${school_id}`)
+    axios.get(`/api/services/aditionalServices/${school_id}`, getConfig())
         .then(res => {dispatch(fetchServicesSuccess(res.data))
         })
         .catch(error => {

@@ -7,34 +7,31 @@ import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
-
 //SLICES
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
-import { decrementAditionalThunk } from '../../../store/slices/procedures/adicionales.slice';
-import { countAdicionalProcessThunk } from '../../../store/slices/procedures/countProcess';
+import { revertAditionalThunk } from '../../../store/slices/procedures/adicionales.slice';
 import { getAditionalServicesBySchoolThunk } from '../../../store/slices/catalogs/aditionalServices.slice';
 import getConfig from '../../../utils/getConfig';
 
-const AdicionalServices = () => {
+const AdicionalesProcesadosCervantes = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
-    const countProcces = useSelector(state => state.countProcess);
     const aditionalServicesState = useSelector(state => state.aditionalServices)
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [countProcess, setCountProcess] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
 
     useEffect(() => {
-        getServicesAditionalLcv();
+        getAdicionalesProcesados();
         dispatch(getAditionalServicesBySchoolThunk(school_id))
-        dispatch(countAdicionalProcessThunk(school_id));
     }, []);
 
     useEffect(() => {
-        const results = data?.filter(item => {
+        const results = data.filter(item => {
             let seccionMatch = false;
             let fullName = false
 
@@ -58,20 +55,17 @@ const AdicionalServices = () => {
         setHiddenRows([...hiddenRows, id]);
     };
 
-    const handlePlusBreak = (id) => {
-        console.log(id)
-        dispatch(decrementAditionalThunk(id));
-         setTimeout(() => {
-             dispatch(countAdicionalProcessThunk(school_id));
-         }, 500);
+    const handleRevert = (id) => {
+        dispatch(revertAditionalThunk(id));
         hideRow(id);
     }
 
-    const getServicesAditionalLcv = () => {
+    const getAdicionalesProcesados = () => {
         dispatch(setIsLoading(true));
-        axios.get(`/api/aditional_lcv/aditional_services_lcv/${school_id}`,getConfig())
+        axios.get(`/api/aditional_cervantes/aditional_servicesProcess/${school_id}`,getConfig())
             .then(response => {
-                setData(response.data);
+                setData(response.data.result);
+                setCountProcess(response.data.countProcess);
             })
             .catch(error => {
                 console.error('Error al obtener datos de la API: ' + error);
@@ -81,12 +75,13 @@ const AdicionalServices = () => {
 
     const getServicesAditionalById = (serviceId) => {
         if (serviceId === "all") {
-            getServicesAditionalLcv();
+            getAdicionalesProcesados();
         } else {
             dispatch(setIsLoading(true));
-            axios.get(`/api/aditional_lcv/aditionalServiceById/${serviceId}`,getConfig())
+            axios.get(`/api/aditional_cervantes/aditionalServiceProcessById/${serviceId}`,getConfig())
                 .then(response => {
-                    setData(response.data);
+                    setData(response.data.result);
+                    setCountProcess(response.data.countProcess);
                 })
                 .catch(error => {
                     console.error('Error al obtener datos de la API: ' + error);
@@ -96,25 +91,25 @@ const AdicionalServices = () => {
     }
 
     return (
-        <SchoolLayout value={searchTerm} options={aditionalServicesState.services} onchange={handleSearch}
-            view={true} viewOption={true} onChangeSelect={getServicesAditionalById}>
+        <SchoolLayout value={searchTerm} options={aditionalServicesState.services} onchange={handleSearch} view={true}
+            viewOption={true} onChangeSelect={getServicesAditionalById}>
             {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                        titleOne={'Servicios Adicionales'} toOne={`/schools/${school_id}/aditional_services_lcv`} activeOne={true}
-                        titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/aditional_servicesProcess_lcv`} activeSeven={false}
+                        titleOne={'Servicios Adicionales'} toOne={`/schools/${school_id}/aditional_services_cervantes`} activeOne={false}
+                        titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/aditional_servicesProcess_cervantes`} activeSeven={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full uppercase">
                             <thead className='sticky top-0 border-t-2 border-t-sky-500' >
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th className='flex justify-center'>Asignar</th>
-                                    <th>Total</th>
-                                    <th>Nivel</th>
+                                    <th className='p-2'>Nombre</th>
                                     <th>Servicio</th>
+                                    <th>Revertir</th>
+                                    <th>Nivel</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             {searchResults.length > 0 ?
@@ -126,11 +121,12 @@ const AdicionalServices = () => {
                                         return (
                                             <tr key={adicional.id}>
                                                 <td>{adicional.cliente?.lastName} {adicional.cliente?.firstName} </td>
-                                                <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak(adicional.id)} /></td>
-                                                <td>{adicional.total}</td>
-                                                <td>{adicional.cliente.cliente_seccion?.name}</td>
                                                 <td>{adicional.servicio?.name}</td>
-
+                                                <td className='flex'>
+                                                    <BtnTable action="revert" funtion={() => handleRevert(adicional.id)} />
+                                                </td>
+                                                <td>{adicional.cliente.cliente_seccion?.name}</td>
+                                                <td>{adicional.total}</td> :
                                             </tr>
                                         );
                                     })}
@@ -147,4 +143,4 @@ const AdicionalServices = () => {
     );
 };
 
-export default AdicionalServices;
+export default AdicionalesProcesadosCervantes;

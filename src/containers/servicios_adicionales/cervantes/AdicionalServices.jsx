@@ -15,7 +15,7 @@ import { countAdicionalProcessThunk } from '../../../store/slices/procedures/cou
 import { getAditionalServicesBySchoolThunk } from '../../../store/slices/catalogs/aditionalServices.slice';
 import getConfig from '../../../utils/getConfig';
 
-const AdicionalServices = () => {
+const AdicionalesCervantes = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const countProcces = useSelector(state => state.countProcess);
@@ -34,7 +34,7 @@ const AdicionalServices = () => {
     }, []);
 
     useEffect(() => {
-        const results = data?.filter(item => {
+        const results = data.filter(item => {
             let seccionMatch = false;
             let fullName = false
 
@@ -69,7 +69,7 @@ const AdicionalServices = () => {
 
     const getServicesAditionalLcv = () => {
         dispatch(setIsLoading(true));
-        axios.get(`/api/aditional_lcv/aditional_services_lcv/${school_id}`,getConfig())
+        axios.get(`/api/aditional_cervantes/aditional_services_cervantes/${school_id}`,getConfig())
             .then(response => {
                 setData(response.data);
             })
@@ -84,7 +84,7 @@ const AdicionalServices = () => {
             getServicesAditionalLcv();
         } else {
             dispatch(setIsLoading(true));
-            axios.get(`/api/aditional_lcv/aditionalServiceById/${serviceId}`,getConfig())
+            axios.get(`/api/aditional_cervantes/aditionalServiceById/${serviceId}`,getConfig())
                 .then(response => {
                     setData(response.data);
                 })
@@ -103,8 +103,8 @@ const AdicionalServices = () => {
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                        titleOne={'Servicios Adicionales'} toOne={`/schools/${school_id}/aditional_services_lcv`} activeOne={true}
-                        titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/aditional_servicesProcess_lcv`} activeSeven={false}
+                        titleOne={'Servicios Adicionales'} toOne={`/schools/${school_id}/aditional_services_cervantes`} activeOne={true}
+                        titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/aditional_servicesProcess_cervantes`} activeSeven={false}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full uppercase">
@@ -147,4 +147,4 @@ const AdicionalServices = () => {
     );
 };
 
-export default AdicionalServices;
+export default AdicionalesCervantes;

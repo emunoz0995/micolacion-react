@@ -11,6 +11,7 @@ import BtnTable from '../../../components/buttons/BtnTable';
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { revertAditionalThunk } from '../../../store/slices/procedures/adicionales.slice';
 import { getAditionalServicesBySchoolThunk } from '../../../store/slices/catalogs/aditionalServices.slice';
+import getConfig from '../../../utils/getConfig';
 
 const AdicionalServicesProcesados = () => {
     const { school_id } = useParams();
@@ -61,7 +62,7 @@ const AdicionalServicesProcesados = () => {
 
     const getAdicionalesProcesados = () => {
         dispatch(setIsLoading(true));
-        axios.get(`/api/aditional_lcv/aditional_servicesProcess/${school_id}`)
+        axios.get(`/api/aditional_lcv/aditional_servicesProcess/${school_id}`,getConfig())
             .then(response => {
                 setData(response.data.result);
                 setCountProcess(response.data.countProcess);
@@ -77,7 +78,7 @@ const AdicionalServicesProcesados = () => {
             getAdicionalesProcesados();
         } else {
             dispatch(setIsLoading(true));
-            axios.get(`/api/aditional_lcv/aditionalServiceById/${serviceId}`)
+            axios.get(`/api/aditional_lcv/aditionalServiceProcessById/${serviceId}`,getConfig())
                 .then(response => {
                     setData(response.data.result);
                     setCountProcess(response.data.countProcess);
