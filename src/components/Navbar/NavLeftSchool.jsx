@@ -102,10 +102,11 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
             <p>Almuerzos</p>
           </BtnDashboard>
         </li>
+        {/* `/schools/${school?.id}/aditional_services_cervantes` */}
         <li
           onClick={(e) => {
             school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/aditional_services_lcv`) :
-            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/aditional_services_cervantes`) :
+            school?.name == "Cervantes" ? navigate("") :
               closeToolbar();
           }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/aditional_services_lcv` ||
