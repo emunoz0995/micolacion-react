@@ -192,7 +192,7 @@ const ClientForm = () => {
                             </div>
                             <div className='flex gap-2 p-2 mb-3'>
                                 <DropdownForm
-                                    label="Seccion"
+                                    label="Sección"
                                     input="input"
                                     spam={true}
                                     cols={1}
@@ -230,7 +230,7 @@ const ClientForm = () => {
                                     placeholder="0"
                                 />
                             </div>
-                            <HeaderSection title="Servicios Adicionales" />
+                            <HeaderSection title="Servicios adicionales" />
                             <div className='flex gap-2 p-2 w-[50%] items-center'>
                                 <div className='flex flex-col w-[50%] cols'>
                                     <label className='text-sm flex items-center m-1'>
@@ -297,7 +297,7 @@ const ClientForm = () => {
                                 <input type="text" {...register('representativeId')} hidden />
                                 <InputForm
                                     type="text"
-                                    label="Cedula"
+                                    label="Cédula"
                                     input="input"
                                     spam={true}
                                     cols={1}
@@ -330,7 +330,7 @@ const ClientForm = () => {
                                 />
                                 <InputForm
                                     type="text"
-                                    label="Telefono"
+                                    label="Teléfono"
                                     input="input"
                                     spam={true}
                                     cols={1}
