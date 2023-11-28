@@ -43,7 +43,7 @@ const ServiceList = () => {
             navigate("/login");
         }, 2000);
     }
-
+    console.log(serviceState)
     return (
         <HomeLayout>
              {serviceState.fetching || serviceState.processing ? (
@@ -58,7 +58,9 @@ const ServiceList = () => {
                                     <th className='w-[15px]'></th>
                                     <th>Nombre</th> 
                                     <th>Codigo</th> 
-                                    <th>Precio</th>    
+                                    <th>Precio</th>
+                                    <th>Colegio</th>
+                                    <th>Tipo</th>    
                                     <th></th>
                                 </tr>
                             </thead>
@@ -68,7 +70,20 @@ const ServiceList = () => {
                                         <td><IconStatus active={service.active} /></td>
                                         <td>{service.name}</td>  
                                         <td>{service.code}</td>  
-                                        <td>$ {service.price}</td>                        
+                                        <td>{service.price}</td>
+                                        <td>
+                                            {
+                                            service.isCervantes && service.isLcv ? "Cervantes - Liceo Campo Verde":
+                                            service.isCervantes ? "Cervantes" :
+                                            service.isLcv ? "Liceo Campo Verde" :
+                                            ""
+                                            }
+                                        </td>
+                                        <td>{
+                                            service.isExtra ? "Extra" :
+                                            service.isAditional ? "Adicional" :
+                                            "Principal"
+                                            }</td>                        
                                         <td className='flex gap-1 justify-end'>
                                             <BtnTable action="edit" to={`/services/${service.id}`} />
                                             <BtnTable title="¿Quieres eliminar este servicio?" action="delete" onclick={() => handleDelete(service.id)} />
