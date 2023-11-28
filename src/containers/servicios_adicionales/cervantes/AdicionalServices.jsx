@@ -58,9 +58,11 @@ const AdicionalesCervantes = () => {
         setHiddenRows([...hiddenRows, id]);
     };
 
-    const handlePlusBreak = (id) => {
-        console.log(id)
-        dispatch(decrementAditionalThunk(id));
+    const handlePlusBreak = (id,clientCi) => {
+        const data ={
+            clientCi
+        }
+        dispatch(decrementAditionalThunk(id, data));
          setTimeout(() => {
              dispatch(countAdicionalProcessThunk(school_id));
          }, 500);
@@ -126,7 +128,7 @@ const AdicionalesCervantes = () => {
                                         return (
                                             <tr key={adicional.id}>
                                                 <td>{adicional.cliente?.lastName} {adicional.cliente?.firstName} </td>
-                                                <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak(adicional.id)} /></td>
+                                                <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak(adicional.id, adicional.cliente?.cedulaCliente)} /></td>
                                                 <td>{adicional.total}</td>
                                                 <td>{adicional.cliente.cliente_seccion?.name}</td>
                                                 <td>{adicional.servicio?.name}</td>

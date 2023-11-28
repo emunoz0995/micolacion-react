@@ -39,9 +39,9 @@ export const adicionalProcedureSlice = createSlice({
 
 
 
-export const decrementAditionalThunk = (id) => dispatch => {
+export const decrementAditionalThunk = (id, data) => dispatch => {
     dispatch(requestUpdateTotal())
-    axios.put(`/api/procedures/decrement_adicional/${id}`)
+    axios.put(`/api/procedures/decrement_adicional/${id}`, data)
     .then(res => {dispatch(updateTotalSuccess(res.data))
     })
     .catch(error => {
