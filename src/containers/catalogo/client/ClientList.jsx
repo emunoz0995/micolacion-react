@@ -90,7 +90,7 @@ const ClientList = () => {
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-full">
-                    <HeaderSimple title='Clientes' to={`/schools/${school_id}/clients_new`} />
+                    <HeaderSimple title='Estudiantes' to={`/schools/${school_id}/clients_new`} />
                     <div className=' absolute right-3 top-[68px] sm:right-8 sm:top-[85px] flex gap-1 justify-end'>
                         <BtnTable action="xml" funtion={handleGenerateExcel} />
                     </div>

@@ -154,7 +154,7 @@ const ClientForm = () => {
                 <MainLoader />
             ) : (
                 <div className="w-[96%] mt-5 ml-5 ">
-                    <HeaderForm title="Clientes" />
+                    <HeaderForm title="Estudiantes" />
                     <div className='h-[90%] overflow-y-scroll contenedor'>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <HeaderSection title="Datos estudiante" />
