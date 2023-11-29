@@ -104,8 +104,8 @@ const HistoryReport = () => {
                                                 { 
                                                     item.history_servicio.isAditional ? item.aditionalConsumed :
                                                     item.history_servicio?.isExtra ? item.extrasConsumed : 
-                                                    item.history_servicio?.name === "REFRIGERIO INDIVIDUAL CAMPOVERDE" || "REFRIGERIO INDIVIDUAL CERVANTES" ? item.breakfastConsumed :
-                                                    item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || "ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed : ""
+                                                    item.history_servicio?.name === "REFRIGERIO INDIVIDUAL CAMPOVERDE" || item.history_servicio?.name === "REFRIGERIO INDIVIDUAL CERVANTES" ? item.breakfastConsumed :
+                                                    item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || item.history_servicio?.name ==="ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed : ""
                                                 }
                                             </td>
                                         </tr>
