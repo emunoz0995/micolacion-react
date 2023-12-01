@@ -126,7 +126,7 @@ const AlmuerzoEventuales = () => {
                             <thead className='sticky top-0 border-t-2 border-t-sky-500' >
                                 <tr>
                                     <th>Nombre</th>
-                                    <th className='flex justify-center'>Refrigerio</th>
+                                    <th className='flex justify-center'>Almuerzo</th>
                                     <th>Total</th>
                                     <th>Extra</th>
                                     <th>Nivel</th>
