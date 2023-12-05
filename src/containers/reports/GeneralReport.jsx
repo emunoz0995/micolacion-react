@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from "react-i18next";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 //UI
@@ -10,16 +9,13 @@ import Header from '../../components/headers/catalogs/Header';
 import MainLoader from '../../components/Loaders/MainLoader';
 //SLICE
 import { setIsLoading } from '../../store/slices/isLoading.slice';
-import { getClientThunk } from '../../store/slices/catalogs/clients.slice';
-import GeneralReportPDF from './GeneralReportPDF';
+import { API_BASE_URL } from '../../store/constans';
 
 
 const GeneralReportList = () => {
 
-    //const { t } = useTranslation();
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
-    //const clientState = useSelector(state => state.clients)
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -63,6 +59,12 @@ const GeneralReportList = () => {
             .finally(() => dispatch(setIsLoading(false)))
     }
 
+    const handleGenerateExcel = () => {
+        const url = `${API_BASE_URL}api/reports/general/${school_id}`;
+        window.open(url, "_self");
+
+    };
+
     return (
         <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
             {isLoading ? (
@@ -70,6 +72,9 @@ const GeneralReportList = () => {
             ) : (
                 <div className="mx-5 my-5 w-[97%]">
                     <Header title="Reporte general" />
+                    <div className=' absolute right-3 top-[68px] sm:right-8 sm:top-[85px] flex gap-1 justify-end'>
+                        <BtnTable action="xml" funtion={handleGenerateExcel} />
+                    </div>
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table-sm table-zebra w-full uppercase">
                             <thead className='border-t-2 border-t-sky-500' >
