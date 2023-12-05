@@ -15,6 +15,7 @@ import BtnContent from '../../../components/buttons/BtnContent';
 import DropdownForm from '../../../components/Inputs/formInput/DropdonwForm';
 import { FaCircle, FaPlus, FaTrash } from 'react-icons/fa';
 import '../../../App.css';
+import Toast from '../../../utils/toast';
 // SLICES 
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesBySchoolThunk } from '../../../store/slices/catalogs/services.slice';
@@ -146,6 +147,13 @@ const ClientForm = () => {
         setValue('email', data.cliente_representante.email)
         setValue('telefon', data.cliente_representante.telefon)
         setValue('adress', data.cliente_representante.adress)
+    }
+
+    if (clientState === "Validation error") {
+        Toast.fire({
+            icon: 'error',
+            title: 'El estudiante ya se encuentra registrado!'
+        })
     }
 
     return (
