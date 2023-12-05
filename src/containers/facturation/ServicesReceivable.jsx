@@ -6,35 +6,49 @@ import SchoolLayout from '../../layouts/SchoolsLayout';
 import BtnTable from '../../components/buttons/BtnTable';
 import Header from '../../components/headers/catalogs/Header';
 import MainLoader from '../../components/Loaders/MainLoader';
-import Swal from 'sweetalert2';
+import Toast from '../../utils/toast';
 //SLICE
-import { getServicesReceivableThunk } from '../../store/slices/facturation/facturation.slice';
+import { setIsLoading } from '../../store/slices/isLoading.slice';
 import { paidServiceThunk } from '../../store/slices/procedures/funtions.slice';
 import ServiceReceivableCell from '../../components/rates/ServiceReceivableCell';
-
+//RESORCES
+import { API_BASE_URL } from '../../store/constans';
+import axios from 'axios';
 
 const ServicesReceivable = () => {
 
     const { school_id } = useParams();
-    const receivableServiceState = useSelector(state => state.facturations);
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
+    const [data, setData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
-        dispatch(getServicesReceivableThunk(school_id));
+        getServicesReceivable();
     }, []);
+
+    useEffect(() => {
+        const results = data.filter(item => {
+            let seccionMatch = false;
+            let fullName = false
+
+            if (item.cliente_seccion?.name) {
+                seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.lastName && item.firstName) {
+                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+            }
+
+            return fullName || seccionMatch;
+        });
+        setSearchResults(results);
+    }, [searchTerm, data]);
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
     const hideRow = (id) => {
         setHiddenRows([...hiddenRows, id]);
@@ -52,53 +66,82 @@ const ServicesReceivable = () => {
         hideRow(clientId);
     };
 
-    console.log(receivableServiceState)
+    const getServicesReceivable = () => {
+        dispatch(setIsLoading(true));
+        axios.get(`/api/facturations/services_receivable/${school_id}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
+
+    const handleGenerateExcel = () => {
+        const url = `${API_BASE_URL}api/reports/serviciosPorCobrar/${school_id}`;
+        window.open(url, "_self");
+
+    };
+
+    const formatDateToLocal = (date) => {
+        const formattedDate = new Date(date).toLocaleString();
+        return formattedDate;
+    }
 
     return (
-        <SchoolLayout>
-            {receivableServiceState.fetching || receivableServiceState.processing ? (
+        <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
+            {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-[97%]">
                     <Header title="Servicios por cobrar" />
+                    <div className=' absolute right-3 top-[68px] sm:right-8 sm:top-[85px] flex gap-1 justify-end'>
+                        <BtnTable action="xml" funtion={handleGenerateExcel} />
+                    </div>
                     <div className="overflow-y-scroll h-[87%] contenedor uppercase">
                         <table className="text-[13px] table-sm table-zebra w-full">
                             <thead className='border-t-2 border-t-sky-500' >
                                 <tr className='text-left h-[60px] bg-[#f2f7ff] sticky top-0'>
-                                    <th className='p-3 w-[150px]'>Representante</th>
-                                    <th>Email</th>
-                                    <th className='px-5' >Telefono</th>
-                                    <th className='w-[150px]'>Estudiante</th>
-                                    <th className='w-[280px]'>Servicio</th>
+                                    <th className='p-3 w-[150px]'>Fecha</th>
+                                    <th className='w-[250px]'>Estudiante</th>
+                                    <th className='w-[250px]'>Servicio</th>
+                                    <th>Informacion Contacto</th>
                                     <th>Valor</th>
-                                    <th>Consumidos</th>
+                                    <th className='px-3'>Consumidos</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {receivableServiceState.facturations.map(item => {
+                                {searchResults.map(item => {
                                     if (hiddenRows.includes(item.id)) {
                                         return null;
                                     }
                                     return (
                                         <tr className='h-[60px]' key={item.id}>
-                                            <td className='p-3'>{item.history_representante?.names} </td>
-                                            <td className='w-[150px]'>{item.history_representante?.email} </td>
-                                            <td className='px-5'>{item.history_representante?.telefon} </td>
+                                            <td className='p-3'>{formatDateToLocal(item.createdAt)} </td>
                                             <td>{item.firstName} {item.lastName}</td>
                                             <td>
-                                               <ServiceReceivableCell
-                                               servicioPrincipal={item.history_servicioPrincipal?.name}
-                                               servicioTomado={item.history_servicio?.name}
-                                               totalBreakFast={item.totalBreakfast}
-                                               totalLunch={item.totalLunch}
-                                               />
+                                                <ServiceReceivableCell
+                                                    servicioPrincipal={item.history_servicioPrincipal?.name}
+                                                    servicioTomado={item.history_servicio?.name}
+                                                    totalBreakFast={item.totalBreakfast}
+                                                    totalLunch={item.totalLunch}
+                                                />
+                                            </td>
+                                            <td className='p-3'>
+                                                <div className='flex flex-col'>
+                                                    <p>{item.history_representante?.names}</p>
+                                                    <p>{item.history_representante?.email}</p>
+                                                    <p>{item.history_representante?.telefon}</p>
+                                                </div>
+
                                             </td>
                                             <td>$ {item.history_servicio?.price}</td>
                                             <td className='pl-8' >
-                                                {item.history_servicio?.name === "REFRIGERIO INDIVIDUAL CAMPOVERDE" || "REFRIGERIO INDIVIDUAL CERVANTES" ? item.breakfastConsumed :
-                                                 item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || "ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed :
-                                                 item.history_servicio?.isExtra ? item.extrasConsumed : ""
+                                                {item.history_servicio?.name === "REFRIGERIO INDIVIDUAL CAMPOVERDE" || item.history_servicio?.name ==="REFRIGERIO INDIVIDUAL CERVANTES" ? item.breakfastConsumed :
+                                                    item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || item.history_servicio?.name === "ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed :
+                                                        item.history_servicio?.isExtra ? item.extrasConsumed : "1"
                                                 }
                                             </td>
                                             <td className='gap-1 justify-end p-1'>

@@ -69,8 +69,6 @@ const HistoryReport = () => {
 
     };
 
-    console.log(data)
-
     return (
         <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
             {isLoading ? (
