@@ -60,6 +60,7 @@ import AdicionalServicesProcesados from "./containers/servicios_adicionales/lcv/
 //Servicios adicionales Cervantes
 import AdicionalesCervantes from "./containers/servicios_adicionales/cervantes/AdicionalServices";
 import AdicionalesProcesadosCervantes from "./containers/servicios_adicionales/cervantes/AdicionalServicesProcesados";
+import AdicionalesCervantesEventuales from "./containers/servicios_adicionales/cervantes/AdicionalServicesEventuales";
 
 
 const routes = [
@@ -228,6 +229,10 @@ const routes = [
   {
     path: "/schools/:school_id/aditional_servicesProcess_cervantes",
     component: AdicionalesProcesadosCervantes,
+  },
+  {
+    path: "/schools/:school_id/aditional_servicesEventuales_cervantes",
+    component: AdicionalesCervantesEventuales
   },
 
 

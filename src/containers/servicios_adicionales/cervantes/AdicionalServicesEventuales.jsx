@@ -15,7 +15,7 @@ import { countAdicionalProcessThunk } from '../../../store/slices/procedures/cou
 import { getAditionalServicesBySchoolThunk } from '../../../store/slices/catalogs/aditionalServices.slice';
 import getConfig from '../../../utils/getConfig';
 
-const AdicionalesCervantes = () => {
+const AdicionalesCervantesEventuales = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const countProcces = useSelector(state => state.countProcess);
@@ -38,11 +38,11 @@ const AdicionalesCervantes = () => {
             let seccionMatch = false;
             let fullName = false
 
-            if (item.cliente.cliente_seccion?.name) {
-                seccionMatch = item.cliente.cliente_seccion?.name.toLowerCase().includes(searchTerm.toLowerCase());
+            if (item.cliente_seccion?.name) {
+                seccionMatch = item.cliente_seccion?.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            if (item.cliente?.lastName && item.cliente?.firstName) {
-                fullName = `${item.cliente?.lastName} ${item.cliente?.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+            if (item.lastName && item.firstName) {
+                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
             }
 
             return fullName || seccionMatch;
@@ -71,7 +71,7 @@ const AdicionalesCervantes = () => {
 
     const getServicesAditionalLcv = () => {
         dispatch(setIsLoading(true));
-        axios.get(`/api/aditional_cervantes/aditional_services_cervantes/${school_id}`,getConfig())
+        axios.get(`/api/clients/${school_id}`,getConfig())
             .then(response => {
                 setData(response.data);
             })
@@ -97,16 +97,18 @@ const AdicionalesCervantes = () => {
         }
     }
 
+    console.log(data)
+
     return (
         <SchoolLayout value={searchTerm} options={aditionalServicesState.services} onchange={handleSearch}
-            view={true} viewOption={true} onChangeSelect={getServicesAditionalById}>
+            view={true} >
             {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                        titleOne={'Servicios Adicionales'} toOne={`/schools/${school_id}/aditional_services_cervantes`} activeOne={true}
-                        titleTwo={'Eventuales'} toTwo={`/schools/${school_id}/aditional_servicesEventuales_cervantes`} activeTwo={false}
+                        titleOne={'Servicios Adicionales'} toOne={`/schools/${school_id}/aditional_services_cervantes`} activeOne={false}
+                        titleTwo={'Eventuales'} toTwo={`/schools/${school_id}/aditional_servicesEventuales_cervantes`} activeTwo={true}
                         titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/aditional_servicesProcess_cervantes`} activeSeven={false}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
@@ -128,11 +130,11 @@ const AdicionalesCervantes = () => {
                                         }
                                         return (
                                             <tr key={adicional.id}>
-                                                <td>{adicional.cliente?.lastName} {adicional.cliente?.firstName} </td>
-                                                <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak(adicional.id, adicional.cliente?.cedulaCliente)} /></td>
-                                                <td>{adicional.total}</td>
-                                                <td>{adicional.cliente.cliente_seccion?.name}</td>
-                                                <td>{adicional.servicio?.name}</td>
+                                                <td>{adicional.lastName} {adicional.firstName} </td>
+                                                <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak()} /></td>
+                                                <td>{adicional.lastName}</td>
+                                                <td>{adicional.cliente_seccion?.name}</td>
+                                                <td>{adicional.cliente_servicio?.name}</td> 
 
                                             </tr>
                                         );
@@ -150,4 +152,4 @@ const AdicionalesCervantes = () => {
     );
 };
 
-export default AdicionalesCervantes;
+export default AdicionalesCervantesEventuales;
