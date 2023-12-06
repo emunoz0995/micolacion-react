@@ -120,7 +120,7 @@ const ServicesReceivable = () => {
                                     return (
                                         <tr className='h-[60px]' key={item.id}>
                                             <td className='p-3'>{formatDateToLocal(item.createdAt)} </td>
-                                            <td>{item.firstName} {item.lastName}</td>
+                                            <td>{item.lastName} {item.firstName}</td>
                                             <td>
                                                 <ServiceReceivableCell
                                                     servicioPrincipal={item.history_servicioPrincipal?.name}

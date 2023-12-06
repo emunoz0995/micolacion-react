@@ -7,36 +7,25 @@ import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
-import Swal from 'sweetalert2';
+import Toast from '../../../utils/toast';
 //SLICES
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { revertBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
+import { paidServiceProcessedThunk } from '../../../store/slices/procedures/funtions.slice';
 
 
 const RefrigerioProcesadosCervantes = () => {
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const servicesState = useSelector(state => state.services)
-    const dispatch = useDispatch();;
+    const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [data, setData] = useState([]);
     const [countProcess, setCountProcess] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-      })
 
     useEffect(() => {
         dispatch(getServicesExtrasThunk());
@@ -46,16 +35,16 @@ const RefrigerioProcesadosCervantes = () => {
     useEffect(() => {
         const results = data.filter(item => {
             let seccionMatch = false;
-            let fullName =  false 
+            let fullName = false
 
             if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            if (item.lastName && item.firstName){
+            if (item.lastName && item.firstName) {
                 fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
             }
-        
-            return fullName || seccionMatch ;
+
+            return fullName || seccionMatch;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
@@ -82,10 +71,21 @@ const RefrigerioProcesadosCervantes = () => {
         Toast.fire({
             icon: 'success',
             title: '¡Servicio extra registrado!'
-          }).then(function(result){
+        }).then(function (result) {
             getRefrigeriosProcesados();
-		})
-       
+        })
+    };
+
+    const handlePaidService = (cedulaCliente) => {
+        Toast.fire({
+            icon: 'success',
+            title: 'Pago registrado, ¡ya puede general XML!'
+        })
+        dispatch(paidServiceProcessedThunk(cedulaCliente));
+        setTimeout(() => {
+            getRefrigeriosProcesados();
+       }, 2000); 
+        
     };
 
     const getRefrigeriosProcesados = () => {
@@ -109,11 +109,11 @@ const RefrigerioProcesadosCervantes = () => {
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                      titleOne={'Basical Elemental'} toOne={`/schools/${school_id}/refrigerios_primaria`} activeOne={false}
-                      titleTwo={'Inicial'} toTwo={`/schools/${school_id}/refrigerios_inicial`} activeTwo={false}
-                      titleTree={'Basical Media/Superior '} toTree={`/schools/${school_id}/refrigerios_secundaria`} activeTree={false}
-                      titleFour={'Eventuales'} toFour={`/schools/${school_id}/refrigerios_eventuales_cervantes`} activeFour={false}
-                      titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSeven={true}
+                        titleOne={'Basical Elemental'} toOne={`/schools/${school_id}/refrigerios_primaria`} activeOne={false}
+                        titleTwo={'Inicial'} toTwo={`/schools/${school_id}/refrigerios_inicial`} activeTwo={false}
+                        titleTree={'Basical Media/Superior '} toTree={`/schools/${school_id}/refrigerios_secundaria`} activeTree={false}
+                        titleFour={'Eventuales'} toFour={`/schools/${school_id}/refrigerios_eventuales_cervantes`} activeFour={false}
+                        titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSeven={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table-sm table-zebra w-full">
@@ -124,39 +124,46 @@ const RefrigerioProcesadosCervantes = () => {
                                     <th>Nivel</th>
                                     <th>Revertir</th>
                                     <th>Total</th>
+                                    <th>Canselado</th>
                                     <th>Extras</th>
                                 </tr>
                             </thead>
                             {searchResults.length > 0 ?
-                            <tbody>
-                                {searchResults.map(refrigerio => {
-                                    if (hiddenRows.includes(refrigerio.id)) {
-                                        return null;
-                                    }
-                                    return (
-                                        <tr className='h-[60px] uppercase' key={refrigerio.id}>
-                                            <td className='p-2'>{refrigerio.lastName} {refrigerio.firstName} </td>
-                                            <td>{refrigerio.cliente_servicio?.name}</td>
-                                            <td>{refrigerio.cliente_seccion?.name}</td>
-                                            <td className='flex gap-1 items-center h-[60px] p-1'>
-                                                <BtnTable action="revert" funtion={() => handleRevertBreak(refrigerio.cedulaCliente, refrigerio.id)} />
-                                            </td>
-                                            {refrigerio.cliente_servicio?.name === "SIN SERVICIO" ?
-                                                <td>{refrigerio.breakfastConsumed}</td> :
-                                                <td>{refrigerio.totalBreakfast}</td>
-                                            }
-                                            <td>
-                                                <select onChange={(e)=>handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
-                                                    <option value="">Seleccione</option>
-                                                    {servicesState.services.map((service) => (
-                                                        <option key={service.id} value={service.id}>{service.name}</option>
-                                                    ))}
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>:
+                                <tbody>
+                                    {searchResults.map(refrigerio => {
+                                        if (hiddenRows.includes(refrigerio.id)) {
+                                            return null;
+                                        }
+                                        return (
+                                            <tr className='h-[60px] uppercase' key={refrigerio.id}>
+                                                <td className='p-2'>{refrigerio.lastName} {refrigerio.firstName} </td>
+                                                <td>{refrigerio.cliente_servicio?.name}</td>
+                                                <td>{refrigerio.cliente_seccion?.name}</td>
+                                                <td className='flex gap-1 items-center h-[60px] p-1'>
+                                                    <BtnTable action="revert" funtion={() => handleRevertBreak(refrigerio.cedulaCliente, refrigerio.id)} />
+                                                </td>
+                                                {refrigerio.cliente_servicio?.name === "SIN SERVICIO" ?
+                                                    <td>{refrigerio.breakfastConsumed}</td> :
+                                                    <td>{refrigerio.totalBreakfast}</td>
+                                                }
+                                                {(refrigerio.cliente_servicio?.name === "SIN SERVICIO" || refrigerio.cliente_servicio?.name === "ALMUERZOS CERVANTES"  || refrigerio.cliente_servicio?.name === "ALMUERZOS PREESCOLAR CERVANTES") && !refrigerio.paidService ?
+                                                    <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
+                                                        <BtnTable action="process" funtion={() => handlePaidService(refrigerio.cedulaCliente)} /> 
+                                                    </td> :
+                                                    <td></td>
+                                                }
+                                                <td>
+                                                    <select onChange={(e) => handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
+                                                        <option value="">Seleccione</option>
+                                                        {servicesState.services.map((service) => (
+                                                            <option key={service.id} value={service.id}>{service.name}</option>
+                                                        ))}
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody> :
                                 <div className="absolute z-10 top-[450px] left-[30px] sm:top-[350px] sm:left-[630px]">
                                     <h1 className='font-semibolt text-[22px] sm:text-[25px] text-gray-400'>NO HAY DATOS PARA MOSTRAR</h1>
                                 </div>

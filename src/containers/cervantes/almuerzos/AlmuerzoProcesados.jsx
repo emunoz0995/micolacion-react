@@ -7,12 +7,13 @@ import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
-import Swal from 'sweetalert2';
+import Toast from '../../../utils/toast';
 //SLICES
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { revertLunchThunk } from '../../../store/slices/procedures/almuerzos.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
+import { paidServiceProcessedThunk } from '../../../store/slices/procedures/funtions.slice';
 
 const AlmuerzoProcesadosCervantes = () => {
     const { school_id } = useParams();
@@ -24,18 +25,6 @@ const AlmuerzoProcesadosCervantes = () => {
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
 
     useEffect(() => {
         dispatch(getServicesExtrasThunk());
@@ -90,6 +79,18 @@ const AlmuerzoProcesadosCervantes = () => {
 
     };
 
+    const handlePaidService = (cedulaCliente) => {
+        Toast.fire({
+            icon: 'success',
+            title: 'Pago registrado, ¡ya puede general XML!'
+        })
+        dispatch(paidServiceProcessedThunk(cedulaCliente));
+        setTimeout(() => {
+            getAlmuerzosProcesados();
+       }, 2000); 
+        
+    };
+
     const getAlmuerzosProcesados = () => {
         dispatch(setIsLoading(true));
         axios.get(`/api/almuerzos_cervantes/lunch_procesados/${school_id}`)
@@ -125,6 +126,7 @@ const AlmuerzoProcesadosCervantes = () => {
                                     <th>Nivel</th>
                                     <th>Revertir</th>
                                     <th>Total</th>
+                                    <th>Canselado</th>
                                     <th>Extras</th>
                                 </tr>
                             </thead>
@@ -145,6 +147,12 @@ const AlmuerzoProcesadosCervantes = () => {
                                                 {almuerzo.cliente_servicio?.name === "SIN SERVICIO" ?
                                                     <td>{almuerzo.lunchesConsumed}</td> :
                                                     <td>{almuerzo.totalLunch}</td>
+                                                }
+                                                {(almuerzo.cliente_servicio?.name === "SIN SERVICIO" || almuerzo.cliente_servicio?.name === "REFRIGERIOS CERVANTES"  || almuerzo.cliente_servicio?.name === "REFRIGERIOS PREESCOLAR CERVANTES") && !almuerzo.paidService ?
+                                                    <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
+                                                        <BtnTable action="process" funtion={() => handlePaidService(almuerzo.cedulaCliente)} /> 
+                                                    </td> :
+                                                    <td></td>
                                                 }
                                                 <td>
                                                     <select onChange={(e) => handleChange(e.target.value, almuerzo.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">

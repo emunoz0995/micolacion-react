@@ -7,13 +7,13 @@ import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
-import Swal from 'sweetalert2';
+import Toast from '../../../utils/toast';
 //SLICES
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
 import { revertBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
-
+import { paidServiceProcessedThunk } from '../../../store/slices/procedures/funtions.slice';
 
 const RefrigerioProcesados = () => {
     const { school_id } = useParams();
@@ -25,18 +25,6 @@ const RefrigerioProcesados = () => {
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
 
     useEffect(() => {
         dispatch(getServicesExtrasThunk());
@@ -90,6 +78,18 @@ const RefrigerioProcesados = () => {
 
     };
 
+    const handlePaidService = (cedulaCliente) => {
+        Toast.fire({
+            icon: 'success',
+            title: 'Pago registrado, ¡ya puede general XML!'
+        })
+        dispatch(paidServiceProcessedThunk(cedulaCliente));
+        setTimeout(() => {
+            getRefrigeriosProcesados();
+       }, 2000); 
+        
+    };
+
     const getRefrigeriosProcesados = () => {
         dispatch(setIsLoading(true));
         axios.get(`/api/refrigerios_lcv/breakfast_procesados/${school_id}`)
@@ -127,6 +127,7 @@ const RefrigerioProcesados = () => {
                                     <th>Nivel</th>
                                     <th>Revertir</th>
                                     <th>Total</th>
+                                    <th>Canselado</th>
                                     <th>Extras</th>
                                 </tr>
                             </thead>
@@ -147,6 +148,14 @@ const RefrigerioProcesados = () => {
                                                 {refrigerio.cliente_servicio?.name === "SIN SERVICIO" ?
                                                     <td>{refrigerio.breakfastConsumed}</td> :
                                                     <td>{refrigerio.totalBreakfast}</td>
+                                                }
+                                                 {( refrigerio.cliente_servicio?.name === "SIN SERVICIO" || refrigerio.cliente_servicio?.name === "ALMUERZOS PRIMARIA CAMPOVERDE"  || 
+                                                    refrigerio.cliente_servicio?.name === "ALMUERZOS SECUNDARIA CAMPOVERDE" || refrigerio.cliente_servicio?.name === "ALMUERZOS CLUB CAMPITO") 
+                                                    && !refrigerio.paidService ?
+                                                    <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
+                                                        <BtnTable action="process" funtion={() => handlePaidService(refrigerio.cedulaCliente)} /> 
+                                                    </td> :
+                                                    <td></td>
                                                 }
                                                 <td>
                                                     <select onChange={(e) => handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">

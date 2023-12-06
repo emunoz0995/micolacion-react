@@ -81,8 +81,10 @@ const ServicesGenerateXML = () => {
                                                 <ServicePriceCell key={representado.id} client={representado.cliente_servicio?.price} />
                                             ))
                                             }</td>
-                                            <td className='flex gap-1 justify-center items-center h-[60px] p-1'>
-                                                <BtnTable action="view" to={`/schools/${school_id}/factura_XML/${item.id}`} />
+                                            <td >
+                                                <div className='flex gap-1 justify-end items-center p-1'>
+                                                    <BtnTable action="view" to={`/schools/${school_id}/factura_XML/${item.id}`} />
+                                                </div>
                                             </td>
                                         </tr>
                                     );

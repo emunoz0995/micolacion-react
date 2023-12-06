@@ -68,6 +68,7 @@ const HistoryReport = () => {
         window.open(url, "_self");
 
     };
+console.log(data)
 
     return (
         <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
@@ -88,6 +89,7 @@ const HistoryReport = () => {
                                     <th>Seccion</th>
                                     <th>Servicio</th>
                                     <th>Consumidos</th>
+                                    <th>Canselado</th>
                                 </tr>
                             </thead>
                             {searchResults.length > 0 ?
@@ -106,6 +108,7 @@ const HistoryReport = () => {
                                                     item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || item.history_servicio?.name ==="ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed : ""
                                                 }
                                             </td>
+                                            <td>{item.paidService ? "Canselado":"Pago pendiente"}</td>
                                         </tr>
                                     ))}
                                 </tbody> :

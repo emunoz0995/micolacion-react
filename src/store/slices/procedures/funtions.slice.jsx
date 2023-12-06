@@ -63,6 +63,18 @@ export const paidServiceThunk = (client_id,data) => dispatch => {
     })
 };
 
+export const paidServiceProcessedThunk = (client_ci,data) => dispatch => {
+    dispatch(requestUpdateService())
+    axios.put(`/api/procedures/paidServiceFromProcessed/${client_ci}`,data)
+    .then(res => {dispatch(updateServiceSuccess(res.data))
+    })
+    .catch(error => {
+        if (error.response?.status === 400) {
+            dispatch(updateServiceError(error.response?.data))
+        }
+    })
+};
+
 export const startDayThunk = (school_id) => dispatch => {
     dispatch(requestUpdateService())
     axios.put(`/api/procedures/start_day/${school_id}`)
