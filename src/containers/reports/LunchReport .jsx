@@ -99,7 +99,7 @@ const LunchReport = () => {
                                             <td>{report.lunchesConsumed} </td>
                                             <td>{report.totalLunch} </td>
                                             <td>{report.totalExtras} </td>
-                                            <td>{report.paidService ? "Canselado" : "Pago pendiente"} </td>
+                                            <td>{report.paidService ? "Cancelado" : "Pago pendiente"} </td>
                                         </tr>
                                     ))}
                                 </tbody> :

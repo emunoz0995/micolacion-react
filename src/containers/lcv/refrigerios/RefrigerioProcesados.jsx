@@ -127,7 +127,7 @@ const RefrigerioProcesados = () => {
                                     <th>Nivel</th>
                                     <th>Revertir</th>
                                     <th>Total</th>
-                                    <th>Canselado</th>
+                                    <th>Cancelado</th>
                                     <th>Extras</th>
                                 </tr>
                             </thead>

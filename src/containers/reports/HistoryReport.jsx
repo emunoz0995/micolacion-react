@@ -89,7 +89,7 @@ console.log(data)
                                     <th>Seccion</th>
                                     <th>Servicio</th>
                                     <th>Consumidos</th>
-                                    <th>Canselado</th>
+                                    <th>Cancelado</th>
                                 </tr>
                             </thead>
                             {searchResults.length > 0 ?
@@ -108,7 +108,7 @@ console.log(data)
                                                     item.history_servicio?.name === "ALMUERZO INDIVIDUAL CAMPOVERDE" || item.history_servicio?.name ==="ALMUERZO INDIVIDUAL CERVANTES" ? item.lunchesConsumed : ""
                                                 }
                                             </td>
-                                            <td>{item.paidService ? "Canselado":"Pago pendiente"}</td>
+                                            <td>{item.paidService ? "Cancelado":"Pago pendiente"}</td>
                                         </tr>
                                     ))}
                                 </tbody> :
