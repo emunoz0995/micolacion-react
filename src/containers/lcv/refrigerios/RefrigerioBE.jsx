@@ -7,7 +7,7 @@ import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
-import Swal from 'sweetalert2';
+import Toast from '../../../utils/toast';
 
 //SLICES
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
@@ -15,6 +15,7 @@ import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
 import { decrementBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
 import { countBreakFastProcessThunk } from '../../../store/slices/procedures/countProcess';
+import getConfig from '../../../utils/getConfig';
 
 const RefrigerioBE = () => {
     const { school_id } = useParams();
@@ -26,19 +27,10 @@ const RefrigerioBE = () => {
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
+    const seccion = [
+        {id: 1, name: "CAMPITO"},
+        {id: 2, name: "BÁSICA ELEMENTAL"},
+    ]
 
     useEffect(() => {
         getRefrigeriosBE();
@@ -108,8 +100,26 @@ const RefrigerioBE = () => {
             .finally(() => dispatch(setIsLoading(false)))
     }
 
+    const getServicesAditionalById = (sectionId) => {
+        if (sectionId === "all") {
+            getRefrigeriosBE();
+        } else {
+            dispatch(setIsLoading(true));
+            axios.get(`/api/refrigerios_lcv/breakfast_be/${school_id}/section/${sectionId}`,getConfig())
+                .then(response => {
+                    setData(response.data);
+                })
+                .catch(error => {
+                    console.error('Error al obtener datos de la API: ' + error);
+                })
+                .finally(() => dispatch(setIsLoading(false)))
+        }
+    }
+
+
     return (
-        <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
+        <SchoolLayout value={searchTerm} onchange={handleSearch} view={true} options={seccion}
+        viewOption={true} onChangeSelect={getServicesAditionalById}>
             {isLoading ? (
                 <MainLoader />
             ) : (
