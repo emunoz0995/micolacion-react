@@ -99,12 +99,6 @@ const FacturaXML = () => {
         const iva = (subtotal * 0.12);
         const result = (subtotal + iva)
         return result.toFixed(2);
-
-        // if (iva % 1 >= 0.05) {
-        //     return (parseInt(subtotal) + parseFloat(Math.ceil(iva))).toFixed(2);
-        // } else {
-        //     return (parseInt(subtotal) + parseFloat(iva)).toFixed(2); 
-        // }
     };
 
     const formatDateToLocal = (date) => {

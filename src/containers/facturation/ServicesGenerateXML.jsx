@@ -1,47 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 //UI
 import SchoolLayout from '../../layouts/SchoolsLayout';
 import BtnTable from '../../components/buttons/BtnTable';
 import Header from '../../components/headers/catalogs/Header';
 import MainLoader from '../../components/Loaders/MainLoader';
-import Swal from 'sweetalert2';
-//SLICE
-import { getServiceGenereteXMLThunk } from '../../store/slices/facturation/facturation.slice';
 import GeneralRateCell from '../../components/rates/GeneralRateCell';
 import ServiceNameCell from '../../components/rates/ServiceNameCell';
 import ServicePriceCell from '../../components/rates/ServicePriceCell';
-
+//SLICE
+import { setIsLoading } from '../../store/slices/isLoading.slice';
 
 const ServicesGenerateXML = () => {
 
     const { school_id } = useParams();
-    const generateXMLState = useSelector(state => state.facturations);
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const dispatch = useDispatch();
-    const [hiddenRows, setHiddenRows] = useState([]);
-
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
+    const [data, setData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
-        dispatch(getServiceGenereteXMLThunk(school_id));
+        getServiceGenereteXML();
     }, []);
 
+    useEffect(() => {
+        const results = data.filter(item => {
+            let fullName = false
+            for (let i=0; i < (item.representante_cliente).length; i++) {
+                if (item.representante_cliente[i]?.lastName && item.representante_cliente[i]?.firstName) {
+                    fullName = `${item.representante_cliente[i]?.lastName} ${item.representante_cliente[i]?.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
+                }
+                return fullName;
+            }
+        });
+        setSearchResults(results);
+    }, [searchTerm, data]);
 
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const getServiceGenereteXML = () => {
+        dispatch(setIsLoading(true));
+        axios.get(`/api/facturations/services_generateXML/${school_id}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
 
     return (
-        <SchoolLayout>
-            {generateXMLState.fetching || generateXMLState.processing ? (
+        <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
+            {isLoading ? (
                 <MainLoader />
             ) : (
                 <div className="mx-5 my-5 w-[97%]">
@@ -59,12 +75,9 @@ const ServicesGenerateXML = () => {
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {generateXMLState.facturations.map(item => {
-                                    if (hiddenRows.includes(item.id)) {
-                                        return null;
-                                    }
-                                    return (
+                            {searchResults.length > 0 ?
+                                <tbody>
+                                    {searchResults.map(item => (
                                         <tr className='h-[60px]' key={item.id}>
                                             <td className='p-3'>{item.names} </td>
                                             <td className='w-[150px]'>{item.email} </td>
@@ -87,9 +100,14 @@ const ServicesGenerateXML = () => {
                                                 </div>
                                             </td>
                                         </tr>
-                                    );
-                                })}
-                            </tbody>
+
+                                    ))}
+                                </tbody>
+                                :
+                                <div className="absolute z-10 top-[200px] left-3 sm:left-[380px]">
+                                    <h1 className='font-semibolt text-[22px] sm:text-[25px] text-gray-400'>NO HAY DATOS PARA MOSTRAR</h1>
+                                </div>
+                            }
                         </table>
                     </div>
                 </div>
