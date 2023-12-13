@@ -142,7 +142,7 @@ const AlmuerzoPrimaria = () => {
                                             <tr className="uppercase" key={almuerzo.id}>
                                                 <td>{almuerzo.lastName} {almuerzo.firstName} </td>
                                                 <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak(almuerzo.cedulaCliente, almuerzo.id)} /></td>
-                                                <td>{almuerzo.totalBreakfast}</td>
+                                                <td>{almuerzo.totalLunch}</td>
                                                 <td>
                                                     <select onChange={(e) => handleChange(e.target.value, almuerzo.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
                                                         <option value="">Seleccione</option>
