@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
 
 //UI
 import MainLoader from '../../../components/Loaders/MainLoader';
@@ -19,7 +20,7 @@ import { roles } from '../../../resources/optionsList';
 
 
 const UserForm = () => {
-
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { user_id } = useParams();
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
