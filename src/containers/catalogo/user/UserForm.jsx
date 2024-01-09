@@ -51,26 +51,24 @@ const UserForm = () => {
         }
     };
 
-     if (userState.message.message === "resource created successfully" || userState.message.message === "resource updated successfully") {
-         navigate("/users");
-     }
+    if (userState.message.message === "resource created successfully" || userState.message.message === "resource updated successfully") {
+        navigate("/users");
+    }
 
-     if (Object.keys(userState.user).length !== 0) {
-         setValue('firstName', userState.user.first_name)
-         setValue('lastName', userState.user.last_name)
-         setValue('roleId', userState.user.role_id)
-         setValue('email', userState.user.email)
-         setValue('active', userState.user.active)
-     }
-
-
+    if (Object.keys(userState.user).length !== 0) {
+        setValue('firstName', userState.user.first_name)
+        setValue('lastName', userState.user.last_name)
+        setValue('roleId', userState.user.role_id)
+        setValue('email', userState.user.email)
+        setValue('active', userState.user.active)
+    }
     return (
         <HomeLayout>
-             {userState.fetching || userState.processing ? (
+            {userState.fetching || userState.processing ? (
                 <MainLoader />
             ) : (
                 <div className="w-[96%] mt-5 ml-5 ">
-                    <HeaderForm title="Usuarios"/>
+                    <HeaderForm title="Usuarios" />
                     <div className='h-[90%] overflow-y-scroll contenedor'>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className='flex gap-2 p-2'>
@@ -94,7 +92,7 @@ const UserForm = () => {
                                     placeholder="Apellido"
                                     errors={errors.lastName && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
-                                 <DropdownForm
+                                <DropdownForm
                                     label="Rol"
                                     input="input"
                                     spam={true}
@@ -115,16 +113,18 @@ const UserForm = () => {
                                     placeholder="Email"
                                     errors={errors.email && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
-                                 <InputForm
-                                    type="text"
-                                    label="Password"
-                                    input="input"
-                                    spam={true}
-                                    cols={1}
-                                    register={register("password",{ required: true})}
-                                    placeholder="Password"
-                                    errors={errors.email && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
-                                />
+                                {user_id ? ""
+:                                    <InputForm
+                                        type="text"
+                                        label="Password"
+                                        input="input"
+                                        spam={true}
+                                        cols={1}
+                                        register={register("password", { required: true })}
+                                        placeholder="Password"
+                                        errors={errors.email && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
+                                    />
+                                }
                                 <InputForm
                                     type="checkbox"
                                     label="Activo"
@@ -132,7 +132,7 @@ const UserForm = () => {
                                     spam={false}
                                     cols={1}
                                     register={register("active")}
-                                /> 
+                                />
                             </div>
                             <div className="flex items-center justify-start py-5 gap-2 border-t-2 border-orange-500 mt-8">
                                 <BtnContent type="submit">Guardar</BtnContent>
