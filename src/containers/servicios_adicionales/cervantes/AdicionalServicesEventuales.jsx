@@ -81,7 +81,7 @@ const AdicionalesCervantesEventuales = () => {
             icon: 'success',
             title: '¡Servicio registrado!'
         }).then(function (result) {
-            getAlmuerzoPrimaria();
+            getServicesAditionalLcv();
         })
 
     };
