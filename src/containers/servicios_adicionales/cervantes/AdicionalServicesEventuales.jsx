@@ -6,14 +6,15 @@ import axios from 'axios';
 import SchoolLayout from '../../../layouts/SchoolsLayout';
 import TabParts from '../../../components/breadcrumbs/TabParts';
 import MainLoader from '../../../components/Loaders/MainLoader';
-import BtnTable from '../../../components/buttons/BtnTable';
+import Toast from '../../../utils/toast'
 
 //SLICES
 import { setIsLoading } from '../../../store/slices/isLoading.slice';
-import { decrementAditionalThunk } from '../../../store/slices/procedures/adicionales.slice';
 import { countAdicionalProcessThunk } from '../../../store/slices/procedures/countProcess';
 import { getAditionalServicesBySchoolThunk } from '../../../store/slices/catalogs/aditionalServices.slice';
+import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
 import getConfig from '../../../utils/getConfig';
+
 
 const AdicionalesCervantesEventuales = () => {
     const { school_id } = useParams();
@@ -58,17 +59,6 @@ const AdicionalesCervantesEventuales = () => {
         setHiddenRows([...hiddenRows, id]);
     };
 
-    const handlePlusBreak = (id,clientCi) => {
-        const data ={
-            clientCi
-        }
-        dispatch(decrementAditionalThunk(id, data));
-         setTimeout(() => {
-             dispatch(countAdicionalProcessThunk(school_id));
-         }, 500);
-        hideRow(id);
-    }
-
     const getServicesAditionalLcv = () => {
         dispatch(setIsLoading(true));
         axios.get(`/api/clients/${school_id}`,getConfig())
@@ -81,26 +71,24 @@ const AdicionalesCervantesEventuales = () => {
             .finally(() => dispatch(setIsLoading(false)))
     }
 
-    const getServicesAditionalById = (serviceId) => {
-        if (serviceId === "all") {
-            getServicesAditionalLcv();
-        } else {
-            dispatch(setIsLoading(true));
-            axios.get(`/api/aditional_cervantes/aditionalServiceById/${serviceId}`,getConfig())
-                .then(response => {
-                    setData(response.data);
-                })
-                .catch(error => {
-                    console.error('Error al obtener datos de la API: ' + error);
-                })
-                .finally(() => dispatch(setIsLoading(false)))
+    const handleChange = (serviceId, cedulaCliente) => {
+        const data = {
+            serviceId,
+            cedulaCliente,
         }
-    }
+        dispatch(registerExtrasThunk(data));
+        Toast.fire({
+            icon: 'success',
+            title: '¡Servicio registrado!'
+        }).then(function (result) {
+            getAlmuerzoPrimaria();
+        })
 
-    console.log(data)
+    };
+
 
     return (
-        <SchoolLayout value={searchTerm} options={aditionalServicesState.services} onchange={handleSearch}
+        <SchoolLayout value={searchTerm} onchange={handleSearch}
             view={true} >
             {isLoading ? (
                 <MainLoader />
@@ -131,7 +119,14 @@ const AdicionalesCervantesEventuales = () => {
                                         return (
                                             <tr key={adicional.id}>
                                                 <td>{adicional.lastName} {adicional.firstName} </td>
-                                                <td className='flex justify-center'> <BtnTable action="decrement" funtion={() => handlePlusBreak()} /></td>
+                                                <td>
+                                                    <select onChange={(e) => handleChange(e.target.value, adicional.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
+                                                        <option value="">Seleccione</option>
+                                                        {aditionalServicesState.services.map((service) => (
+                                                            <option key={service.id} value={service.id}>{service.name}</option>
+                                                        ))}
+                                                    </select>
+                                                </td>
                                                 <td>{adicional.lastName}</td>
                                                 <td>{adicional.cliente_seccion?.name}</td>
                                                 <td>{adicional.cliente_servicio?.name}</td> 

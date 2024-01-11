@@ -99,6 +99,18 @@ export const registerExtrasThunk = (data) => dispatch => {
     })
 };
 
+export const registerAditionalThunk = (data) => dispatch => {
+    dispatch(requestUpdateService())
+    axios.post(`/api/procedures/register_serviceAditional`, data)
+    .then(res => {dispatch(updateServiceSuccess(res.data))
+    })
+    .catch(error => {
+        if (error.response?.status === 400) {
+            dispatch(updateServiceError(error.response?.data))
+        }
+    })
+};
+
 export const { 
     requestUpdateService,
     updateServiceSuccess,
