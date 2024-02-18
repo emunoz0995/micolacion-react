@@ -31,16 +31,20 @@ const ClientList = () => {
     useEffect(() => {
         const results = data.filter(item => {
             let seccionMatch = false;
-            let fullName =  false 
+            let fullName =  false; 
+            let service = false;
 
             if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
+            }
+            if (item.cliente_servicio?.name) {
+                service = item.cliente_servicio?.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
             if (item.lastName && item.firstName){
                 fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
             }
         
-            return fullName || seccionMatch ;
+            return fullName || seccionMatch || service ;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
