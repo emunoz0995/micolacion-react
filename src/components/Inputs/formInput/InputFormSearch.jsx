@@ -42,7 +42,7 @@ export default function InputFormSearch({
           value={value}
           onChange={(e) => setRepresentativeId(e.target.value)}
         />
-        <button type='button' className=' z-10 text-white relative w-12 bg-sky-500  right-2 flex justify-center items-center rounded-r-lg' onClick={() => serachRepresetative(representativeCi)}>
+        <button type='button' className=' z-10 text-white relative w-12 hover:bg-sky-700 duration-75 bg-sky-500  right-2 flex justify-center items-center rounded-r-lg' onClick={() => serachRepresetative(representativeCi)}>
           <FaSearch />
         </button>
       </div>
