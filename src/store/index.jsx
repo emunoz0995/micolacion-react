@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 //CATALOGS
 import users from './slices/catalogs/users.slice';
 import clients from './slices/catalogs/clients.slice';
+import representatives from './slices/catalogs/representatives.slice';
 import services from './slices/catalogs/services.slice';
 import schools from './slices/catalogs/schools.slice';
 import sections from './slices/catalogs/sections.slice';
@@ -21,6 +22,7 @@ export default configureStore({
   reducer: {
     users,
     clients,
+    representatives,
     services,
     schools,
     sections,

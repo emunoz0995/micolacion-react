@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
-
 //UI
 import MainLoader from '../../../components/Loaders/MainLoader';
 import InputForm from '../../../components/Inputs/formInput/InputForm';
@@ -16,7 +15,7 @@ import '../../../App.css';
 // SLICES 
 import { getUserThunk, createUserThunk, updateUserThunk } from '../../../store/slices/catalogs/users.slice';
 //RESOURCE
-import { roles } from '../../../resources/optionsList';
+import { roles } from '../../../store/resources/optionsList';
 
 
 const UserForm = () => {

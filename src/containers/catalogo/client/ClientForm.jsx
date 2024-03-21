@@ -21,7 +21,9 @@ import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { getServicesBySchoolThunk } from '../../../store/slices/catalogs/services.slice';
 import { getAditionalServicesBySchoolThunk } from '../../../store/slices/catalogs/aditionalServices.slice';
 import { getSectionsBySchoolThunk } from '../../../store/slices/catalogs/sections.slice';
+import { getRepresentativeThunk, initialStateRepresentative } from '../../../store/slices/catalogs/representatives.slice';
 import getConfig from '../../../utils/getConfig';
+import InputFormSearch from '../../../components/Inputs/formInput/InputFormSearch';
 
 
 const ClientForm = () => {
@@ -33,6 +35,7 @@ const ClientForm = () => {
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
     const isLoading = useSelector(state => state.isLoadingSlice);
     const serviceState = useSelector(state => state.services);
+    const representativeState = useSelector(state => state.representatives);
     const aditionalServicesState = useSelector(state => state.aditionalServices)
     const sectionsState = useSelector(state => state.sections);
     const [clientState, setClientState] = useState("");
@@ -52,6 +55,9 @@ const ClientForm = () => {
         if (client_id) {
             getClient();
         }
+        return () => {
+            dispatch(initialStateRepresentative());
+        };
     }, []);
 
     const getClient = () => {
@@ -118,13 +124,28 @@ const ClientForm = () => {
     };
 
     const deleteService = (service_id) => {
-        axios.delete(`/api/services/servicesByStudent/${service_id}`,getConfig())
+        axios.delete(`/api/services/servicesByStudent/${service_id}`, getConfig())
             .then(() => {
                 getClient();
             })
             .catch(error => {
                 console.error('Error al obtener datos de la API: ' + error);
             })
+    }
+
+    const serachRepresetative = (ci) => {
+        dispatch(getRepresentativeThunk(ci))
+    }
+
+    if (representativeState.representative instanceof Object) {
+        if (Object.keys(representativeState.representative).length !== 0) {
+            setValue('representativeId', representativeState.representative.id)
+            setValue('cedulaRepresentante', representativeState.representative.cedulaRepresentante)
+            setValue('names', representativeState.representative.names)
+            setValue('email', representativeState.representative.email)
+            setValue('telefon', representativeState.representative.telefon)
+            setValue('adress', representativeState.representative.adress)
+        }
     }
 
     if (clientState.message === "resource created successfully" || clientState.message === "resource updated successfully") {
@@ -141,12 +162,12 @@ const ClientForm = () => {
         setValue('totalBreakfast', data.totalBreakfast)
         setValue('totalLunch', data.totalLunch)
         setValue('active', data.active)
-        setValue('representativeId', data.cliente_representante.id)
-        setValue('cedulaRepresentante', data.cliente_representante.cedulaRepresentante)
-        setValue('names', data.cliente_representante.names)
-        setValue('email', data.cliente_representante.email)
-        setValue('telefon', data.cliente_representante.telefon)
-        setValue('adress', data.cliente_representante.adress)
+        setValue('representativeId', !representativeState.representative ? "registro no encontrado" : representativeState.representative.id ? representativeState.representative.id : data.cliente_representante.id)
+        setValue('cedulaRepresentante', !representativeState.representative ? "registro no encontrado" : representativeState.representative.cedulaRepresentante ? representativeState.representative.cedulaRepresentante : data.cliente_representante.cedulaRepresentante)
+        setValue('names', !representativeState.representative ? "registro no encontrado" : representativeState.representative.names ? representativeState.representative.names : data.cliente_representante.names)
+        setValue('email', !representativeState.representative ? "registro no encontrado" : representativeState.representative.email ? representativeState.representative.email : data.cliente_representante.email)
+        setValue('telefon', !representativeState.representative ? "registro no encontrado" : representativeState.representative.telefon ? representativeState.representative.telefon : data.cliente_representante.telefon)
+        setValue('adress', !representativeState.representative ? "registro no encontrado" : representativeState.representative.adress ? representativeState.representative.adress : data.cliente_representante.adress)
     }
 
     if (clientState === "Validation error") {
@@ -154,6 +175,7 @@ const ClientForm = () => {
             icon: 'error',
             title: 'El estudiante ya se encuentra registrado!'
         })
+        setClientState("")
     }
 
     return (
@@ -271,7 +293,7 @@ const ClientForm = () => {
                                     <div key={item.id} className='flex gap-2 p-2 w-[50%] border'>
                                         <div className={`flex flex-col w-full cols`} >
                                             <label className="text-sm flex items-center m-1 gap-2">
-                                            <FaCircle size={"10px"} color='green'/>
+                                                <FaCircle size={"10px"} color='green' />
                                                 <p>{item.servicio?.name}</p>
                                             </label>
 
@@ -282,7 +304,7 @@ const ClientForm = () => {
                                             </label>
 
                                         </div>
-                                        <button onClick={()=>deleteService(item.id)} type='button' className="bg-red-400  hover:bg-red-600 text-white transition-all active:scale-95 p-2 
+                                        <button onClick={() => deleteService(item.id)} type='button' className="bg-red-400  hover:bg-red-600 text-white transition-all active:scale-95 p-2 
                                              rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center mt-1 gap-1 justify-center text-sm">
                                             <FaTrash />
                                         </button>
@@ -303,12 +325,13 @@ const ClientForm = () => {
                             <HeaderSection title="Datos representante" />
                             <div className='flex gap-2 p-2'>
                                 <input type="text" {...register('representativeId')} hidden />
-                                <InputForm
+                                <InputFormSearch
                                     type="text"
                                     label="Cédula"
                                     input="input"
                                     spam={true}
                                     cols={1}
+                                    serachRepresetative={serachRepresetative}
                                     register={register("cedulaRepresentante", { required: true })}
                                     placeholder="Cedula"
                                     errors={errors.cedulaRepresentante && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
