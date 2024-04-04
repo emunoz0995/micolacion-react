@@ -91,12 +91,12 @@ const FacturaXML = () => {
 
     const calculateIva = () => {
         const subtotal = invoice.reduce((total, item) => total + item.quantity * item.price, 0);
-        return (subtotal * 0.12).toFixed(2);
+        return (subtotal * 0.15).toFixed(2);
     };
 
     const calculateTotal = () => {
         const subtotal = invoice.reduce((total, item) => total + item.quantity * item.price, 0);
-        const iva = (subtotal * 0.12);
+        const iva = (subtotal * 0.15);
         const result = (subtotal + iva)
         return result.toFixed(2);
     };
