@@ -236,7 +236,7 @@ const FacturaXML = () => {
                                     <th className='w-[10%] text-center'>${calculateSubTotal()}</th>
                                 </tr>
                                 <tr className='text-left bg-[#eff2f8]'>
-                                    <th className='p-2 w-[90%] text-end'>IVA 12%</th>
+                                    <th className='p-2 w-[90%] text-end'>IVA 15%</th>
                                     <th className='w-[10%] text-center'>${calculateIva()}</th>
                                 </tr>
                                 <tr className='text-left bg-[#eff2f8]'>
