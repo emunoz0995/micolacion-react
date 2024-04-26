@@ -55,6 +55,19 @@ const ServicesGenerateXML = () => {
             .finally(() => dispatch(setIsLoading(false)))
     }
 
+    const deleteXml = (client_ci) => {
+        dispatch(setIsLoading(true));
+        axios.delete(`/api/facturations/deleteXMLClient/${client_ci}`)
+            .then(() => {
+                setSearchTerm("")
+                getServiceGenereteXML();
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+            .finally(() => dispatch(setIsLoading(false)))
+    }
+
     return (
         <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
             {isLoading ? (
@@ -97,6 +110,7 @@ const ServicesGenerateXML = () => {
                                             <td >
                                                 <div className='flex gap-1 justify-end items-center p-1'>
                                                     <BtnTable action="view" to={`/schools/${school_id}/factura_XML/${item.id}`} />
+                                                    <BtnTable title="¿Quieres eliminar este XML?" action="delete" onclick={() => deleteXml(item.id)} />
                                                 </div>
                                             </td>
                                         </tr>
