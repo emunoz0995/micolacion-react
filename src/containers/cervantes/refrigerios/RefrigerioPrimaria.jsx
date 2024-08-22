@@ -127,9 +127,9 @@ const RefrigerioPrimaria = () => {
             ) : (
             <div className="mx-5 my-5 w-full">
                 <TabParts
-                    titleOne={'Basical Elemental'} toOne={`/schools/${school_id}/refrigerios_primaria`} activeOne={true}
+                    titleOne={'Basica Elemental'} toOne={`/schools/${school_id}/refrigerios_primaria`} activeOne={true}
                     titleTwo={'Inicial'} toTwo={`/schools/${school_id}/refrigerios_inicial`} activeTwo={false}
-                    titleTree={'Basical Media/Superior'} toTree={`/schools/${school_id}/refrigerios_secundaria`} activeTree={false}
+                    titleTree={'Basica Media/Superior'} toTree={`/schools/${school_id}/refrigerios_secundaria`} activeTree={false}
                     titleFour={'Eventuales'} toFour={`/schools/${school_id}/refrigerios_eventuales_cervantes`} activeFour={false}
                     titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/refrigerios_procesados_cervantes`} activeSeven={false}
                 />

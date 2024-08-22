@@ -116,7 +116,7 @@ const AlmuerzoSecundaria = () => {
                     <TabParts
                         titleOne={'Basica Elemental'} toOne={`/schools/${school_id}/almuerzos_primaria`} activeOne={false}
                         titleTwo={'Inicial'} toTwo={`/schools/${school_id}/almuerzos_inicial`} activeTwo={false}
-                        titleTree={'Basical Media/Superior'} toTree={`/schools/${school_id}/almuerzos_secundaria`} activeTree={true}
+                        titleTree={'Basica Media/Superior'} toTree={`/schools/${school_id}/almuerzos_secundaria`} activeTree={true}
                         titleFour={'Eventuales'} toFour={`/schools/${school_id}/almuerzos_eventuales_cervantes`} activeFour={false}
                         titleSeven={'Procesados'} countProcces={countProcces} toSeven={`/schools/${school_id}/almuerzos_procesados_cervantes`} activeSeven={false}
                     />

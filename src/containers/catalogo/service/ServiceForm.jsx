@@ -14,6 +14,7 @@ import Toast from '../../../utils/toast';
 import '../../../App.css';
 // SLICES 
 import { getServiceThunk, createServiceThunk, updateServiceThunk } from '../../../store/slices/catalogs/services.slice';
+import HeaderSection from '../../../components/headers/catalogs/HeaderSection';
 
 
 const ServiceForm = () => {
@@ -61,6 +62,8 @@ const ServiceForm = () => {
         setValue('isLcv', serviceState.service.isLcv)
         setValue('isCervantes', serviceState.service.isCervantes)
         setValue('isExtra', serviceState.service.isExtra)
+        setValue('isBreakFast', serviceState.service.isBreakFast)
+        setValue('isLunch', serviceState.service.isLunch)
         setValue('isAditional', serviceState.service.isAditional)
         setValue('active', serviceState.service.active)
     }
@@ -105,7 +108,8 @@ const ServiceForm = () => {
                                     placeholder="Precio"
                                 />
                             </div>
-                            <div className='flex gap-2 p-2'>
+                            <HeaderSection  title={"Aplica para colegio"}/>
+                            <div className='flex gap-2 p-2 mb-5'>
                                 <InputForm
                                     type="checkbox"
                                     label="Liceo Campoverde"
@@ -122,6 +126,28 @@ const ServiceForm = () => {
                                     cols={1}
                                     register={register("isCervantes")}
                                 />
+                            </div>
+                            <HeaderSection  title={"Aplica para lista"}/>
+                            <div className='flex gap-2 p-2 mb-5'>
+                                <InputForm
+                                    type="checkbox"
+                                    label="Refrigerio"
+                                    input="checkbox"
+                                    spam={false}
+                                    cols={1}
+                                    register={register("isBreakFast")}
+                                />
+                                <InputForm
+                                    type="checkbox"
+                                    label="Almuerzo"
+                                    input="checkbox"
+                                    spam={false}
+                                    cols={1}
+                                    register={register("isLunch")}
+                                />
+                            </div>
+                            <HeaderSection  title={"Tipo servicio"}/>
+                            <div className='flex gap-2 p-2 mb-5'>
                                 <InputForm
                                     type="checkbox"
                                     label="Extra"
@@ -139,6 +165,7 @@ const ServiceForm = () => {
                                     register={register("isAditional")}
                                 />
                             </div>
+
                             <div className='flex gap-2 p-2'>
                                 <InputForm
                                     type="checkbox"
@@ -155,9 +182,9 @@ const ServiceForm = () => {
                             </div>
                         </form>
                     </div>
-                </div>
+                </div >
             )}
-        </HomeLayout>
+        </HomeLayout >
     );
 };
 
