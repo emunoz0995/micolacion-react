@@ -13,7 +13,7 @@ import HeaderForm from '../../../components/headers/catalogs/HeaderForm';
 import HeaderSection from '../../../components/headers/catalogs/HeaderSection';
 import BtnContent from '../../../components/buttons/BtnContent';
 import DropdownForm from '../../../components/Inputs/formInput/DropdonwForm';
-import { FaCircle, FaPlus, FaTrash } from 'react-icons/fa';
+import { FaCircle, FaMoneyBill, FaMoneyBillWave, FaMoneyCheckAlt, FaPlus, FaTrash } from 'react-icons/fa';
 import '../../../App.css';
 import Toast from '../../../utils/toast';
 // SLICES 
@@ -126,6 +126,20 @@ const ClientForm = () => {
     const deleteService = (service_id) => {
         axios.delete(`/api/services/servicesByStudent/${service_id}`, getConfig())
             .then(() => {
+                getClient();
+            })
+            .catch(error => {
+                console.error('Error al obtener datos de la API: ' + error);
+            })
+    }
+
+    const processPayAdittionalService = (service_id) => {
+        axios.post(`/api/procedures/processPayAdittionalService/${service_id}`, getConfig())
+            .then(() => {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Servicio renovado !ya puede generar XML!'
+                })
                 getClient();
             })
             .catch(error => {
@@ -290,20 +304,22 @@ const ClientForm = () => {
                             </div>
                             {items ?
                                 items.map(item => (
-                                    <div key={item.id} className='flex gap-2 p-2 w-[50%] border'>
+                                    <div key={item.id} className='flex gap-2 p-2 w-[60%] border'>
                                         <div className={`flex flex-col w-full cols`} >
                                             <label className="text-sm flex items-center m-1 gap-2">
                                                 <FaCircle size={"10px"} color='green' />
                                                 <p>{item.servicio?.name}</p>
                                             </label>
-
                                         </div>
                                         <div className={`flex flex-col w-full cols`} >
                                             <label className="text-sm flex items-center m-1">
                                                 <p>{item.total}</p>
                                             </label>
-
                                         </div>
+                                        <button onClick={() => processPayAdittionalService(item.id)} type='button' className="bg-green-400  hover:bg-green-600 text-white transition-all active:scale-95 p-2 
+                                             rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center mt-1 gap-1 justify-center text-sm">
+                                            <FaMoneyBillWave />
+                                        </button>
                                         <button onClick={() => deleteService(item.id)} type='button' className="bg-red-400  hover:bg-red-600 text-white transition-all active:scale-95 p-2 
                                              rounded-full font-bold shadow-lg shadow-base-content/30 flex items-center mt-1 gap-1 justify-center text-sm">
                                             <FaTrash />
