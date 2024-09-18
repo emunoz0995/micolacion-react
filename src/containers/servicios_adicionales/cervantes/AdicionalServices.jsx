@@ -38,7 +38,7 @@ const AdicionalesCervantes = () => {
             let seccionMatch = false;
             let fullName = false
 
-            if (item.cliente.cliente_seccion?.name) {
+            if (item.cliente?.cliente_seccion?.name) {
                 seccionMatch = item.cliente.cliente_seccion?.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
             if (item.cliente?.lastName && item.cliente?.firstName) {

@@ -104,6 +104,8 @@ const AlmuerzoProcesadosCervantes = () => {
             .finally(() => dispatch(setIsLoading(false)))
     }
 
+    console.log(searchResults)
+
     return (
         <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>
             {isLoading ? (
@@ -148,7 +150,7 @@ const AlmuerzoProcesadosCervantes = () => {
                                                     <td>{almuerzo.lunchesConsumed}</td> :
                                                     <td>{almuerzo.totalLunch}</td>
                                                 }
-                                                {(almuerzo.cliente_servicio?.name === "SIN SERVICIO" || almuerzo.cliente_servicio?.name === "REFRIGERIOS CERVANTES"  || almuerzo.cliente_servicio?.name === "REFRIGERIOS PREESCOLAR CERVANTES") && !almuerzo.paidService ?
+                                                {(!almuerzo.cliente_servicio?.isLunch || almuerzo.cliente_servicio?.noneService === true) && !almuerzo.paidService ?
                                                     <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
                                                         <BtnTable action="process" funtion={() => handlePaidService(almuerzo.cedulaCliente)} /> 
                                                     </td> :
