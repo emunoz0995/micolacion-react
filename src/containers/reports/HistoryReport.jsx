@@ -66,9 +66,7 @@ const HistoryReport = () => {
     const handleGenerateExcel = () => {
         const url = `${API_BASE_URL}api/reports/history/${school_id}`;
         window.open(url, "_self");
-
     };
-console.log(data)
 
     return (
         <SchoolLayout value={searchTerm} onchange={handleSearch} view={true}>

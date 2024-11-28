@@ -147,7 +147,7 @@ const RefrigerioProcesadosCervantes = () => {
                                                     <td>{refrigerio.breakfastConsumed}</td> :
                                                     <td>{refrigerio.totalBreakfast}</td>
                                                 }
-                                                {(!refrigerio.cliente_servicio?.isBreakFast || refrigerio.cliente_servicio?.noneService === true ) && !refrigerio.paidService ?
+                                                {(!refrigerio.cliente_servicio?.isBreakFast || refrigerio.cliente_servicio?.noneService === true ) || !refrigerio.paidService ?
                                                     <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
                                                         <BtnTable action="process" funtion={() => handlePaidService(refrigerio.cedulaCliente)} /> 
                                                     </td> :
