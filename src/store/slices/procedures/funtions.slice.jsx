@@ -10,6 +10,14 @@ export const funtionsSlice = createSlice({
         error: "",
     },
     reducers: {
+        initialStateFuntions(state) {
+            return {
+                processing: false,
+                fetching: false,
+                message: "",
+                error: "",
+            }
+        },
         requestUpdateService(state, action) {
             return {
                 processing: true,
@@ -54,7 +62,7 @@ export const renewServiceThunk = (client_ci, data) => dispatch => {
 export const paidServiceThunk = (client_id,data) => dispatch => {
     dispatch(requestUpdateService())
     axios.put(`/api/procedures/paid_service/${client_id}`,data)
-    .then(res => {dispatch(updateServiceSuccess(res.data))
+    .then(res => {dispatch(updateServiceSuccess(res.data.data))
     })
     .catch(error => {
         if (error.response?.status === 400) {
@@ -66,7 +74,7 @@ export const paidServiceThunk = (client_id,data) => dispatch => {
 export const paidServiceProcessedThunk = (client_ci,data) => dispatch => {
     dispatch(requestUpdateService())
     axios.put(`/api/procedures/paidServiceFromProcessed/${client_ci}`,data)
-    .then(res => {dispatch(updateServiceSuccess(res.data))
+    .then(res => {dispatch(updateServiceSuccess(res.data.data))
     })
     .catch(error => {
         if (error.response?.status === 400) {
@@ -112,6 +120,7 @@ export const registerAditionalThunk = (data) => dispatch => {
 };
 
 export const { 
+    initialStateFuntions,
     requestUpdateService,
     updateServiceSuccess,
     updateServiceError,
