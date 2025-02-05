@@ -38,8 +38,8 @@ const RefrigerioProcesadosCervantes = () => {
             let seccionMatch = false;
             let fullName = false
 
-            if (item.history_seccion.name) {
-                seccionMatch = item.history_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
+            if (item.cliente_seccion.name) {
+                seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
             if (item.lastName && item.firstName) {
                 fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
@@ -81,10 +81,10 @@ const RefrigerioProcesadosCervantes = () => {
         dispatch(paidServiceProcessedThunk(cedulaCliente));
         setTimeout(() => {
             getRefrigeriosProcesados();
-       }, 2000);   
+        }, 2000);
     };
 
-    if(funtionsState.message === 'service paid successfully'){
+    if (funtionsState.message === 'service paid successfully') {
         Toast.fire({
             icon: 'success',
             title: 'Pago registrado, ¡ya puede general XML!'
@@ -141,8 +141,8 @@ const RefrigerioProcesadosCervantes = () => {
                                         return (
                                             <tr className='h-[60px] uppercase' key={refrigerio.id}>
                                                 <td className='p-2'>{refrigerio.lastName} {refrigerio.firstName} </td>
-                                                <td>{refrigerio.history_servicio?.name}</td>
-                                                <td>{refrigerio.history_seccion?.name}</td>
+                                                <td>{refrigerio.cliente_servicio?.name}</td>
+                                                <td>{refrigerio.cliente_seccion?.name}</td>
                                                 <td className='flex gap-1 items-center h-[60px] p-1'>
                                                     <BtnTable action="revert" funtion={() => handleRevertBreak(refrigerio.cedulaCliente, refrigerio.id)} />
                                                 </td>
@@ -150,12 +150,11 @@ const RefrigerioProcesadosCervantes = () => {
                                                     <td>{refrigerio.breakfastConsumed}</td> :
                                                     <td>{refrigerio.totalBreakfast}</td>
                                                 }
-                                                {(!refrigerio.history_servicio?.isBreakFast || refrigerio.history_servicio?.noneService === true ) || !refrigerio.paidService ?
-                                                    <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
-                                                        <BtnTable action="process" funtion={() => handlePaidService(refrigerio.cedulaCliente)} /> 
-                                                    </td> :
-                                                    <td></td>
-                                                }
+
+                                                <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
+                                                    <BtnTable action="process" funtion={() => handlePaidService(refrigerio.cedulaCliente)} />
+                                                </td>
+
                                                 <td>
                                                     <select onChange={(e) => handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
                                                         <option value="">Seleccione</option>

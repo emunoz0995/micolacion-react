@@ -34,16 +34,16 @@ const RefrigerioProcesados = () => {
     useEffect(() => {
         const results = data.filter(item => {
             let seccionMatch = false;
-            let fullName =  false 
+            let fullName = false
 
             if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            if (item.lastName && item.firstName){
+            if (item.lastName && item.firstName) {
                 fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
             }
-        
-            return fullName || seccionMatch ;
+
+            return fullName || seccionMatch;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
@@ -86,8 +86,8 @@ const RefrigerioProcesados = () => {
         dispatch(paidServiceProcessedThunk(cedulaCliente));
         setTimeout(() => {
             getRefrigeriosProcesados();
-       }, 2000); 
-        
+        }, 2000);
+
     };
 
     const getRefrigeriosProcesados = () => {
@@ -149,14 +149,9 @@ const RefrigerioProcesados = () => {
                                                     <td>{refrigerio.breakfastConsumed}</td> :
                                                     <td>{refrigerio.totalBreakfast}</td>
                                                 }
-                                                 {( refrigerio.cliente_servicio?.name === "SIN SERVICIO" || refrigerio.cliente_servicio?.name === "ALMUERZOS PRIMARIA CAMPOVERDE"  || 
-                                                    refrigerio.cliente_servicio?.name === "ALMUERZOS SECUNDARIA CAMPOVERDE" || refrigerio.cliente_servicio?.name === "ALMUERZOS CLUB CAMPITO") 
-                                                    && !refrigerio.paidService ?
-                                                    <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
-                                                        <BtnTable action="process" funtion={() => handlePaidService(refrigerio.cedulaCliente)} /> 
-                                                    </td> :
-                                                    <td></td>
-                                                }
+                                                <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
+                                                    <BtnTable action="process" funtion={() => handlePaidService(refrigerio.cedulaCliente)} />
+                                                </td>
                                                 <td>
                                                     <select onChange={(e) => handleChange(e.target.value, refrigerio.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
                                                         <option value="">Seleccione</option>

@@ -34,16 +34,16 @@ const AlmuerzoProcesados = () => {
     useEffect(() => {
         const results = data.filter(item => {
             let seccionMatch = false;
-            let fullName =  false 
+            let fullName = false
 
             if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            if (item.lastName && item.firstName){
+            if (item.lastName && item.firstName) {
                 fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
             }
-        
-            return fullName || seccionMatch ;
+
+            return fullName || seccionMatch;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
@@ -87,8 +87,8 @@ const AlmuerzoProcesados = () => {
         dispatch(paidServiceProcessedThunk(cedulaCliente));
         setTimeout(() => {
             getAlmuerzosProcesados();
-       }, 2000); 
-        
+        }, 2000);
+
     };
 
     const getAlmuerzosProcesados = () => {
@@ -111,13 +111,13 @@ const AlmuerzoProcesados = () => {
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                       titleOne={'Basica Media'} toOne={`/schools/${school_id}/almuerzos_bm`} activeOne={false}
-                       titleTwo={'Basica Elemental'} toTwo={`/schools/${school_id}/almuerzos_be`} activeTwo={false}
-                       titleTree={'Segundo Y Tercero EGB'} toTree={`/schools/${school_id}/almuerzos_2do_3ro_EGB`} activeTree={false}
-                       titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/almuerzos_bs_bgu`} activeFour={false}
-                       titleFive={'Eventuales'} toFive={`/schools/${school_id}/almuerzos_eventuales`} activeFive={false}
-                      // titleSix={'Personal'} toSix={`/schools/${school_id}/almuerzos_personal`} activeSix={false}
-                       titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={true}
+                        titleOne={'Basica Media'} toOne={`/schools/${school_id}/almuerzos_bm`} activeOne={false}
+                        titleTwo={'Basica Elemental'} toTwo={`/schools/${school_id}/almuerzos_be`} activeTwo={false}
+                        titleTree={'Segundo Y Tercero EGB'} toTree={`/schools/${school_id}/almuerzos_2do_3ro_EGB`} activeTree={false}
+                        titleFour={'Basica BS-BGU '} toFour={`/schools/${school_id}/almuerzos_bs_bgu`} activeFour={false}
+                        titleFive={'Eventuales'} toFive={`/schools/${school_id}/almuerzos_eventuales`} activeFive={false}
+                        // titleSix={'Personal'} toSix={`/schools/${school_id}/almuerzos_personal`} activeSix={false}
+                        titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/almuerzos_procesados`} activeSeven={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full uppercase">
@@ -150,12 +150,9 @@ const AlmuerzoProcesados = () => {
                                                     <td>{almuerzo.lunchesConsumed}</td> :
                                                     <td>{almuerzo.totalLunch}</td>
                                                 }
-                                                {(almuerzo.cliente_servicio?.name === "SIN SERVICIO" || almuerzo.cliente_servicio?.name === "REFRIGERIOS CAMPOVERDE") && !almuerzo.paidService ?
-                                                    <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
-                                                        <BtnTable action="process" funtion={() => handlePaidService(almuerzo.cedulaCliente)} /> 
-                                                    </td> :
-                                                    <td></td>
-                                                }
+                                                <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
+                                                    <BtnTable action="process" funtion={() => handlePaidService(almuerzo.cedulaCliente)} />
+                                                </td>
                                                 <td>
                                                     <select onChange={(e) => handleChange(e.target.value, almuerzo.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
                                                         <option value="">Seleccione</option>

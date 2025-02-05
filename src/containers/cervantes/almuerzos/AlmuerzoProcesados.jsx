@@ -34,16 +34,16 @@ const AlmuerzoProcesadosCervantes = () => {
     useEffect(() => {
         const results = data.filter(item => {
             let seccionMatch = false;
-            let fullName =  false 
+            let fullName = false
 
             if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            if (item.lastName && item.firstName){
+            if (item.lastName && item.firstName) {
                 fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
             }
-        
-            return fullName || seccionMatch ;
+
+            return fullName || seccionMatch;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
@@ -87,8 +87,8 @@ const AlmuerzoProcesadosCervantes = () => {
         dispatch(paidServiceProcessedThunk(cedulaCliente));
         setTimeout(() => {
             getAlmuerzosProcesados();
-       }, 2000); 
-        
+        }, 2000);
+
     };
 
     const getAlmuerzosProcesados = () => {
@@ -113,11 +113,11 @@ const AlmuerzoProcesadosCervantes = () => {
             ) : (
                 <div className="mx-5 my-5 w-full">
                     <TabParts
-                      titleOne={'Primaria'} toOne={`/schools/${school_id}/almuerzos_primaria`} activeOne={false}
-                      titleTwo={'Inicial'} toTwo={`/schools/${school_id}/almuerzos_inicial`} activeTwo={false}
-                      titleTree={'Secundaria '} toTree={`/schools/${school_id}/almuerzos_secundaria`} activeTree={false}
-                      titleFour={'Eventuales'} toFour={`/schools/${school_id}/almuerzos_eventuales_cervantes`} activeFour={false}
-                      titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/almuerzos_procesados_cervantes`} activeSeven={true}
+                        titleOne={'Primaria'} toOne={`/schools/${school_id}/almuerzos_primaria`} activeOne={false}
+                        titleTwo={'Inicial'} toTwo={`/schools/${school_id}/almuerzos_inicial`} activeTwo={false}
+                        titleTree={'Secundaria '} toTree={`/schools/${school_id}/almuerzos_secundaria`} activeTree={false}
+                        titleFour={'Eventuales'} toFour={`/schools/${school_id}/almuerzos_eventuales_cervantes`} activeFour={false}
+                        titleSeven={'Procesados'} countProcces={countProcess} toSeven={`/schools/${school_id}/almuerzos_procesados_cervantes`} activeSeven={true}
                     />
                     <div className="overflow-y-scroll h-[87%] contenedor">
                         <table className="text-[13px] table table-zebra w-full">
@@ -150,12 +150,10 @@ const AlmuerzoProcesadosCervantes = () => {
                                                     <td>{almuerzo.lunchesConsumed}</td> :
                                                     <td>{almuerzo.totalLunch}</td>
                                                 }
-                                                {(!almuerzo.cliente_servicio?.isLunch || almuerzo.cliente_servicio?.noneService === true) || !almuerzo.paidService ?
-                                                    <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
-                                                        <BtnTable action="process" funtion={() => handlePaidService(almuerzo.cedulaCliente)} /> 
-                                                    </td> :
-                                                    <td></td>
-                                                }
+
+                                                <td className='flex gap-1 items-center h-[60px] justify-center p-1'>
+                                                    <BtnTable action="process" funtion={() => handlePaidService(almuerzo.cedulaCliente)} />
+                                                </td>
                                                 <td>
                                                     <select onChange={(e) => handleChange(e.target.value, almuerzo.cedulaCliente)} className="file-input-sm file-input-info outline-none input-bordered focus:outline-none focus:ring-1  w-[120px] rounded-md shadow-base-300 shadow-lg">
                                                         <option value="">Seleccione</option>
