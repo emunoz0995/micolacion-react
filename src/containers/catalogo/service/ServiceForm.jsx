@@ -15,6 +15,7 @@ import '../../../App.css';
 // SLICES 
 import { getServiceThunk, createServiceThunk, updateServiceThunk } from '../../../store/slices/catalogs/services.slice';
 import HeaderSection from '../../../components/headers/catalogs/HeaderSection';
+import { getSchoolsThunk } from '../../../store/slices/catalogs/schools.slice';
 
 
 const ServiceForm = () => {
@@ -24,10 +25,12 @@ const ServiceForm = () => {
     const { services_id } = useParams();
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
     const serviceState = useSelector(state => state.services);
+    const schoolState = useSelector(state => state.schools);
     const dispatch = useDispatch();
 
     useEffect(() => {
         setValue('price', "0.00")
+        dispatch(getSchoolsThunk());
         if (services_id) {
             dispatch(getServiceThunk(services_id));
         }
@@ -61,6 +64,7 @@ const ServiceForm = () => {
         setValue('price', serviceState.service.price)
         setValue('isLcv', serviceState.service.isLcv)
         setValue('isCervantes', serviceState.service.isCervantes)
+        setValue('isDiscovery', serviceState.service.isDiscovery)
         setValue('isExtra', serviceState.service.isExtra)
         setValue('isBreakFast', serviceState.service.isBreakFast)
         setValue('isLunch', serviceState.service.isLunch)
@@ -108,26 +112,22 @@ const ServiceForm = () => {
                                     placeholder="Precio"
                                 />
                             </div>
-                            <HeaderSection  title={"Aplica para colegio"}/>
-                            <div className='flex gap-2 p-2 mb-5'>
-                                <InputForm
-                                    type="checkbox"
-                                    label="Liceo Campoverde"
-                                    input="checkbox"
-                                    spam={false}
-                                    cols={1}
-                                    register={register("isLcv")}
-                                />
-                                <InputForm
-                                    type="checkbox"
-                                    label="Cervantes"
-                                    input="checkbox"
-                                    spam={false}
-                                    cols={1}
-                                    register={register("isCervantes")}
-                                />
+                            <HeaderSection title={"Aplica para colegio"} />
+                            <div className='grid grid-cols-3 gap-2 p-2'>
+                                {
+                                    schoolState.schools?.map(school => (
+                                        <InputForm
+                                            type="checkbox"
+                                            label={school.name}
+                                            input="checkbox"
+                                            spam={false}
+                                            cols={1}
+                                            register={register(school.code)}
+                                        />
+                                    ))
+                                }
                             </div>
-                            <HeaderSection  title={"Aplica para lista"}/>
+                            <HeaderSection title={"Aplica para lista"} />
                             <div className='flex gap-2 p-2 mb-5'>
                                 <InputForm
                                     type="checkbox"
@@ -146,7 +146,7 @@ const ServiceForm = () => {
                                     register={register("isLunch")}
                                 />
                             </div>
-                            <HeaderSection  title={"Tipo servicio"}/>
+                            <HeaderSection title={"Tipo servicio"} />
                             <div className='flex gap-2 p-2 mb-5'>
                                 <InputForm
                                     type="checkbox"

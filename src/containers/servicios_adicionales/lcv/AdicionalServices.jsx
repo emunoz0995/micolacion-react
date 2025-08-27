@@ -38,8 +38,8 @@ const AdicionalServices = () => {
             let seccionMatch = false;
             let fullName = false
 
-            if (item.cliente.cliente_seccion?.name) {
-                seccionMatch = item.cliente.cliente_seccion?.name.toLowerCase().includes(searchTerm.toLowerCase());
+            if (item.cliente?.cliente_seccion?.name) {
+                seccionMatch = item.cliente?.cliente_seccion?.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
             if (item.cliente?.lastName && item.cliente?.firstName) {
                 fullName = `${item.cliente?.lastName} ${item.cliente?.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());

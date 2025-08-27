@@ -76,7 +76,7 @@ const ServiceList = () => {
                                     <th>Nombre</th>
                                     <th>Codigo</th>
                                     <th>Precio</th>
-                                    <th>Colegio</th>
+                                    <th>Aplica al colegio</th>
                                     <th>Tipo</th>
                                     <th></th>
                                 </tr>
@@ -89,12 +89,9 @@ const ServiceList = () => {
                                         <td>{service.code}</td>
                                         <td>{service.price}</td>
                                         <td>
-                                            {
-                                                service.isCervantes && service.isLcv ? "Cervantes - Liceo Campo Verde" :
-                                                    service.isCervantes ? "Cervantes" :
-                                                        service.isLcv ? "Liceo Campo Verde" :
-                                                            ""
-                                            }
+                                            {service.isLcv ? "Liceo Campo Verde - " : ''}
+                                            {service.isCervantes ? "Cervantes -" : ''}
+                                            {service.isDiscovery ? " Discovery" : ''}
                                         </td>
                                         <td>{
                                             service.isExtra ? "Extra" :

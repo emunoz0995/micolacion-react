@@ -14,6 +14,7 @@ import Toast from '../../../utils/toast';
 import '../../../App.css';
 // SLICES 
 import { getSectionThunk, createSectionThunk, updateSectionThunk } from '../../../store/slices/catalogs/sections.slice';
+import { getSchoolsThunk } from '../../../store/slices/catalogs/schools.slice';
 
 
 const SectionForm = () => {
@@ -23,9 +24,11 @@ const SectionForm = () => {
     const { sections_id } = useParams();
     const { setValue, register, handleSubmit, formState: { errors } } = useForm();
     const sectionState = useSelector(state => state.sections);
+    const schoolState = useSelector(state => state.schools);
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(getSchoolsThunk());
         if (sections_id) {
             dispatch(getSectionThunk(sections_id));
         }
@@ -57,13 +60,14 @@ const SectionForm = () => {
         setValue('name', sectionState.section.name)
         setValue('active', sectionState.section.active)
         setValue('isLcv', sectionState.section.isLcv)
-        setValue('isCervantes', sectionState.section.isCervantes)
-    }
+        setValue('isCervantes', sectionState.section.isCervantes);
+        setValue('isDiscovery', serviceState.service.isDiscovery)
 
+    }
 
     return (
         <HomeLayout>
-            {sectionState.fetching || sectionState.processing ? (
+            {sectionState.fetching || schoolState.fetching || sectionState.processing ? (
                 <MainLoader />
             ) : (
                 <div className="w-[96%] mt-5 ml-5 ">
@@ -82,31 +86,19 @@ const SectionForm = () => {
                                     errors={errors.name && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                             </div>
-                            <div className='flex gap-2 p-2'>
-                                <InputForm
-                                    type="checkbox"
-                                    label="Liceo Campoverde"
-                                    input="checkbox"
-                                    spam={false}
-                                    cols={1}
-                                    register={register("isLcv")}
-                                />
-                                <InputForm
-                                    type="checkbox"
-                                    label="Cervantes"
-                                    input="checkbox"
-                                    spam={false}
-                                    cols={1}
-                                    register={register("isCervantes")}
-                                />
-                                <InputForm
-                                    type="checkbox"
-                                    label="Activo"
-                                    input="checkbox"
-                                    spam={false}
-                                    cols={1}
-                                    register={register("active")}
-                                />
+                            <div className='grid grid-cols-3 gap-2 p-2'>
+                                {
+                                    schoolState.schools?.map(school => (
+                                        <InputForm
+                                            type="checkbox"
+                                            label={school.name}
+                                            input="checkbox"
+                                            spam={false}
+                                            cols={1}
+                                            register={register(school.code)}
+                                        />
+                                    ))
+                                }
                             </div>
                             <div className="flex items-center justify-start py-5 gap-2 border-t-2 border-orange-500 mt-8">
                                 <BtnContent type="submit">Guardar</BtnContent>

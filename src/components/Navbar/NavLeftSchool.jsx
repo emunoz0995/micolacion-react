@@ -6,7 +6,8 @@ import { useCollapsed, useToolbarStore, useCollapsedRate } from '../../store/Vit
 import { useTranslation } from "react-i18next";
 //UI
 import lcv from '../../assets/Logo.png';
-import cervantes from '../../assets/cervantes.png'
+import cervantes from '../../assets/cervantes.png';
+import discovery from '../../assets/DiscoveryBlue.png';
 import BtnDashboard from '../buttons/BtnDashboard';
 import { FaBook, FaCookie, FaDollarSign, FaFileExcel, FaReadme, FaSun, FaTree, FaUsers } from 'react-icons/fa';
 import ReportsAccordion from '../accordions/ReportsAccordion';
@@ -37,14 +38,14 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
       className={`text-white overflow-y-scroll contenedor shadow-lg fixed top-0 bottom-0 shadow-black/30 md:translate-x-0 transition-all  w-60 bg-gradient-to-t from-[#051937] via-[#004d7a] to-[#008793] z-20 ${isToolbarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
     >
-      <div className="flex items-center justify-center m-auto gap-2 h-16 w-[90%] ">
-        <img className="object-contain h-[80px] mt-8 mb-5" src={school?.name == "Liceo Campoverde" ? lcv : cervantes} alt="logo_school" />
+      <div className="flex items-center justify-center m-auto gap-2 h-16 w-[90%] p-5">
+        <img className="object-contain h-[80px] mt-8 mb-5" src={school?.name == "Liceo Campoverde" ? lcv : school?.name === 'Cervantes' ? cervantes : discovery} alt="logo_school" />
       </div>
       <ul className=" flex flex-col h-full items-start justify-start w-[98%] mt-5 gap-3">
         {user.role === "1" ?
           <li
             onClick={(e) => { navigate('/'); closeToolbar(); }}
-            className={`w-full ${location.pathname === '/' || location.pathname === 'exit_list' ? 'active' : ''}`}>
+            className={`w-full ${location.pathname === '/' ? 'active' : ''}`}>
             <BtnDashboard>
               <FaReadme />
               <p>Inicio</p>
@@ -59,21 +60,21 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <li
           onClick={(e) => {
             school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/refrigerios_bm`) :
-            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/refrigerios_primaria`) : "";
+              ["Discovery", "Cervantes"].includes(school?.name) ? navigate(`/schools/${school?.id}/refrigerios_primaria`) : "";
             closeToolbar();
           }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/refrigerios_bm` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_be` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_bs_bgu` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_eventuales` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_personal` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_procesados` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_primaria` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_inicial` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_secundaria` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_eventuales_cervantes` ||
-              location.pathname === `/schools/${school?.id}/refrigerios_procesados_cervantes`
-              ? 'active' : ''}`}>
+            location.pathname === `/schools/${school?.id}/refrigerios_be` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_bs_bgu` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_eventuales` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_personal` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_procesados` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_primaria` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_inicial` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_secundaria` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_eventuales_cervantes` ||
+            location.pathname === `/schools/${school?.id}/refrigerios_procesados_cervantes`
+            ? 'active' : ''}`}>
           <BtnDashboard>
             <FaSun />
             <p>Refrigerios</p>
@@ -82,8 +83,8 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <li
           onClick={(e) => {
             school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/almuerzos_bm`) :
-            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/almuerzos_primaria`) :
-              closeToolbar();
+              ["Discovery", "Cervantes"].includes(school?.name) ? navigate(`/schools/${school?.id}/almuerzos_primaria`) :
+                closeToolbar();
           }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/almuerzos_bm` ||
             location.pathname === `/schools/${school?.id}/almuerzos_be` ||
@@ -105,8 +106,8 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <li
           onClick={(e) => {
             school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/aditional_services_lcv`) :
-            school?.name == "Cervantes" ? navigate(`/schools/${school?.id}/aditional_services_cervantes`) :
-              closeToolbar();
+              ["Discovery", "Cervantes"].includes(school?.name) ? navigate(`/schools/${school?.id}/aditional_services_cervantes`) :
+                closeToolbar();
           }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/aditional_services_lcv` ||
             location.pathname === `/schools/${school?.id}/aditional_services_cervantes` ||
@@ -122,8 +123,8 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <li
           onClick={(e) => { navigate(`/schools/${school?.id}/clients`); closeToolbar(); }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/clients` ||
-              location.pathname === `/schools/${school?.id}/clients_new`
-              ? 'active' : ''}`}>
+            location.pathname === `/schools/${school?.id}/clients_new`
+            ? 'active' : ''}`}>
           <BtnDashboard>
             <FaUsers />
             <p>Estudiantes</p>
@@ -162,7 +163,7 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <li
           onClick={(e) => { navigate(`/schools/${school?.id}/services_receivable`); closeToolbar(); }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/services_receivable`
-              ? 'active' : ''}`}>
+            ? 'active' : ''}`}>
           <BtnDashboard>
             <FaDollarSign />
             <p>Servicios por cobrar</p>
@@ -171,7 +172,7 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <li
           onClick={(e) => { navigate(`/schools/${school?.id}/services_generateXML`); closeToolbar(); }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/services_generateXML`
-              ? 'active' : ''}`}>
+            ? 'active' : ''}`}>
           <BtnDashboard>
             <FaFileExcel />
             <p>Generar XML</p>

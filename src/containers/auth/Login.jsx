@@ -35,8 +35,9 @@ const Login = () => {
     } else if (userState.user.roleId === 3){
       navigate(`/schools/${cervantesId}/refrigerios_primaria`);
     }
-    
   }
+
+  console.log(userState);
   return (
     <div
       className={`text-[#004841 ] relative transition-all h-full w-full min-h-screen bg-cover bg-center bg-[url('../src/assets/logo6.jpg')] `}

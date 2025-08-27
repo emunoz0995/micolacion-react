@@ -25,7 +25,7 @@ const NavLeft = ({ collapsed, setCollapsed }) => {
       <ul className=" flex flex-col h-full items-start justify-start w-[98%] mt-5 gap-3">
         <li
           onClick={(e) => { navigate('/'); closeToolbar(); }}
-          className={`w-full ${location.pathname === '/' || location.pathname === 'exit_list' ? 'active' : ''}`}>
+          className={`w-full ${location.pathname === '/' ? 'active' : ''}`}>
           <BtnDashboard>
             <FaReadme/>
             <p>Inicio</p>
@@ -34,7 +34,7 @@ const NavLeft = ({ collapsed, setCollapsed }) => {
         <div className='pl-2 text-[10px] text-sky-200 mb-[-10px]'>{t("administration_tag")}</div>
         <li
           onClick={(e) => { navigate('/users'); closeToolbar(); }}
-          className={`w-full ${location.pathname === '/users' ? 'active' : ''}`}>
+          className={`w-full ${location.pathname.startsWith('/users') ? 'active' : ''}`}>
           <BtnDashboard>
             <FaUsers />
             <p>Usuarios</p>
@@ -42,7 +42,7 @@ const NavLeft = ({ collapsed, setCollapsed }) => {
         </li>
         <li
           onClick={(e) => { navigate('/services'); closeToolbar(); }}
-          className={`w-full ${location.pathname === '/services' ? 'active' : ''}`}>
+          className={`w-full ${location.pathname.startsWith('/services') ? 'active' : ''}`}>
           <BtnDashboard>
             <FaServicestack />
             <p>Servicios</p>
@@ -50,7 +50,7 @@ const NavLeft = ({ collapsed, setCollapsed }) => {
         </li>
         <li
           onClick={(e) => { navigate('/schools'); closeToolbar(); }}
-          className={`w-full ${location.pathname === '/schools' ? 'active' : ''}`}>
+          className={`w-full ${location.pathname.startsWith('/schools') ? 'active' : ''}`}>
           <BtnDashboard>
             <FaSchool />
             <p>Colegios</p>
@@ -58,7 +58,7 @@ const NavLeft = ({ collapsed, setCollapsed }) => {
         </li>
         <li
           onClick={(e) => { navigate('/sections'); closeToolbar(); }}
-          className={`w-full ${location.pathname === '/sections' ? 'active' : ''}`}>
+          className={`w-full ${location.pathname.startsWith('/sections') ? 'active' : ''}`}>
           <BtnDashboard>
             <FaSellcast />
             <p>Secciones</p>

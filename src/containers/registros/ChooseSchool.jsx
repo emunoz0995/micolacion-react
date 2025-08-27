@@ -6,7 +6,9 @@ import HomeLayout from '../../layouts/HomeLayout';
 import MainLoader from '../../components/Loaders/MainLoader';
 import HeaderForm from '../../components/headers/catalogs/HeaderForm'
 import LogoLCV from '../../assets/Logo.png'
-import LogoCervantes from '../../assets/cervantes.png'
+import LogoCervantes from '../../assets/cervantes.png';
+import LogoDiscovery from '../../assets/DiscoveryBlue.png';
+
 //SLICE
 import { getSchoolsThunk } from '../../store/slices/catalogs/schools.slice';
 import { Link } from 'react-router-dom';
@@ -34,8 +36,10 @@ const ChooseSchool = () => {
                     <HeaderForm title='Escoja la empresa a la que desea ingresar' />
                     <div className='flex flex-col md:flex-row sm:flex-row gap-3'>
                         {schoolState.schools.map(school => (
-                            <Link key={school.id} to={school.name === "Liceo Campoverde" ? `schools/${school.id}/refrigerios_bm`: `schools/${school.id}/refrigerios_primaria`} className=" md:w-[300px] sm:w-[300px] bg-base-100 shadow-xl image-full hover:bg-slate-200 hover:delay-75">
-                                <img src={school.name === "Liceo Campoverde" ? LogoLCV : LogoCervantes} alt="lcv" />
+                            <Link key={school.id} 
+                                to={school.name === "Liceo Campoverde" ? `schools/${school.id}/refrigerios_bm` : `schools/${school.id}/refrigerios_primaria`}
+                                className=" md:w-[300px] sm:w-[300px] bg-base-100 shadow-xl image-full hover:bg-slate-200 hover:delay-75 flex items-center justify-center rounded-lg transition-all duration-300 p-4">
+                                <img src={school.name === "Liceo Campoverde" ? LogoLCV : school.name === "Cervantes" ? LogoCervantes : LogoDiscovery} alt="lcv" />
                             </Link>
                         ))
                         }

@@ -33,7 +33,7 @@ export default function DropdownForm({
         >
           <option></option>
           {options?.map((option, index) => (
-            <option key={option.id} value={Number(option.id)}>{option.name}</option>
+            <option key={option?.id} value={Number(option?.id)}>{option?.name}</option>
           ))}
         </select>
         :

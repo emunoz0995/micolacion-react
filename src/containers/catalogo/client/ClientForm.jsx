@@ -241,7 +241,7 @@ const ClientForm = () => {
                                     spam={true}
                                     cols={1}
                                     register={register("sectionId", { required: true })}
-                                    options={sectionsState.sections}
+                                    options={sectionsState?.sections}
                                     errors={errors.sectionId && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                                 <DropdownForm
@@ -250,7 +250,7 @@ const ClientForm = () => {
                                     spam={true}
                                     cols={1}
                                     register={register("serviceId", { required: true })}
-                                    options={serviceState.services}
+                                    options={serviceState?.services}
                                     errors={errors.serviceId && (<span className="text-red-500 text-xs">{t("required_information")}</span>)}
                                 />
                                 <input type="hidden" value={school_id} {...register('schoolId')} />
@@ -282,7 +282,7 @@ const ClientForm = () => {
                                     </label>
                                     <select id="miSelect" onChange={mostrarSeleccion} className="input input-sm outline-none input-bordered focus:outline-none focus:ring-1 rounded-md shadow-base-300 shadow-lg">
                                         <option value="">Seleccione</option>
-                                        {aditionalServicesState.services.map((service) => (
+                                        {aditionalServicesState?.services?.map((service) => (
                                             <option key={service.id} value={service.id}>{service.name}</option>
                                         ))}
                                     </select>
