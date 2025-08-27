@@ -61,7 +61,7 @@ const SectionForm = () => {
         setValue('active', sectionState.section.active)
         setValue('isLcv', sectionState.section.isLcv)
         setValue('isCervantes', sectionState.section.isCervantes);
-        setValue('isDiscovery', serviceState.service.isDiscovery)
+        setValue('isDiscovery', sectionState.section.isDiscovery)
 
     }
 
