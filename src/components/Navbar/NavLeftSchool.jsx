@@ -60,7 +60,7 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <li
           onClick={(e) => {
             school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/refrigerios_bm`) :
-              ["Cervantes"].includes(school?.name) ? navigate(`/schools/${school?.id}/refrigerios_primaria`) : navigate(`/schools/${school?.id}/refrigerios_exploradores`);
+            school?.name === "Cervantes" ? navigate(`/schools/${school?.id}/refrigerios_primaria`) : navigate(`/schools/${school?.id}/refrigerios_exploradores`);
             closeToolbar();
           }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/refrigerios_bm` ||
@@ -86,8 +86,8 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         </li>
         <li
           onClick={(e) => {
-            school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/almuerzos_bm`) :
-              ["Cervantes"].includes(school?.name) ? navigate(`/schools/${school?.id}/almuerzos_primaria`) : navigate(`/schools/${school?.id}/almuerzos_exploradores`);
+            school?.name === "Liceo Campoverde" ? navigate(`/schools/${school?.id}/almuerzos_bm`) :
+              school?.name === "Cervantes" ? navigate(`/schools/${school?.id}/almuerzos_primaria`) : navigate(`/schools/${school?.id}/almuerzos_exploradores`);
             closeToolbar();
           }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/almuerzos_bm` ||
@@ -113,8 +113,8 @@ const NavLeftSchool = ({ collapsed, setCollapsed }) => {
         <li
           onClick={(e) => {
             school?.name == "Liceo Campoverde" ? navigate(`/schools/${school?.id}/aditional_services_lcv`) :
-              ["Discovery", "Cervantes"].includes(school?.name) ? navigate(`/schools/${school?.id}/aditional_services_cervantes`) :
-                closeToolbar();
+              school?.name === "Cervantes" ? navigate(`/schools/${school?.id}/aditional_services_cervantes`) : navigate(`/schools/${school?.id}/aditional_services_discovery`);
+            closeToolbar();
           }}
           className={`w-full ${location.pathname === `/schools/${school?.id}/aditional_services_lcv` ||
             location.pathname === `/schools/${school?.id}/aditional_services_cervantes` ||

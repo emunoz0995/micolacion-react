@@ -69,6 +69,9 @@ import AlmuerzoDescubridores from "./containers/discovery/almuerzos/AlmuerzoDesc
 import AlmuerzoExploradores from "./containers/discovery/almuerzos/AlmuerzoExploradores";
 import AlmuerzoEventualesDiscovery from "./containers/discovery/almuerzos/AlmuerzoEventuales";
 import AlmuerzoProcesadosDiscovery from "./containers/discovery/almuerzos/AlmuerzoProcesados";
+import AdicionalesProcesadosDiscovery from "./containers/servicios_adicionales/discovery/AdicionalServicesProcesados";
+import AdicionalesDiscoveryEventuales from "./containers/servicios_adicionales/discovery/AdicionalServicesEventuales";
+import AdicionalesDiscovery from "./containers/servicios_adicionales/discovery/AdicionalServices";
 
 
 const routes = [
@@ -275,6 +278,20 @@ const routes = [
   {
     path: "/schools/:school_id/aditional_servicesEventuales_cervantes",
     component: AdicionalesCervantesEventuales
+  },
+
+    //SERVICIOS ADICIONALES DISCOVERY
+  {
+    path: "/schools/:school_id/aditional_services_discovery",
+    component: AdicionalesDiscovery,
+  },
+  {
+    path: "/schools/:school_id/aditional_servicesProcess_discovery",
+    component: AdicionalesProcesadosDiscovery,
+  },
+  {
+    path: "/schools/:school_id/aditional_servicesEventuales_discovery",
+    component: AdicionalesDiscoveryEventuales
   },
 
 

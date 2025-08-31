@@ -28,7 +28,6 @@ const ChooseSchool = () => {
         dispatch(getRegistersThunk());
     }
 
-    console.log(schoolState)
     return (
         <HomeLayout>
             {schoolState.fetching || schoolState.processing ? (
@@ -39,7 +38,7 @@ const ChooseSchool = () => {
                     <div className='flex flex-col md:flex-row sm:flex-row gap-3'>
                         {schoolState.schools.map(school => (
                             <Link key={school.id} 
-                                to={school.name === "Liceo Campoverde" ? `schools/${school.id}/refrigerios_bm` : school.name === "Cervantes" ? `schools/${school.id}/refrigerios_primaria`:`schools/${school.id}/refrigerios_exploradores`}
+                                to={school.name === "Liceo Campoverde" ? `/schools/${school.id}/refrigerios_bm` : school.name === "Cervantes" ? `/schools/${school.id}/refrigerios_primaria`:`/schools/${school.id}/refrigerios_exploradores`}
                                 className=" md:w-[300px] sm:w-[300px] bg-base-100 shadow-xl image-full hover:bg-slate-200 hover:delay-75 flex items-center justify-center rounded-lg transition-all duration-300 p-4">
                                 <img src={school.name === "Liceo Campoverde" ? LogoLCV : school.name === "Cervantes" ? LogoCervantes : LogoDiscovery} alt="lcv" />
                             </Link>

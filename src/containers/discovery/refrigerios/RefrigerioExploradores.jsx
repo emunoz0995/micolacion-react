@@ -9,16 +9,19 @@ import MainLoader from '../../../components/Loaders/MainLoader';
 import BtnTable from '../../../components/buttons/BtnTable';
 import Swal from 'sweetalert2';
 //SLICES
-import { setIsLoading } from '../../../store/slices/isLoading.slice';
+import { getSchoolThunk } from '../../../store/slices/catalogs/schools.slice';
 import { getServicesExtrasThunk } from '../../../store/slices/catalogs/services.slice';
+import { setIsLoading } from '../../../store/slices/isLoading.slice';
 import { decrementBreakFastThunk } from '../../../store/slices/procedures/refrigerios.slice';
 import { countBreakFastProcessThunk } from '../../../store/slices/procedures/countProcess';
 import { registerExtrasThunk } from '../../../store/slices/procedures/funtions.slice';
 
+
 const RefrigerioExploradores = () => {
     const { school_id } = useParams();
-    const isLoading = useSelector(state => state.isLoadingSlice);
+    const schoolState = useSelector(state => state.schools);
     const servicesState = useSelector(state => state.services);
+    const isLoading = useSelector(state => state.isLoadingSlice);
     const countProcces = useSelector(state => state.countProcess);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
@@ -38,26 +41,36 @@ const RefrigerioExploradores = () => {
         }
     })
 
-
     useEffect(() => {
+        getRefrigeriosPrimaria();
+        dispatch(getSchoolThunk(school_id));
         dispatch(getServicesExtrasThunk());
         dispatch(countBreakFastProcessThunk(school_id));
-        getRefrigeriosInicial();
     }, []);
+
+    if (Object.keys(schoolState.school).length !== 0) {
+        let schoolInfo = {
+            name: `${schoolState.school.name}`,
+            active: `${schoolState.school.active}`,
+            id: `${schoolState.school.id}`,
+        };
+
+        localStorage.setItem("schoolInfo", JSON.stringify(schoolInfo));
+    }
 
     useEffect(() => {
         const results = data.filter(item => {
             let seccionMatch = false;
-            let fullName =  false 
+            let fullName = false
 
             if (item.cliente_seccion.name) {
                 seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
             }
-            if (item.lastName && item.firstName){
+            if (item.lastName && item.firstName) {
                 fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
             }
-        
-            return fullName || seccionMatch ;
+
+            return fullName || seccionMatch;
         });
         setSearchResults(results);
     }, [searchTerm, data]);
@@ -74,7 +87,7 @@ const RefrigerioExploradores = () => {
         dispatch(decrementBreakFastThunk(cedula));
         setTimeout(() => {
             dispatch(countBreakFastProcessThunk(school_id));
-        }, 500);       
+        }, 500);
         hideRow(id);
     }
 
@@ -90,14 +103,14 @@ const RefrigerioExploradores = () => {
             icon: 'success',
             title: '¡Servicio extra registrado!'
         }).then(function (result) {
-            getRefrigeriosInicial();
+            getRefrigeriosPrimaria();
         })
 
     };
 
-    const getRefrigeriosInicial = () => {
+    const getRefrigeriosPrimaria = () => {
         dispatch(setIsLoading(true));
-        axios.get(`/api/refrigerios_cervantes/breakfast_inicial/${school_id}`)
+        axios.get(`/api/refrigerios_cervantes/breakfast_primaria/${school_id}`)
             .then(response => {
                 setData(response.data);
             })
