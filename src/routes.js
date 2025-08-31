@@ -61,6 +61,14 @@ import AdicionalServicesProcesados from "./containers/servicios_adicionales/lcv/
 import AdicionalesCervantes from "./containers/servicios_adicionales/cervantes/AdicionalServices";
 import AdicionalesProcesadosCervantes from "./containers/servicios_adicionales/cervantes/AdicionalServicesProcesados";
 import AdicionalesCervantesEventuales from "./containers/servicios_adicionales/cervantes/AdicionalServicesEventuales";
+import RefrigerioExploradores from "./containers/discovery/refrigerios/RefrigerioExploradores";
+import RefrigerioDescubridores from "./containers/discovery/refrigerios/RefrigerioDescubridores";
+import RefrigerioEventualesDiscovery from "./containers/discovery/refrigerios/RefrigerioEventuales";
+import RefrigerioProcesadosDiscovery from "./containers/discovery/refrigerios/RefrigerioProcesados";
+import AlmuerzoDescubridores from "./containers/discovery/almuerzos/AlmuerzoDescubridores";
+import AlmuerzoExploradores from "./containers/discovery/almuerzos/AlmuerzoExploradores";
+import AlmuerzoEventualesDiscovery from "./containers/discovery/almuerzos/AlmuerzoEventuales";
+import AlmuerzoProcesadosDiscovery from "./containers/discovery/almuerzos/AlmuerzoProcesados";
 
 
 const routes = [
@@ -210,6 +218,40 @@ const routes = [
   {
     path: "/schools/:school_id/almuerzos_procesados_cervantes",
     component: AlmuerzoProcesadosCervantes,
+  },
+  //Refrigerios DISCOVERY
+  {
+    path: "/schools/:school_id/refrigerios_exploradores",
+    component: RefrigerioExploradores,
+  },
+  {
+    path: "/schools/:school_id/refrigerios_descubridores",
+    component: RefrigerioDescubridores,
+  },
+  {
+    path: "/schools/:school_id/refrigerios_eventuales_discovery",
+    component: RefrigerioEventualesDiscovery,
+  },
+  {
+    path: "/schools/:school_id/refrigerios_procesados_discovery",
+    component: RefrigerioProcesadosDiscovery,
+  },
+  //Almuerzos DISCOVERY
+  {
+    path: "/schools/:school_id/almuerzos_exploradores",
+    component: AlmuerzoExploradores,
+  },
+  {
+    path: "/schools/:school_id/almuerzos_descubridores",
+    component: AlmuerzoDescubridores,
+  },
+  {
+    path: "/schools/:school_id/almuerzos_eventuales_discovery",
+    component: AlmuerzoEventualesDiscovery,
+  },
+  {
+    path: "/schools/:school_id/almuerzos_procesados_discovery",
+    component: AlmuerzoProcesadosDiscovery,
   },
   //SERVICIOS ADICIONALES LCV
   {

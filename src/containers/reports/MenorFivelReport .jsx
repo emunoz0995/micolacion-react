@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -22,13 +22,12 @@ const MenorFiveReport = () => {
 
     const { school_id } = useParams();
     const isLoading = useSelector(state => state.isLoadingSlice);
+    const reportState = useSelector(state => state.reports.reports);
     const dispatch = useDispatch();
     const [hiddenRows, setHiddenRows] = useState([]);
     const [totalBreakFast, setTotalBreakFast] = useState('');
     const [totalLunch, setTotalLunch] = useState('');
-    const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
 
     const Toast = Swal.mixin({
         toast: true,
@@ -43,25 +42,19 @@ const MenorFiveReport = () => {
     })
 
     useEffect(() => {
-        getMenor5ReportThunk();
+        dispatch(getMenor5ReportThunk(school_id));
     }, []);
 
-    useEffect(() => {
-        const results = data.filter(item => {
-            let seccionMatch = false;
-            let fullName =  false 
+    const filtered = useMemo(() => {
+        if (searchTerm) {
+            let fullName = false
 
-            if (item.cliente_seccion.name) {
-                seccionMatch = item.cliente_seccion.name.toLowerCase().includes(searchTerm.toLowerCase());
-            }
-            if (item.lastName && item.firstName){
-                fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase());
-            }
-        
-            return fullName || seccionMatch ;
-        });
-        setSearchResults(results);
-    }, [searchTerm, data]);
+            return reportState?.filter(item =>
+                 fullName = `${item.lastName} ${item.firstName}`.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+            );
+        }
+        return reportState;
+    }, [searchTerm, reportState]);
 
     const handleRenewService = (clientId, cedulaCliente) => {
         const data = {
@@ -108,18 +101,6 @@ const MenorFiveReport = () => {
         setHiddenRows([...hiddenRows, id]);
     };
 
-    const getMenor5ReportThunk = () => {
-        dispatch(setIsLoading(true));
-        axios.get(`/api/reports/menorFiveReport/${school_id}`)
-            .then(res => {
-                setData(res.data)
-            })
-            .catch(error => {
-                console.error('Error al obtener datos de la API: ' + error);
-            })
-            .finally(() => dispatch(setIsLoading(false)))
-    };
-
     const handleSearch = (e) => {
         setSearchTerm(e.target.value);
     };
@@ -127,7 +108,7 @@ const MenorFiveReport = () => {
     const handleGenerateExcel = () => {
         const url = `${API_BASE_URL}api/reports/reportMenorFive/${school_id}`;
         window.open(url, "_self");
-        
+
     };
 
 
@@ -155,9 +136,9 @@ const MenorFiveReport = () => {
                                     <th></th>
                                 </tr>
                             </thead>
-                            {searchResults.length > 0 ?
+                            {filtered.length > 0 ?
                                 <tbody>
-                                    {searchResults.map(report => {
+                                    {filtered.map(report => {
                                         if (hiddenRows.includes(report.id)) {
                                             return null;
                                         }
