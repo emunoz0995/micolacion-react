@@ -194,7 +194,7 @@ const ClientForm = () => {
 
     return (
         <SchoolLayout>
-            {isLoading ? (
+            {isLoading || serviceState.fetching || representativeState.fetching || sectionsState.fetching || aditionalServicesState.fetching? (
                 <MainLoader />
             ) : (
                 <div className="w-[96%] mt-5 ml-5 ">

@@ -45,7 +45,7 @@ const FacturaXML = () => {
 
     const getServiceXMLByClient = () => {
         dispatch(setIsLoading(true));
-        axios.get(`/api/facturations/services_generateXMLByClient/${client_ci}`)
+        axios.get(`/api/facturations/${school_id}/services_generateXMLByClient/${client_ci}`)
             .then(response => {
                 const formattedData = response.data.map((item) => {
                     return {
