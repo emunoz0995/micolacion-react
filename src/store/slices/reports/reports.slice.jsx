@@ -94,10 +94,10 @@ export const getLunchReportThunk = (school_id) => dispatch => {
         })
 };
 
-export const getHistoryReportThunk = (school_id) => dispatch => {
+export const getHistoryReportThunk = (school_id, query = { page: 1, pageSize: 50 }) => dispatch => {
     dispatch(requestFetchReports())
-    axios.get(`/api/reports/reportHistory/${school_id}`)
-        .then(res => {dispatch(fetchReportsSuccess(res.data))
+    axios.get(`/api/reports/reportHistory/${school_id}`, { params: query })
+        .then(res => {dispatch(fetchReportsSuccess(res.data.rows))
         })
         .catch(error => {
             if (error.response?.status === 400) {
